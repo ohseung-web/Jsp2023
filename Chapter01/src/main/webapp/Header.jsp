@@ -24,7 +24,7 @@
         </td>
      </tr>
      <tr height="50">
-       <td><a href="canon.jsp">캐논</a></td>
+       <td>캐논</td>
        <td>니코</td>
        <td>삼성</td>
        <td>소니</td>
@@ -36,3 +36,24 @@
   </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
