@@ -11,9 +11,13 @@
 <%
     request.setCharacterEncoding("UTF-8");
 
-    String id1 = (String)session.getAttribute("id1");
+    /* String id1 = (String)session.getAttribute("id1");
     String pw1 = (String)session.getAttribute("pw1");
-    String name1 = (String)session.getAttribute("name1");
+    String name1 = (String)session.getAttribute("name1"); */
+    
+    String id1 = request.getParameter("id");
+    String pw1 = request.getParameter("pw");
+    String name1 = request.getParameter("name");
 
 %>
   <h2>가입이 완료되었습니다.</h2>

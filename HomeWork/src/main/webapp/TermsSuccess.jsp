@@ -15,9 +15,11 @@
      String pw = request.getParameter("pw");
      String name = request.getParameter("name");
      
-     session.setAttribute("id1", id);
+     /* session.setAttribute("id1", id);
      session.setAttribute("pw1", pw);
-     session.setAttribute("name1", name);
+     session.setAttribute("name1", name); */
+     
+     /* forward는 id, pw, name를 가지고 termsYes.jsp로 넘어가기 때문에 session을 사용 할 필요가 없다. */
      
      if(agree.equals("yes")){
     	 request.getRequestDispatcher("TermsYes.jsp").forward(request, response);

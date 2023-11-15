@@ -7,9 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-  <h2>가입되지 않았습니다.</h2>
-  <a href="Terms.jsp">다시가입하기</a> 
-  
+<table width="600">
+       <tr height="400">
+          <td align="center">
+             <img alt="" src="img/kovea.JPG" width="500" height="350">
+          </td>
+       </tr>
+   </table>
 </body>
 </html>

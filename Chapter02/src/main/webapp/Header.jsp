@@ -29,7 +29,7 @@
             <td colspan="2" align="center">
              <img alt="" src="img/logo.jpg" width="200" height="70">
             </td>
-            <td colspan="4" align="center">
+            <td colspan="5" align="center">
               <font size="10">Romantic Camping</font>
             </td> 
           </tr>
@@ -40,9 +40,10 @@
             <td align="center">침낭</td>
             <td align="center">테이블</td>
             <td align="center">화롯대</td>
-           <%--  <td align="center"><%=request.getParameter("id") %></td> --%>
+            <td align="center"><%=request.getParameter("id") %></td>
           </tr>
       </table>
    </div>
 </body>
 </html>
+

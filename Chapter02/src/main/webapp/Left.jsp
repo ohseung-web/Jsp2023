@@ -7,25 +7,31 @@
 <title>Insert title here</title>
 </head>
 <body>
+
+
+     <%
+        String pageChange;
+     %>
+
      <table width="200" >
         <tr height="60">
-           <td width="200" align="center">
-              <a href="#">스노우피크</a>
+           <td width="200" align="center" >
+              <a href="?pageChange=Section05.jsp">스노우피크</a>
+           </td>
+        </tr>
+        <tr height="60">
+           <td width="200" align="center" >
+              <a href="?pageChange=Section02.jsp">콜맨</a>
            </td>
         </tr>
         <tr height="60">
            <td width="200" align="center">
-              <a href="#">콜맨</a>
+              <a href="?pageChange=Section03.jsp">지프</a>
            </td>
         </tr>
         <tr height="60">
-           <td width="200" align="center">
-              <a href="#">지프</a>
-           </td>
-        </tr>
-        <tr height="60">
-           <td width="200" align="center">
-              <a href="#">코베아</a>
+           <td width="200" align="center" >
+              <a href="?pageChange=Section04.jsp">코베아</a>
            </td>
         </tr>
      

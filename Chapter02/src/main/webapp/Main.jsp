@@ -17,6 +17,15 @@
 </style>
 </head>
 <body>
+ 
+ <%
+     String select = request.getParameter("pageChange");
+ 
+      if(select == null){
+    	  select = "Section.jsp";
+      }
+ 
+ %>
 
  <div class="container">
     <table border="1" width="800">
@@ -39,8 +48,8 @@
           </td>
        
        <!-- section -->
-          <td align="center" width="600">
-            <jsp:include page="Section.jsp"></jsp:include>
+          <td align="center" width="600" >
+            <jsp:include page="<%=select %>" ></jsp:include>
           </td>
        </tr>
        
