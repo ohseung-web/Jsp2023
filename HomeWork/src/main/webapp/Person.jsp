@@ -50,14 +50,18 @@
 	</form>
 
     <script type="text/javascript">
-	function fn_send1(f) {
-		f.action = 'PersonMan.jsp';
-		f.submit();
-	}
-	function fn_send2(f) {
-		f.action = 'PersonWoman.jsp';
-		f.submit();
-	}
+    
+    	   function fn_send1(f) {
+       		f.action = 'PersonMan.jsp';
+       		f.submit();
+       	} 
+   
+    	   function fn_send2(f) {
+       		f.action = 'PersonWoman.jsp';
+       		f.submit();
+       	}	 
+     	
+    
   </script>
 
 </body>
