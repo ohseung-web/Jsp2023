@@ -48,7 +48,9 @@
         	MemberBean bean = alist.get(i);  
        %> 	  
         <tr height="50">
-          <td align="center" width="150"><%=bean.getId() %></td>
+          <td align="center" width="150"><a href="MemberInfo.jsp?id=<%=bean.getId()%>">
+          <%=bean.getId() %></a>
+          </td>
           <td align="center" width="250"><%=bean.getEmail() %></td>
           <td align="center" width="200"><%=bean.getTel() %></td>
           <td align="center" width="200"><%=bean.getHabby() %></td>
