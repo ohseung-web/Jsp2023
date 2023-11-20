@@ -165,12 +165,10 @@
       <Context docBase="HomeWork" path="/HomeWork" reloadable="true" source="org.eclipse.jst.jee.server:HomeWork"/>
       <Context docBase="Chapter02" path="/Chapter02" reloadable="true" source="org.eclipse.jst.jee.server:Chapter02"/>
       <Context docBase="DataBase" path="/DataBase" reloadable="true" source="org.eclipse.jst.jee.server:DataBase">
-        <Resource name="jdbc/pool" auth="Container" type="javax.sql.DataSource"
-             driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" maxWaite="5000"  
-             username="root" password="12345678" url="jdbc:mysql://localhost:3306/jspdatabase?serverTimezone=UTC" />
+        <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" maxWaite="5000" name="jdbc/pool" password="12345678" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/jspdatabase?serverTimezone=UTC" username="root"/>
       </Context>
       
-      </Host>
+      <Context docBase="Fooding" path="/Fooding" reloadable="true" source="org.eclipse.jst.jee.server:Fooding"/><Context docBase="Cookie_Session" path="/Cookie_Session" reloadable="true" source="org.eclipse.jst.jee.server:Cookie_Session"/><Context docBase="Paul Hueman_Final" path="/Paul_Hueman_Final" reloadable="true" source="org.eclipse.jst.jee.server:Paul Hueman_Final"/></Host>
     </Engine>
   </Service>
 </Server>

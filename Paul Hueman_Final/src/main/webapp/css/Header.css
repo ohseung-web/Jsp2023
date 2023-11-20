@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+    *{box-sizing: border-box;}
+    body{ margin: 0; padding: 0;}
+    *{font-family: 'Lato', sans-serif; cursor: default;}
+    a, a *{cursor: pointer;}
+    /*header의 메뉴바 고정*/
+    header #top{height: 40px; line-height: 40px;}
+    header #top .left{float: right;}
+    header #top .left span{font-size: 15px;}
+    header #top .left span a{text-decoration: none; color: black;}
+    header #top .left span{margin-right: 15px;}
+    header #logo{margin: 10px auto; text-align: center;}
+   	header nav ul li{font-weight:bold;}
+   	header nav .submenu li a, header nav .submenu2 li a{font-weight:normal;}
+    header nav a{text-decoration: none; color: black;}
+    header nav{width: 1200px; margin: 0 auto; margin-top: 30px;}
+    header nav ul{text-align: center;}
+    header nav ul li{display: inline-block; margin-right: 140px; height: 50px; line-height: 50px;}
+    header nav ul li:last-child{margin: 0;}
+    header nav .submenu{background-color: rgba(255, 255, 255, 0.05); padding: 0; display: none;}
+    header nav .submenu li{display: block; margin:0; font-size: 13px;}
+    header nav .submenu2{background-color: rgba(255, 255, 255, 0.05); padding: 0; display: none;}
+    header nav .submenu2 li{display: block; margin: 0; font-size: 13px; width: 100px;}
+    /*메뉴 hover시 밑줄 및 하위 메뉴 생성*/
+    header nav ul li:hover{ border-bottom: 5px solid black;}
+    header nav .shop:hover .submenu{display: block; position: absolute; top: 50px; left: -35px; padding: 10px;}
+    header nav .submenu li:hover{border:none;}
+    header nav .submenu li a:hover{border-bottom: 1px solid black;}
+    header nav .shop{position: relative;}
+    header nav .mypage:hover .submenu2{display: block; position: absolute; top: 50px; left: -30px; padding: 10px;}
+    header nav .submenu2 li:hover{border:none;}
+    header nav .submenu2 li a:hover{border-bottom: 1px solid black;}
+    header nav .mypage{position: relative;}
+	
+    /*모든 input 태그 클릭시 생성되는 테두리 없애기*/
+    input:focus{outline:none;}
+    
+    /* 미디어*/
+    @media (max-width: 2000px) {
+         header{width: 100%; height:190px; position:fixed; z-index: 10;}
+    }

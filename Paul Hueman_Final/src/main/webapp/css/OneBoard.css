@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+ html, body{height:100%;}
+ body::-webkit-scrollbar{display: none;}
+ body{margin:0px; clear: both;}
+ *{font-family: 'Lato', sans-serif; cursor: default;}
+/*header색 변경 및 header nav에 밑줄 생성*/
+header{background-color:white;}
+header #top{background-color:black; color:white;}
+header #top .left span a{color: white;}
+header nav .submenu, header nav .submenu2{background-color: white;}
+header nav .submenu li a, header nav .submenu2 li a{height:35px;}
+ 
+ a{display: inline-block; color: inherit; font-weight: inherit; text-decoration: none;}
+ a, a *, button, input[type=submit], input[type=button]{cursor: pointer;}
+ /* board css */
+ #boardlist{
+ width: 1100px; margin: 0 auto; overflow:hidden; 
+ height:72.8%; position:relative; 
+ top:190px; padding-top:30px;
+ 
+ border-top:1px solid #cccccc;}
+ 
+ #list_main{
+ 	width:1000px;
+ 	margin : 0 auto;
+ 	height:auto;
+ 	display: flex;
+ 	justify-content: space-around;
+ 	align-items : center;
+ 	flex-flow: column;
+ }
+ 
+ #list_main_top{
+ 	text-align: center;
+ }
+ #list_main_top h2{
+ 	font-family: 'Noto Sans KR', sans-serif;
+ 	font-size: 23px;
+    color: #000;
+    letter-spacing: -1px;
+    font-weight: 500;
+    line-height: 1.1;
+ }
+ #list_main_top p{
+ 	font-size: 12px; line-height: 16px; border-bottom: 2px solid #ffffff;
+ 	color: #666;
+    font-weight: 300;
+    line-height: 20px;
+    letter-spacing: -.5px;
+    margin-top: 30px;
+ }
+  footer{position:relative; bottom:-190px;}
+ /* =========================================================================== */
+
+ #OneBoard table{
+ 	border-collapse: collapse;width:1000px;height: auto;
+ }
+ 
+ #OneBoard table th{
+ 	font-size: 12px;
+    padding: 26px 23px;
+    color: #2b2b2b;
+    font-weight: 400;
+    border-top: 1px solid #2b2b2b;
+    border-bottom: 1px solid #dfdfdf;
+ }
+ #OneBoard table th:first-child {
+	font-size: 16px;
+	width:300px;
+	font-weight: 500;
+}
+
+#OneBoard table td{
+	font-size: 11px;
+    color: #666;
+    line-height: 18px;
+    min-height: 165px;
+    padding: 35px 10px 60px;
+    border-bottom: 1px solid #dfdfdf;
+	font-weight: 300;
+}
+ 
+#buttons{
+	display:flex;
+	justify-content: space-between;
+	margin:10px 0;
+} 
+ 
+.dark_button{
+	width: 100px;
+    height: 34px;
+    line-height: 32px;
+    font-size: 12px;
+    margin-right: 10px;
+    color: #fff;
+    border-color: #2b2b2b;
+    background-color: #2b2b2b;
+}
+ 
+.white_button{
+	width: 100px;
+    height: 34px;
+    line-height: 32px;
+    font-size: 12px;
+    margin-right: 10px;
+    color: #666;
+    border: 1px solid #aaa;
+    background-color: #fff;
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

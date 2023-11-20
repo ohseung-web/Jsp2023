@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+body{margin:0; padding:0;}
+a, a *{cursor: pointer;}
+/*header색 변경 및 header nav에 밑줄 생성*/
+header{background-color:white;}
+header #top{background-color:black; color:white;}
+header #top .left span a{color: white;}
+header nav .submenu, header nav .submenu2{background-color: white;}
+header nav .submenu li a, header nav .submenu2 li a{height:35px;}
+
+#join{width: 1100px; margin: 0 auto; overflow:hidden; position:relative; top:190px; padding-top:30px; border-top:1px solid #cccccc;}
+#join h3{text-align: center; font-size: 24px; font-weight: normal; margin-bottom:30px;}
+#join .h3bottom{text-align: center; letter-spacing: -1px; font-size: 12px;}
+#join .tabletop{font-weight: bold; margin-top: 60px; margin-bottom: 20px; border-bottom: 1px solid #c5c5c5;}
+#join .tabletop p{display: inline-block;}
+#join .tabletop .right{display: block; float:right; color: #717171; letter-spacing: -1px;}
+/*윗 첨자 * -> 전부 빨강색*/
+#join font{color: red;}
+#join table{border-collapse: collapse; width: 100%;}
+#join table font{margin-right: 5px;}
+#join table tr{height: 60px;}
+#join table tr td{font-size: 14px; letter-spacing: -1px;}
+#join table tr td:first-child{width: 220px;}
+#join table .id, #join table .pw, #join table .pwchk, #join table .name, #join table .email, #join table .zipcode{width: 250px; height: 30px; border: 1px solid #d1d1d1;}
+#join table .tel{width:75px; height: 30px; border: 1px solid #d1d1d1; text-align: center;}
+#join table .roadAddr, #join table .detailAddr, #join table .extraAddr{width: 500px; height: 30px; border: 1px solid #d1d1d1; margin-bottom: 15px;}
+#join table .extraAddr{background-color: #eeeeee;}
+#join table .question{width: 504px; height: 35px; border: 1px solid #d1d1d1;}
+#join table .answer{width: 500px; height: 30px; border: 1px solid #d1d1d1;}
+#join form .submitbtn{width: 180px; height: 40px; background-color: black; color: white; border: none;}
+#join form .submit{margin: 50px 0; padding: 30px 0; width: 100%;text-align: center; border-top: 1px solid #cdcdcd;}
+
+/* 아이디 중복확인, 우편번호찾기*/
+#join form .idbtn, #join table .zipcodebtn{width: 150px; height: 35px; background-color: #d1d1d1; color: white; border: none; border-radius: 5px; margin-left: 10px;}
+    
+/* footer 고정 */
+footer{position:relative; bottom:-190px;}

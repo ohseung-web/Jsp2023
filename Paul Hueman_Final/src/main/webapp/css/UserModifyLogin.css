@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+body{margin:0px;}
+body::-webkit-scrollbar{display: none;}
+html, body{height:100%;}
+/*header색 변경 및 header nav에 밑줄 생성*/
+header{background-color:white;}
+header #top{background-color:black; color:white;}
+header #top .left span a{color: white;}
+header nav .submenu, header nav .submenu2{background-color: white;}
+header nav .submenu li a, header nav .submenu2 li a{height:35px;}
+ 
+ /*Login css*/
+#login{width: 1100px; margin: 0 auto; overflow:hidden; height:72.8%; position:relative; top:190px; padding-top:70px; border-top:1px solid #cccccc;}
+#login h3{text-align: center; font-size: 24px; font-weight: normal; margin-bottom:30px;}
+#login .h3bottom{text-align: center; letter-spacing: -1px; font-size: 12px;}
+#login form{width: 450px; margin: 80px auto;}
+#login form .id{height: 40px; width: 100%; margin-bottom: 10px; border:none; padding-left: 10px;}
+#login form .pw{height: 40px; width: 100%; margin-bottom: 10px; border: 1px solid #d4d4d4; padding-left: 10px;}
+/* #login form .id::placeholder, #login form .pw::placeholder{padding-left: 10px;} */
+#login form input[type=submit]{background-color: black; color: white; width: 100%; height: 40px; border:none;}
+#login form .bottom p{font-size: 12px; letter-spacing: -1px; margin-top: 50px}
+#login form .bottom p span{float: right;}
+#login form .bottom p a{clear:both; color: black; text-decoration: none;}
+
+/* footer 고정 */
+footer{position:relative; bottom:-190px;}

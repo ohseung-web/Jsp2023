@@ -1,0 +1,129 @@
+@charset "UTF-8";
+
+ body{margin:0px; clear: both;}
+ body::-webkit-scrollbar{display: none;}
+ html, body{height:100%;}
+ *{font-family: 'Lato', sans-serif; cursor: default;}
+ a, a *{cursor: pointer;}
+/*header색 변경 및 header nav에 밑줄 생성*/
+header{background-color:white;}
+header #top{background-color:black; color:white;}
+header #top .left span a{color: white;}
+header nav .submenu, header nav .submenu2{background-color: white;}
+header nav .submenu li a, header nav .submenu2 li a{height:35px;}
+ 
+ a{display: inline-block; color: inherit; font-weight: inherit; text-decoration: none;}
+ a, a *, button, input[type=submit], input[type=button]{cursor: pointer;}
+ /* board css */
+ #boardlist{
+ width: 1100px; margin: 0 auto; overflow:hidden; 
+ height:72.8%; position:relative; 
+ top:190px; padding-top:30px;
+ 
+ border-top:1px solid #cccccc;}
+ 
+ #list_main{
+ 	width:1000px;
+ 	margin : 0 auto;
+ 	margin-left : - 80px;
+ 	height:auto;
+ 	display: flex;
+ 	justify-content: space-around;
+ 	align-items : center;
+ 	flex-flow: column;
+ }
+ 
+ #list_main_top{
+ 	text-align: center;
+ }
+ #list_main_top h2{
+ 	font-family: 'Noto Sans KR', sans-serif;
+ 	font-size: 23px;
+    color: #000;
+    letter-spacing: -1px;
+    font-weight: 500;
+    line-height: 1.1;
+ }
+ #list_main_top p{
+ 	font-size: 12px; line-height: 16px; border-bottom: 2px solid #ffffff;
+ 	color: #666;
+    font-weight: 300;
+    line-height: 20px;
+    letter-spacing: -.5px;
+    margin-top: 30px;
+ }
+  footer{position:relative; bottom:-190px;}
+   /* =========================================================================== */
+   #list_main_write{width:1000px;}
+ #list_main_write table{
+ 	border-collapse: collapse;width:1000px;height: auto;
+ 	margin-bottom: 5px;
+ } 
+#list_main_write table th{
+    font-size: 11px;
+    padding: 15px 0 15px 20px;
+    vertical-align: top;
+    background-color: #fff;
+    border: 0;
+    color: #2b2b2b;
+    font-weight: 400;
+    text-align: left;
+}
+#list_main_write table td select{
+	width: 250px;
+	height: 30px;
+    padding: 0 10px;
+    border:1px solid #dfdfdf;
+    background-color: #fff;
+    font-size: 12px;
+}  
+ #list_main_write table td input{
+ 	width: 250px;
+	height: 30px;
+    padding: 0 10px;
+    border:1px solid #dfdfdf;
+    background-color: #fff;
+    font-size: 12px;
+ }  
+
+#list_main_write table td textarea{
+	width: 100%;
+    height: 300px;
+    border:1px solid #dfdfdf;
+    background-color: #fff;
+    font-size: 12px;
+    padding: 10px;
+}   
+
+#last_button{
+	text-align: center;
+}
+
+#last_button #sujung{
+	width: 100px;
+    height: 34px;
+    line-height: 32px;
+    font-size: 12px;
+    margin-right: 10px;
+    color: #fff;
+    border-color: #2b2b2b;
+    background-color: #2b2b2b;
+}  
+#last_button input[type=button]{
+	width: 100px;
+    height: 34px;
+    line-height: 32px;
+    font-size: 12px;
+    margin-right: 10px;
+    color: #666;
+    border: 1px solid #aaa;
+    background-color: #fff;
+}   
+   
+   
+   
+   
+   
+   
+   
+   

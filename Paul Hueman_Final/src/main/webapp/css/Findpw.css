@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+body{margin:0px;}
+body::-webkit-scrollbar{display: none;}
+html, body{height:100%;}
+a, a *{cursor: pointer;}
+ /*header색 변경 및 header nav에 밑줄 생성*/ 
+header{background-color:white;}
+header #top{background-color:black; color:white;}
+header #top .left span a{color: white;}
+header nav .submenu, header nav .submenu2{background-color: white;}
+header nav .submenu li a, header nav .submenu2 li a{height:35px;}
+ 
+ /*스크롤바 숨김*/
+ body::-webkit-scrollbar{display: none;}
+ 
+ /*find css*/
+#find{
+	width: 1100px; margin: 0 auto; overflow:hidden; height:72.8%; position:relative; top:190px; 
+	padding-top:100px;border-top:1px solid #cccccc;
+}
+#find h3{text-align: center; font-size: 24px; font-weight: normal; margin-bottom:30px;}
+#find .h3bottom{text-align: center; letter-spacing: -1px; font-size: 20px;}
+ 
+/* footer 고정 */
+footer{position:relative; bottom:-190px;}  
