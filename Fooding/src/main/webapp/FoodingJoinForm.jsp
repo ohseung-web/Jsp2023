@@ -6,19 +6,14 @@
 <meta charset="UTF-8">
 <title>Food</title>
 <style>
-	body{
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 100vh;
-	}
-	h2{
+ 	h2{
 		text-align: center;
 	}
 	h2 span{
 		color: #00A7B3;
 	}
 	.box{
+	    margin:30px auto;
 		width: 550px;
 		height: 560px;
 		border: 1px solid #ddd;
@@ -126,16 +121,16 @@
 			   const regexId = /^[A-Za-z0-9]{6,12}/;
 					if(!regexId.test(id[0].value)){
 						alert("아이디는 알파벳 또는 숫자를 포함하여야 하고 6~12자리 이내여야 합니다.");
-						//return
-						history.go(-1);
+						return
+						//history.go(-1);
 					}
 		    })	
 		    pw[0].addEventListener("focusout",()=>{
 				 const regexPw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,12}$/;
 				 if(!regexPw.test(pw[0].value)){
 						alert("비밀번호는 알파벳,숫자,특수기호(!@#$%^*+=-)를 포함하여야 하고 6~12자리 이내여야 합니다.");
-						//return;
-						history.go(-1);
+						return;
+						// history.go(-1);
 					}  
 		   })	     
 		

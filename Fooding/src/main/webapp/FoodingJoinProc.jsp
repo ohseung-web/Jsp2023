@@ -80,9 +80,9 @@
 	}
 	else {
 %>
-		<script type="text/javascript">
+		<%-- <script type="text/javascript">
 			// 아이디: 알파벳 대소문자 또는 숫자로 시작하고 6-12자리인지 검사
-		<%-- 	 const regexId = /^[A-Za-z0-9]{6,12}/;
+			 const regexId = /^[A-Za-z0-9]{6,12}/;
 			 const regexPw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,12}$/;
 				if(!regexId.test('<%=fbean.getId()%>')){
 					alert("아이디는 알파벳 또는 숫자를 포함하여야 하고 6~12자리 이내여야 합니다.");
@@ -92,8 +92,8 @@
 					alert("비밀번호는 알파벳,숫자,특수기호(!@#$%^*+=-)를 포함하여야 하고 6~12자리 이내여야 합니다.");
 					history.go(-1);
 				}
-	 --%>
-		 </script>
+	
+		 </script> --%>
 <%    
        foodingdao.insertFooding(fbean);
    

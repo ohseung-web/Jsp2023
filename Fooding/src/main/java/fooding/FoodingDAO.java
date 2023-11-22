@@ -1,35 +1,37 @@
 package fooding;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
 public class FoodingDAO {
-    
-	// java에 db를 connect해준다. Connection하기 위해서 MySQL 드라이브명을 Class.forName에 입력한다.
-    String id = "root"; // db 아이디
-    String pw = "12345678"; // db 패스워드
-    String url = "jdbc:mysql://localhost:3306/jspdatabase?serverTimezone=UTC"; // 접속 URL
-    
-    Connection con = getCon();
+      
+    Connection con ;
     PreparedStatement pstmt;
     ResultSet rs;
     
-    public Connection getCon() {
-    	try{
-        	Class.forName("com.mysql.cj.jdbc.Driver"); // mysql 드라이버를 자바에 접속
-        	// db의 아이디, 패스워드, url을 자바에 연결한 드라이버와 연결시켜준다.
-        	con = DriverManager.getConnection(url, id, pw);
-        }catch(Exception e){
-        	e.printStackTrace();
-        }
-		return con;
+    public void getConnect() {
+    	try {
+    		//외부에서 데이터를 읽어들여야 하기에
+    		Context initctx = new InitialContext();
+    		//톰캣 서버에 정보를 담아놓은 곳으로 이동
+    		Context envctx = (Context) initctx.lookup("java:comp/env");
+    		//데이터 소스 객체를 선언한다.
+    		DataSource ds = (DataSource) envctx.lookup("jdbc/pool");
+    		//데이터 소스를 기준으로 커넥션을 연결해 주세요
+    		con = ds.getConnection();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
     }
     
     public void insertFooding(FoodingBean fbean) {
+    	getConnect();
     	try {
     		// 쿼리 실행 준비 작업
     		String sql = "insert into fooding (name,id,pw,tel,email,address) values(?,?,?,?,?,?)";
@@ -45,14 +47,23 @@ public class FoodingDAO {
         	// 쿼리 실행 : insert,update,delete는 executeUpdate를 이용하여 실행한다.
         	pstmt.executeUpdate();
         	// 자원 반납 : connection 종료
-        	con.close();
+        	//con.close();
     	}catch(Exception e) {
     		e.printStackTrace();
+    	}finally {
+    		try {
+    		    if(con != null) con.close();
+    			if(pstmt != null) pstmt.cancel();
+    			if(rs != null) rs.close();
+    		}catch(Exception e) {
+    			e.printStackTrace();
+    		}
     	}
     }
     
     // 회원으로 가입한 한 회원의 id를 검색하는 메소드
     public String  chkId(String id) {
+    	getConnect();
     	   String chkeckId ="";
     	try {
     		String sql ="select id from fooding where id=?";
@@ -64,7 +75,44 @@ public class FoodingDAO {
      		}
     	}catch(Exception e) {
     		e.printStackTrace();
+    	}finally {
+    		try {
+    		 	if(con != null) con.close();
+    			if(pstmt != null) pstmt.cancel();
+    			if(rs != null) rs.close();
+    		}catch(Exception e) {
+    			e.printStackTrace();
+    		}
     	}
     	return chkeckId;
     }
+    
+    // 회원으로 가입 한 회원의 pw를 검색하는 메소드 작성
+    public String getPass(String id) {
+    	getConnect();
+    	String pw ="";
+    	try {
+    	    String sql ="select pw from fooding where id=?";
+    	    pstmt = con.prepareStatement(sql);
+    	    pstmt.setString(1, id);
+    	    rs = pstmt.executeQuery();
+    	    if(rs.next()) {
+    	    	pw = rs.getString(1);
+    	    }
+    	    
+    	   // System.out.print(pw);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}finally {
+    		try {
+    			if(con != null) con.close();
+    			if(pstmt != null) pstmt.cancel();
+    			if(rs != null) rs.close();
+    		}catch(Exception e) {
+    			e.printStackTrace();
+    		}
+    	}
+    	return pw;
+    }
+    
 }

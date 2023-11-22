@@ -6,14 +6,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	*{margin: 0 auto;}
-	#login{width: 800px; height: 650px; margin: 0 auto;}
+	*{margin: 0px auto;}
+	#login{width: 800px; height: 650px; margin: 20px auto;}
 	#login h1{
 		margin: 60px 0 5px 0;
 	}
 	#login #login01, #login #login02{float: left;}
 	#login #login01{
-		width: 468px;
+		width: 550px;
 		margin-right: 19px;
 		border: 1px solid gray;
 		padding: 55px 40px;
@@ -75,7 +75,7 @@
 </style>
 </head>
 <body>
-     <div id="login">
+<div id="login">
 <h1>로그인</h1>
 <div id="login01">
 	<h3>회원 로그인</h3>
@@ -91,7 +91,7 @@
 	</table>
 	</form>
 	<hr>
-	<button id="join" onclick="location.href='main.jsp?section=joinform.jsp'">회원가입</button>&nbsp;
+	<button id="join" onclick="location.href='Main02.jsp?section=FoodingJoinForm.jsp'">회원가입</button>&nbsp;
 	<button class="find">아이디 찾기</button>&nbsp;
 	<button class="find">비밀번호 찾기</button>
 	<h3 id="nouser">비회원 주문조회 하기</h3>
