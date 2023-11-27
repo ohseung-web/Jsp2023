@@ -11,9 +11,9 @@ import javax.sql.DataSource;
 
 public class FoodingDAO {
       
-    Connection con ;
-    PreparedStatement pstmt;
-    ResultSet rs;
+    Connection con = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
     
     public void getConnect() {
     	try {
@@ -53,7 +53,7 @@ public class FoodingDAO {
     	}finally {
     		try {
     		    if(con != null) con.close();
-    			if(pstmt != null) pstmt.cancel();
+    			if(pstmt != null) pstmt.close();
     			if(rs != null) rs.close();
     		}catch(Exception e) {
     			e.printStackTrace();
@@ -78,7 +78,7 @@ public class FoodingDAO {
     	}finally {
     		try {
     		 	if(con != null) con.close();
-    			if(pstmt != null) pstmt.cancel();
+    			if(pstmt != null) pstmt.close();
     			if(rs != null) rs.close();
     		}catch(Exception e) {
     			e.printStackTrace();
@@ -106,7 +106,7 @@ public class FoodingDAO {
     	}finally {
     		try {
     			if(con != null) con.close();
-    			if(pstmt != null) pstmt.cancel();
+    			if(pstmt != null) pstmt.close();
     			if(rs != null) rs.close();
     		}catch(Exception e) {
     			e.printStackTrace();

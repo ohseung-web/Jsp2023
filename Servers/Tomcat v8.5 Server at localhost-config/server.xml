@@ -168,13 +168,20 @@
         <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" maxWaite="5000" name="jdbc/pool" password="12345678" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/jspdatabase?serverTimezone=UTC" username="root"/>
       </Context>
       
-      <Context docBase="Fooding" path="/Fooding" reloadable="true" source="org.eclipse.jst.jee.server:Fooding">
-         <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" maxWaite="5000" 
-              name="jdbc/pool" password="12345678" type="javax.sql.DataSource" 
-              url="jdbc:mysql://localhost:3306/jspdatabase?serverTimezone=UTC" username="root" />
-      </Context>
       <Context docBase="Cookie_Session" path="/Cookie_Session" reloadable="true" source="org.eclipse.jst.jee.server:Cookie_Session"/>
       <Context docBase="Paul Hueman_Final" path="/Paul_Hueman_Final" reloadable="true" source="org.eclipse.jst.jee.server:Paul Hueman_Final"/>
+      <Context docBase="Fooding_SeungHyun" path="/Fooding_SeungHyun" reloadable="true" source="org.eclipse.jst.jee.server:Fooding_SeungHyun">
+          <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" maxWaite="5000" name="jdbc/pool" password="12345678" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/jspdatabase?serverTimezone=UTC" username="root"/>
+      </Context>
+      
+      <Context docBase="Fooding" path="/Fooding" reloadable="true" source="org.eclipse.jst.jee.server:Fooding">
+          <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" maxWaite="5000" name="jdbc/pool" password="12345678" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/jspdatabase?serverTimezone=UTC" username="root"/>
+      </Context>
+      <Context docBase="Board02" path="/Board02" reloadable="true" source="org.eclipse.jst.jee.server:Board02">
+          <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" 
+          maxWaite="5000" name="jdbc/pool" password="12345678" type="javax.sql.DataSource" 
+          url="jdbc:mysql://localhost:3306/jspdatabase?serverTimezone=UTC" username="root"/>
+      </Context>
       </Host>
     </Engine>
   </Service>
