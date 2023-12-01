@@ -31,7 +31,7 @@ public class BoardDAO {
 	    	}
 	    }
 	
-	   // 하나의 새로운 게시글이 넘어와서 저장되는 메소드
+	   // 하나의 새로운 게시글이 넘어와서 저장되는 메소드--------------------------------------------------------------
 	   public void insertBoard(BoardBean boardBean) {
 		   getConnect();
 		   //빈클래스에 넘어오지 않았던 데이터들을 초기화 해야 한다.
@@ -79,12 +79,12 @@ public class BoardDAO {
 		   
 	   }
 	   
-	// 모든 게시글을 리턴해주는 메소드 작성  
+	// 모든 게시글을 리턴해주는 메소드 작성  -----------------------------------------------------------------
 	public ArrayList<BoardBean> getAllBoard(){
 		getConnect();
 		ArrayList<BoardBean> a = new ArrayList<>();
 		try {
-			String sql = "select * from board order by ref desc, re_step asc";
+			String sql = "select * from board order by ref desc, re_step asc, re_level asc";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -119,6 +119,202 @@ public class BoardDAO {
 		   }
 		
 		return a;
+	}
+	
+	// BoardInfo 하나의 게새글을 리턴하는 메소드 작성---------------------------------------------------------------
+	public BoardBean getOneBoard(int num) {
+		getConnect();
+		// 리턴타입
+		BoardBean bean = new BoardBean();
+		try {
+			 //조회수 증가 쿼리 준비
+			 String readSql = "update board set readcount = readcount + 1 where num = ?";
+			 pstmt = con.prepareStatement(readSql);
+			 pstmt.setInt(1, num);
+			 pstmt.executeUpdate();
+			 
+			 //쿼리준비
+			String sql = "select * from board where num=?";
+			//쿼리실행객체
+			pstmt = con.prepareStatement(sql);
+			// ? 맵핑
+			pstmt.setInt(1, num);
+			// 쿼리실행 후 결과 리턴
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				bean.setNum(rs.getInt(1));
+				bean.setWriter(rs.getString(2));
+				bean.setEmail(rs.getString(3));
+				bean.setSubject(rs.getString(4));
+				bean.setPassword(rs.getString(5));
+				bean.setReg_date(rs.getDate(6).toString());
+				bean.setRef(rs.getInt(7));
+				bean.setRe_step(rs.getInt(8));
+				bean.setRe_level(rs.getInt(9));
+				bean.setReadcount(rs.getInt(10));
+				bean.setContent(rs.getString(11));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			   try {
+				   if(con != null) con.close();
+				   if(pstmt != null) pstmt.close();
+				   if(rs != null) rs.close();
+			   }catch(Exception e) {
+				   e.printStackTrace();
+			   }
+		   }
+		
+		return bean;
+	}
+	
+	//답변글이 저장되는 메소드 작성
+	public void reWriteBoard(BoardBean bean) {
+		getConnect();
+		// 글그룹에 re_step와 re_level을 먼저 수정해 주어야 한다.
+		// 부모글에 re_step + 1, re_level +1을 한다. 고로 부모글을 알아야 한다.
+		// re_level은 부모글보다 큰 수에 모두 +1을 더한다.
+		// 부모글 그룹과 글스탭, 글레벨을 읽어들인다.
+		int ref = bean.getRef();
+		int re_step = bean.getRe_step();
+		int re_level = bean.getRe_level();
+		
+		try {
+			// 부모글 보다 큰 re_level값에 모두 1씩 증가
+			// (단, ref가 같은 그룹이어야 하고, 현재 re_level보다 큰값만)
+			String levelsql ="update board set re_level = re_level + 1 where ref = ? and  re_level > ?";
+			pstmt = con.prepareStatement(levelsql);
+			pstmt.setInt(1, ref);
+			pstmt.setInt(2, re_level);
+			pstmt.executeUpdate();
+			
+			//답변글 데이터를 저장
+			String sql = "insert into board values(null,?,?,?,?,current_date(),?,?,?,0,?)";
+			pstmt = con.prepareStatement(sql);
+			// ? 맵핑
+			pstmt.setString(1, bean.getWriter());
+			pstmt.setString(2, bean.getEmail());
+			pstmt.setString(3, bean.getSubject());
+			pstmt.setString(4, bean.getPassword());
+			pstmt.setInt(5, ref); //부모의 ref값 넣는다.
+			pstmt.setInt(6, re_step+1); //답글이므로 부모글에 더하기 1한다.
+			pstmt.setInt(7, re_level+1);
+			pstmt.setString(8, bean.getContent());
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			   try {
+				   if(con != null) con.close();
+				   if(pstmt != null) pstmt.close();
+				   if(rs != null) rs.close();
+			   }catch(Exception e) {
+				   e.printStackTrace();
+			   }
+		   }
+	}
+	
+	//BoardUpdate용 하나의 게시글 리턴 메소드
+	public BoardBean getOneUpdateBoard(int num) {
+		getConnect();
+		// 리턴타입
+		BoardBean bean = new BoardBean();
+		try {
+			 //쿼리준비
+			String sql = "select * from board where num=?";
+			//쿼리실행객체
+			pstmt = con.prepareStatement(sql);
+			// ? 맵핑
+			pstmt.setInt(1, num);
+			// 쿼리실행 후 결과 리턴
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				bean.setNum(rs.getInt(1));
+				bean.setWriter(rs.getString(2));
+				bean.setEmail(rs.getString(3));
+				bean.setSubject(rs.getString(4));
+				bean.setPassword(rs.getString(5));
+				bean.setReg_date(rs.getDate(6).toString());
+				bean.setRef(rs.getInt(7));
+				bean.setRe_step(rs.getInt(8));
+				bean.setRe_level(rs.getInt(9));
+				bean.setReadcount(rs.getInt(10));
+				bean.setContent(rs.getString(11));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			   try {
+				   if(con != null) con.close();
+				   if(pstmt != null) pstmt.close();
+				   if(rs != null) rs.close();
+			   }catch(Exception e) {
+				   e.printStackTrace();
+			   }
+		   }
+		
+		return bean;
+	}
+	
+	//update와 Delete시 사용할 패스워드 값을 리턴해주는 메소드
+	public String getPass(int num) {
+		getConnect();
+		String pw ="";
+		
+		try {
+			 //쿼리준비
+			String sql = "select password from board where num=?";
+			//쿼리실행객체
+			pstmt = con.prepareStatement(sql);
+			// ? 맵핑
+			pstmt.setInt(1, num);
+			// 쿼리실행 후 결과 리턴
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				pw = rs.getString(1);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			   try {
+				   if(con != null) con.close();
+				   if(pstmt != null) pstmt.close();
+				   if(rs != null) rs.close();
+			   }catch(Exception e) {
+				   e.printStackTrace();
+			   }
+		   }
+		
+		return pw;
+	}
+	
+	// 하나의 게시글을 수정하는 메소드
+	public void updateBoard(BoardBean bean) {
+		getConnect();
+		try {
+			 //쿼리준비
+			String sql = "update board set subject=?,content=? where num=?";
+			//쿼리실행객체
+			pstmt = con.prepareStatement(sql);
+			// ? 맵핑
+		    pstmt.setString(1, bean.getSubject());
+		    pstmt.setString(2, bean.getContent());
+		    pstmt.setInt(3, bean.getNum());
+			// 쿼리실행 후 결과 리턴
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			   try {
+				   if(con != null) con.close();
+				   if(pstmt != null) pstmt.close();
+				   if(rs != null) rs.close();
+			   }catch(Exception e) {
+				   e.printStackTrace();
+			   }
+		   }
 	}
 	
 	

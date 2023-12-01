@@ -178,11 +178,9 @@
           <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" maxWaite="5000" name="jdbc/pool" password="12345678" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/jspdatabase?serverTimezone=UTC" username="root"/>
       </Context>
       <Context docBase="Board02" path="/Board02" reloadable="true" source="org.eclipse.jst.jee.server:Board02">
-          <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" 
-          maxWaite="5000" name="jdbc/pool" password="12345678" type="javax.sql.DataSource" 
-          url="jdbc:mysql://localhost:3306/jspdatabase?serverTimezone=UTC" username="root"/>
+          <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" maxWaite="5000" name="jdbc/pool" password="12345678" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/jspdatabase?serverTimezone=UTC" username="root"/>
       </Context>
-      </Host>
+      <Context docBase="Board" path="/Board" reloadable="true" source="org.eclipse.jst.jee.server:Board"/></Host>
     </Engine>
   </Service>
 </Server>

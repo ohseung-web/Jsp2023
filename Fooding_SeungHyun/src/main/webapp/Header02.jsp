@@ -96,13 +96,13 @@
 %>
 				<li><a href="Main02.jsp?section=login.jsp">로그인</a></li>
 				<li><a href="Main02.jsp?section=FoodingJoinForm.jsp">회원가입</a></li>
-				<li><a href="#">1:1문의</a></li>
+				<li><a href="Main02.jsp?section=BoardWrite.jsp">1:1문의</a></li>
 <% 
 			}else{
 %>	
 				<li><a href="#"><%=id %>님 로그인!</a></li>
 				<li><a href="Main02.jsp?logout=1">로그아웃</a></li>
-				<li><a href="#">1:1문의</a></li>
+				<li><a href="Main02.jsp?section=BoardWrite.jsp">1:1문의</a></li>
 <% 
 			}
 %>

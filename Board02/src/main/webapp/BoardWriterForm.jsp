@@ -38,7 +38,7 @@
 <body>
   <div class="container">
     <h2> 게시글 쓰기 </h2>
-    <form action="BoardWriteProc.jsp" meth="post">
+    <form action="BoardWriteProc.jsp" method="post">
        <table width="600" border="1">
           <tr height="40">
              <td align="center" width="150">작성자</td>

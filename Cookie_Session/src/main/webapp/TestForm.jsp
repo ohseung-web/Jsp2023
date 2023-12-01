@@ -28,10 +28,7 @@
       width:80px;
       height: 30px;
    }
-   input[thpe=checkbox]{
-     
-   }
- 
+
 </style>
 </head>
 <body>

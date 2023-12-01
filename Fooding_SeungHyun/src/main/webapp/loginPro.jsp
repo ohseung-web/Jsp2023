@@ -17,9 +17,10 @@
        //DB로부터 id,pw를 읽어 들인다.
        FoodingDAO fdao = new FoodingDAO();
        String dbPW = fdao.getPass(id);
+       String dbId = fdao.chkId(id);
        
-       //DB id, pw와 사용자로부터 입력받은 id, pw가 같은지 비교
-       if(dbPW.equals(pw)){
+       //DB id, pw와 사용자로부터 입력받은 id, pw가 같은지 비교, 또한 DB에 존재하는 ID인지 체크
+       if(dbPW.equals(pw) && dbId.equals(id)){
     	
     	 //세션에 저장
            session.setAttribute("id", id);
@@ -38,9 +39,9 @@
    
    <%--  <h2> 당신의 아이디는 <%=id %>이고, 패스워드는 <%=dbPW %>입니다.  --%>
        
-<%--        <jsp:useBean id="fbean" class="fooding.FoodingBean">
+ <%-- <jsp:useBean id="fbean" class="fooding.FoodingBean">
           <jsp:setProperty name="fbean" property="*"/>
-       </jsp:useBean> --%>
+  </jsp:useBean> --%>
 
 </body>
 </html>
