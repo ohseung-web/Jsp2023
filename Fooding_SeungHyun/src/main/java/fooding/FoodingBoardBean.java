@@ -1,6 +1,7 @@
 package fooding;
 
 public class FoodingBoardBean {
+   
    private int num;
    private String name;
    private String email;
@@ -13,7 +14,10 @@ public class FoodingBoardBean {
    private int re_level;
    private int readcount;
    private String content;
-   public int getNum() {
+   private String id;
+   
+   
+public int getNum() {
 	return num;
 }
 public void setNum(int num) {
@@ -91,5 +95,8 @@ public String getId() {
 public void setId(String id) {
 	this.id = id;
 }
-private String id;
+   
+   
+   
+   
 }

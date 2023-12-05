@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -31,6 +32,7 @@ public class FoodingDAO {
     	}
     }
     
+    // fooding  테이블 한명의 회원정보를 저장하는 메소드 ------------------------------------------------------------
     public void insertFooding(FoodingBean fbean) {
     	getConnect();
     	try {
@@ -62,10 +64,11 @@ public class FoodingDAO {
     	}
     }
     
-    // 회원으로 가입한 한 회원의 id를 검색하는 메소드
+    // 회원으로 가입한 한 회원의 id를 검색하는 메소드 ----------------------------------------------------
     public String  chkId(String id) {
     	getConnect();
     	   String chkeckId ="";
+    	   System.out.println(id);
     	try {
     		String sql ="select id from fooding where id=?";
      		pstmt = con.prepareStatement(sql);
@@ -88,7 +91,7 @@ public class FoodingDAO {
     	return chkeckId;
     }
     
-    // 회원으로 가입 한 회원의 pw를 검색하는 메소드 작성
+    // 회원으로 가입 한 회원의 pw를 검색하는 메소드 작성 --------------------------------------------------
     public String getPass(String id) {
     	getConnect();
     	String pw ="";
@@ -200,5 +203,148 @@ public class FoodingDAO {
 		   
 	   }
     
-      // --------------------------------------------
+	 //모든회원의 게시글 전체를 리턴하는 메소드 ---------------------------------------------------------
+	public ArrayList<FoodingBoardBean> allFooding(){
+		getConnect();
+		ArrayList<FoodingBoardBean> a = new ArrayList<>();
+		
+		try {
+	
+			String sql = "select * from foodingboard  order by ref desc";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				FoodingBoardBean bean = new FoodingBoardBean();
+				bean.setNum(rs.getInt(1));
+				bean.setName(rs.getString(2));
+				bean.setEmail(rs.getString(3));
+				bean.setTel(rs.getString(4));
+				bean.setSubject(rs.getString(5));
+				bean.setPassword(rs.getString(6));
+				bean.setReg_date(rs.getString(7));
+				bean.setRef(rs.getInt(8));
+				bean.setRe_step(rs.getInt(9));
+				bean.setRe_level(rs.getInt(10));
+				bean.setReadcount(rs.getInt(11));
+				bean.setContent(rs.getString(12));
+				bean.setId(rs.getString(13));
+				
+				a.add(bean);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(con != null) con.close();
+				if(pstmt != null) pstmt.close();
+				if(rs != null) rs.close();
+			}catch(SQLException se) {
+				se.printStackTrace();
+			}
+		}
+		return a;
+	}
+	   
+	
+	// BoardInfo 하나의 게새글을 리턴하는 메소드 작성---------------------------------------------------------------
+		public FoodingBoardBean getOneBoard(int num) {
+			getConnect();
+			// 리턴타입
+			
+			FoodingBoardBean bean = new FoodingBoardBean();
+			
+		//	System.out.println(bean.getId());
+			
+			try {
+				 //쿼리준비
+				String sql = "select * from foodingboard where num=?";
+				//쿼리실행객체
+				pstmt = con.prepareStatement(sql);
+				// ? 맵핑
+				pstmt.setInt(1, num);
+				// 쿼리실행 후 결과 리턴
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					bean.setNum(rs.getInt(1));
+					bean.setName(rs.getString(2));
+					bean.setEmail(rs.getString(3));
+					bean.setTel(rs.getString(4));
+					bean.setSubject(rs.getString(5));
+					bean.setPassword(rs.getString(6));
+					bean.setReg_date(rs.getDate(7).toString());
+					bean.setRef(rs.getInt(8));
+					bean.setRe_step(rs.getInt(9));
+					bean.setRe_level(rs.getInt(10));
+					bean.setReadcount(rs.getInt(11));
+					bean.setContent(rs.getString(12));
+					bean.setId(rs.getString(13));
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				   try {
+					   if(con != null) con.close();
+					   if(pstmt != null) pstmt.close();
+					   if(rs != null) rs.close();
+				   }catch(Exception e) {
+					   e.printStackTrace();
+				   }
+			   }
+			
+			return bean;
+		}
+	
+	// 답변 리턴하는 메소드 ----------------------------------------------------------------------
+	public void reWriteFooding(FoodingBoardBean bean) {
+		getConnect();
+		
+		int ref = bean.getRef();
+		int re_step = bean.getRe_step();
+		int re_level = bean.getRe_level();
+		
+		System.out.println("ref"+ref);
+		System.out.println("re_step"+re_step);
+		
+		try {
+			
+		
+						// re_step가 1인 부모글에 re_step 더하기 4를하여 답변완료 출력하는 업데이트
+						String levelsql ="update foodingboard set re_step = re_step + 4 where ref = ? and re_step=1";
+						pstmt = con.prepareStatement(levelsql);
+						pstmt.setInt(1, ref);
+						//pstmt.setInt(2, re_level);
+						pstmt.executeUpdate();
+						
+						//답변글 데이터를 저장
+						String sql = "insert into foodingboard values(null,?,?,?,?,?,current_date(),?,?,?,0,?,?)";
+						pstmt = con.prepareStatement(sql);
+						// ? 맵핑
+						pstmt.setString(1, bean.getName());
+						pstmt.setString(2, bean.getEmail());
+						pstmt.setString(3, bean.getTel());
+						pstmt.setString(4, bean.getSubject());
+						pstmt.setString(5, bean.getPassword());
+						pstmt.setInt(6, ref); //부모의 ref값 넣는다.
+						pstmt.setInt(7, re_step+1); //답글이므로 부모글에 더하기 1한다.
+						pstmt.setInt(8, re_level+1);
+						pstmt.setString(9, bean.getContent());
+						pstmt.setString(10, bean.getId());
+						pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				   if(con != null) con.close();
+				   if(pstmt != null) pstmt.close();
+				   if(rs != null) rs.close();
+			}catch(SQLException se) {
+				se.printStackTrace();
+			}
+		}
+	}
+	
+	//---------------------------------------------------------------------------------------------
+		
 }

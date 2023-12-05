@@ -22,7 +22,9 @@
        if(fboardbean.getSubject() != null){
     	   fdao.insertBoard(fboardbean);
        }
+       
+       response.sendRedirect("Main02.jsp?section=FoodingBoardList.jsp");
     %>
-    데이터 저장 완료
+   
 </body>
 </html>
