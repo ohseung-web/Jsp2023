@@ -108,7 +108,7 @@
 %>
 				<li><a href="Main02.jsp?section=login.jsp">로그인</a></li>
 				<li><a href="Main02.jsp?section=FoodingJoinForm.jsp">회원가입</a></li>
-				<li><a href="Main02.jsp?section=FoodingBoardList.jsp">1:1문의</a></li>
+				<li><a href="Main02.jsp?section=FoodingMainList.jsp">1:1문의</a></li>
 <% 
 			}else if(id.equals("admin123")){
 %>	    

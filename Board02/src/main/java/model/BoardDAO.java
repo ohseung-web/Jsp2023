@@ -80,12 +80,15 @@ public class BoardDAO {
 	   }
 	   
 	// 모든 게시글을 리턴해주는 메소드 작성  -----------------------------------------------------------------
-	public ArrayList<BoardBean> getAllBoard(){
+	public ArrayList<BoardBean> getAllBoard(int start, int pageSize){
 		getConnect();
 		ArrayList<BoardBean> a = new ArrayList<>();
 		try {
-			String sql = "select * from board order by ref desc, re_step asc, re_level asc";
+			// mysql의 limit 3, 4 의미 => 3번째 부터 ~ 6번째까지 (총 4개)를 출력하라는 의미이다.
+			String sql = "select * from  board order by ref desc, re_step asc, re_level asc limit ?,?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, start-1); //limit는 0부터 시작하므로 start-1을 뺸다.
+			pstmt.setInt(2, pageSize);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				//데이터를 패키징(가방=BoardBean클래스를이용)해줌
@@ -343,6 +346,36 @@ public class BoardDAO {
 		   }
 	}
 	
-	//--------------------------------------------------------
+	//-전체 글의 갯수를 리턴하는 메소드 작성 ---- 카운터링 
+	public int getAllCount() {
+		getConnect();
+		//전체 게시글을 저장하는 변수
+		int count = 0;
+		
+		try {
+			 //쿼리준비
+			String sql = "select count(*) from board";
+			//쿼리실행객체
+			pstmt = con.prepareStatement(sql);
+		    rs = pstmt.executeQuery();
+			// 쿼리실행 후 결과 리턴
+			if(rs.next()) {
+				count = rs.getInt(1); // 전체개시글 수 리턴
+			}
+		    
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			   try {
+				   if(con != null) con.close();
+				   if(pstmt != null) pstmt.close();
+				   if(rs != null) rs.close();
+			   }catch(Exception e) {
+				   e.printStackTrace();
+			   }
+		   }
+		
+		return count;
+	}
 	
 }

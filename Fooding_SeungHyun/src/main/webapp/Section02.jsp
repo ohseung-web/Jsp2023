@@ -15,7 +15,7 @@
    .bgimg{
       margin: 20px auto;
       width: 1400px;
-      height: 900px;
+      height: 100vh;
     }
   .bgimg img{
        width:100%;

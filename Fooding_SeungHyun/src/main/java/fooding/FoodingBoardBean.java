@@ -15,8 +15,15 @@ public class FoodingBoardBean {
    private int readcount;
    private String content;
    private String id;
+   private String chkid;
    
    
+public String getChkid() {
+	return chkid;
+}
+public void setChkid(String chkid) {
+	this.chkid = chkid;
+}
 public int getNum() {
 	return num;
 }

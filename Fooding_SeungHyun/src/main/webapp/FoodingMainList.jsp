@@ -114,14 +114,14 @@
       //전체게시글의 내용을 BoardList.jsp로 가져온다.
       
       //전체 게시글의 갯수를 읽어들인 메소드 호출
-      count = fdao.getAllCount();
+      count = fdao.getAllMainCount();
       
       //현재 페이지에 보여줄 시작번호를 설정 - 데이버 베이스에서 불러올 시작번호
       int startRow = (currentPage - 1)*pageSize + 1;
       int endRow = currentPage * pageSize; //mysql은 사용불가
       
       // 최신글 10개를 기준으로 게시글을 리턴 받아주는 메소드 호출
-      ArrayList<FoodingBoardBean> alist = fdao.allFooding(startRow,pageSize);
+      ArrayList<FoodingBoardBean> alist = fdao.allMainFooding(startRow, pageSize);
       
       //테이블에 표시할 번호를 지정(최신글 순으로 번호 매겨짐)
        number = count - (currentPage -1) * pageSize; 
@@ -141,22 +141,12 @@
               for(int i=0; i<alist.size(); i++){
             	  FoodingBoardBean fbean =  alist.get(i);
             	  
-            	  if(id != null ){ 
            %>
                      <tr>
                  	    <td align="center"><%=fbean.getReg_date() %></td>
                  	    <td>
                  	       <a href="Main02.jsp?section=FoodingInfo.jsp?id=<%=id%>&num=<%=fbean.getNum()%>">
-                 	        <% // [답변]앞에 3칸 들여쓰기
-                 	          if(fbean.getRe_step() == 2){
-                 	        	 for(int j=0; j<3; j++){
-                 	        %>
-                 	            &nbsp; 
-                 	        <%		 
-                 	        	 }	 
-                 	          }
-                 	        %>   
-                 	       <%=fbean.getSubject()%></a>
+                 	         <%=fbean.getSubject()%></a>
                  	    </td>
                  	    <td align="center"><%=fbean.getName().substring(0, 2)+"*"%></td>
                  	    <td>
@@ -164,11 +154,7 @@
                  	        if(fbean.getRe_step() == 5){
                  	     %>   
                  	         <p id="complete">답변완료</p>
-                 	     <%       
-                 	        }else if(fbean.getRe_step() == 2){
-                 	     %>
-                 	         <p></p>
-                 	     <%   
+                 	     <%
                  	        }else{
                  	     %>
                  	        <p id="receipt">문의접수</p>  
@@ -179,8 +165,7 @@
                  	    </td>
                  	 </tr>    
            <% 		  
-            	  }
-              }	  
+            	  } 
           %>
   </table>
   <div class="pageing">
@@ -203,19 +188,19 @@
     	  //이전이라는 링크를 만들건지 파악
     	  if(startPage > 2){
      %>
-         <a href = "Main02.jsp?section=FoodingBoardList.jsp?pageNum=<%=startPage-2%>"> [이전] </a>   		  
+         <a href = "Main02.jsp?section=FoodingMainList.jsp?pageNum=<%=startPage-2%>"> [이전] </a>   		  
      <%   	  
     	  }
     	  //페이징 처리
     	  for(int i=startPage;i<=endPage;i++){
     		  %>
-    	         <a href = "Main02.jsp?section=FoodingBoardList.jsp?pageNum=<%=i%>"> [<%=i %>]&nbsp;&nbsp; </a>   		  
+    	         <a href = "Main02.jsp?section=FoodingMainList.jsp?pageNum=<%=i%>"> [<%=i %>]&nbsp;&nbsp; </a>   		  
     	 <%
     	  }
     	  //다음이라는 링크를 만들건지 파악
     	  if(endPage < pageCount){
        %>
- 	         <a href = "Main02.jsp?section=FoodingBoardList.jsp?pageNum=<%=startPage+2%>"> [다음] </a>   		  
+ 	         <a href = "Main02.jsp?section=FoodingMainList.jsp?pageNum=<%=startPage+2%>"> [다음] </a>   		  
  	   <%
     	  }
        }

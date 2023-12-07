@@ -204,14 +204,16 @@ public class FoodingDAO {
 	   }
     
 	 //모든회원의 게시글 전체를 리턴하는 메소드 ---------------------------------------------------------
-	public ArrayList<FoodingBoardBean> allFooding(){
+	public ArrayList<FoodingBoardBean> allFooding(int start, int pageSize){
 		getConnect();
 		ArrayList<FoodingBoardBean> a = new ArrayList<>();
 		
 		try {
 	
-			String sql = "select * from foodingboard  order by ref desc";
+			String sql = "select * from foodingboard  order by ref desc limit ?,?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, start-1);
+			pstmt.setInt(2, pageSize);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -246,6 +248,51 @@ public class FoodingDAO {
 		return a;
 	}
 	   
+	//모든회원의 게시글 전체를 Main화면에 리턴하는 메소드 ---------------------------------------------------------
+		public ArrayList<FoodingBoardBean> allMainFooding(int start, int pageSize){
+			getConnect();
+			ArrayList<FoodingBoardBean> a = new ArrayList<>();
+			
+			try {
+		
+				String sql = "select * from foodingboard where id <> 'admin123' order by ref desc limit ?,?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, start-1);
+				pstmt.setInt(2, pageSize);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					FoodingBoardBean bean = new FoodingBoardBean();
+					bean.setNum(rs.getInt(1));
+					bean.setName(rs.getString(2));
+					bean.setEmail(rs.getString(3));
+					bean.setTel(rs.getString(4));
+					bean.setSubject(rs.getString(5));
+					bean.setPassword(rs.getString(6));
+					bean.setReg_date(rs.getString(7));
+					bean.setRef(rs.getInt(8));
+					bean.setRe_step(rs.getInt(9));
+					bean.setRe_level(rs.getInt(10));
+					bean.setReadcount(rs.getInt(11));
+					bean.setContent(rs.getString(12));
+					bean.setId(rs.getString(13));
+					
+					a.add(bean);
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					if(con != null) con.close();
+					if(pstmt != null) pstmt.close();
+					if(rs != null) rs.close();
+				}catch(SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			return a;
+		}
+	
 	
 	// BoardInfo 하나의 게새글을 리턴하는 메소드 작성---------------------------------------------------------------
 		public FoodingBoardBean getOneBoard(int num) {
@@ -279,6 +326,7 @@ public class FoodingDAO {
 					bean.setReadcount(rs.getInt(11));
 					bean.setContent(rs.getString(12));
 					bean.setId(rs.getString(13));
+					bean.setChkid(rs.getString(14));
 				}
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -346,5 +394,69 @@ public class FoodingDAO {
 	}
 	
 	//---------------------------------------------------------------------------------------------
+	//-전체 글의 갯수를 리턴하는 메소드 작성 ---- 카운터링 
+		public int getAllCount() {
+			getConnect();
+			//전체 게시글을 저장하는 변수
+			int count = 0;
+			
+			try {
+				 //쿼리준비
+				String sql = "select count(*) from foodingboard ";
+				//쿼리실행객체
+				pstmt = con.prepareStatement(sql);
+			    rs = pstmt.executeQuery();
+				// 쿼리실행 후 결과 리턴
+				if(rs.next()) {
+					count = rs.getInt(1); // 전체개시글 수 리턴
+				}
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				   try {
+					   if(con != null) con.close();
+					   if(pstmt != null) pstmt.close();
+					   if(rs != null) rs.close();
+				   }catch(Exception e) {
+					   e.printStackTrace();
+				   }
+			   }
+			
+			return count;
+			
+		}
 		
+	// mainList의 뿌려질 게시판 개수
+		public int getAllMainCount() {
+			getConnect();
+			//전체 게시글을 저장하는 변수
+			int count = 0;
+			
+			try {
+				 //쿼리준비
+				String sql = "select count(*) from foodingboard where id <> 'admin123'";
+				//쿼리실행객체
+				pstmt = con.prepareStatement(sql);
+			    rs = pstmt.executeQuery();
+				// 쿼리실행 후 결과 리턴
+				if(rs.next()) {
+					count = rs.getInt(1); // 전체개시글 수 리턴
+				}
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				   try {
+					   if(con != null) con.close();
+					   if(pstmt != null) pstmt.close();
+					   if(rs != null) rs.close();
+				   }catch(Exception e) {
+					   e.printStackTrace();
+				   }
+			   }
+			
+			return count;
+			
+		}	
 }

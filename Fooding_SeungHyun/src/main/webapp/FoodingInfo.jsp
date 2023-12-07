@@ -79,7 +79,7 @@
 </div>  
 	
 <%
-  }else if(bean.getId().equals(userId) ||  ( bean.getRe_step()==2 && bean.getId().equals("admin123")) ){
+  }else if(bean.getId().equals(userId) || bean.getChkid().equals(userId)){
 %>	
 <div id="board">
    <h2><%=bean.getId() %>님의 1:1 문의 내용</h2>
