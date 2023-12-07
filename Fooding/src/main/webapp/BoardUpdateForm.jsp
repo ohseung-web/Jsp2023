@@ -56,10 +56,11 @@
 <body>
 <%
 	String id = (String)session.getAttribute("id");
+    String id_key = request.getParameter("id");
     FoodingDAO fdao = new FoodingDAO();
 	// fooding 테이블의 name, email, tel의 값을 가지고 오는 DAO 메서드 작성(foodingMemberJoin)
     FoodingBean fbean = fdao.foodingMemberJoin(id);
-	FoodingBoardBean bean = fdao.foodingBoardDetail(id);
+	FoodingBoardBean bean = fdao.foodingBoardDetail(id, id_key);
 
 	if(id==null){
 %>

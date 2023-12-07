@@ -26,6 +26,20 @@
     font-size: 16px;
     font-weight: bold;
   }
+  a{
+     display:inline-block;
+     width : 70px;
+  }
+  .nav:hover::after{
+     content: '';
+     display: block;
+     background: #222;
+     height: 5px;
+     width:70px;
+     position: absolute;
+     bottom: 1px;
+  }
+
 </style>
 </head>
 <body>
@@ -40,26 +54,26 @@
 <div class="container01">
    <table width="1000" >
      <tr height="70">
-        <td colspan="4"><img src="img/sk_logo.png" height="65"></td>
+        <td colspan="4"><a href="RentcarMain.jsp" ><img src="img/sk_logo.png" height="65"></a></td>
         <td align="center" width="200">
            <%=id %>님 환영합니다.
         </td>
      </tr>
      <tr height="50">
-        <td align="center" width="200" class="nav">
-           <a href="#">예약하기</a>
+        <td align="center" width="200" >
+           <a href="RentcarMain.jsp?section=CarReserveMain.jsp" class="nav">예약하기</a>
         </td>
-        <td align="center" width="200" class="nav">
-           <a href="#">예약확인</a>
+        <td align="center" width="200">
+           <a href="#" class="nav">예약확인</a>
         </td>
-        <td align="center" width="200" class="nav">
-           <a href="#">게시판</a>
+        <td align="center" width="200" >
+           <a href="#" class="nav">게시판</a>
         </td>
-        <td align="center" width="200" class="nav">
-           <a href="#">이벤트</a>
+        <td align="center" width="200" >
+           <a href="#" class="nav">이벤트</a>
         </td>
-        <td align="center" width="200" class="nav">
-           <a href="#">고객센터</a>
+        <td align="center" width="200" >
+           <a href="#" class="nav">고객센터</a>
         </td>
      </tr>
    </table>

@@ -3,6 +3,8 @@ package db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -31,7 +33,48 @@ public class RentCarDAO {
 	
     ////////////////////////////////////////////////////////////////////
     
+    //최신순 3대의 자동차를 리턴하는 메소드
+    public ArrayList<CarListBean> getSelectCar(){
+    	getConnect();
+    	ArrayList<CarListBean> a = new ArrayList<>();
+    	
+    	try {
+    	     String sql ="select * from rentcar order by no desc";
+    	     pstmt = con.prepareStatement(sql);
+    	     rs = pstmt.executeQuery();
+    	     int count = 0;
+    	     while(rs.next()) {
+    	    	 CarListBean cbean = new CarListBean();
+    	    	 cbean.setNo(rs.getInt(1));
+    	    	 cbean.setName(rs.getString(2));
+    	    	 cbean.setCategory(rs.getInt(3));
+    	    	 cbean.setPrice(rs.getInt(4));
+    	    	 cbean.setUsepeople(rs.getInt(5));
+    	    	 cbean.setCompany(rs.getString(6));
+    	    	 cbean.setImg(rs.getString(7));
+    	    	 cbean.setInfo(rs.getString(8));
+    	    	 a.add(cbean);
+    	    	 
+    	    	 count++;
+    	    	 if(count > 2) {
+    	    		 break;
+    	    	 }
+    	     }
+    	     
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}finally {
+    		try {
+    			 if(con != null) con.close();
+    			 if(pstmt != null) pstmt.close();
+    			 if(rs != null) rs.close();
+    		}catch(SQLException se) {
+    			se.printStackTrace();
+    		}
+    	}
+    	
+    	return a;
+    }
     
-    
-    
+    //
 }

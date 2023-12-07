@@ -44,7 +44,8 @@
 <%
 	String id = request.getParameter("id");
 	FoodingDAO fdao = new FoodingDAO();
-	FoodingBoardBean fbb = fdao.foodingBoardDetail(id);
+	String id_key = request.getParameter("id");
+	FoodingBoardBean fbb = fdao.foodingBoardDetail(id, id_key);
 %>
 <div class="container">
 	<div class="tableBox">
