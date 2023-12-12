@@ -5,20 +5,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="css/reset.css" rel="stylesheet" type="text/css">
 <style type="text/css">
-  *{box-sizing: border-box;text-decoration: none; color:black;}
   Header{
-    position:absolute;
-    left:0;
-    top:0;
+    height: 110px;
     width : 100%;
     border-bottom: 1px solid lightgray;
   }
-  .container01{
+    .headerWrap{
     width:1000px;
     margin: 0 auto;
-  }
-  table{
+  } 
+  #navi{
     border:none;
     border-collapse: collapse;
   }
@@ -45,18 +43,20 @@
 <body>
 <%
     String id =(String)session.getAttribute("id");
-    if(id == null){
-    	id="GEST";
-    }
-
 %>
 <Header>
-<div class="container01">
-   <table width="1000" >
+<div class="headerWrap">
+   <table width="1000" id="navi">
      <tr height="70">
-        <td colspan="4"><a href="RentcarMain.jsp" ><img src="img/sk_logo.png" height="65"></a></td>
+        <td colspan="4" align="left"><a href="RentcarMain.jsp" ><img src="img/sk_logo.png" height="65"></a></td>
         <td align="center" width="200">
-           <%=id %>님 환영합니다.
+        <%
+           if(id == null){ %>
+           <button type="button" onclick="location.href='RentcarMain.jsp?section=MemberLogin.jsp'">로그인</button>   
+        <% }else{ %>
+            <%=id %>님
+            <button type="button" onclick="location.href='MemberLogout.jsp'">로그아웃</button>   
+        <% } %>       
         </td>
      </tr>
      <tr height="50">
@@ -64,7 +64,7 @@
            <a href="RentcarMain.jsp?section=CarReserveMain.jsp" class="nav">예약하기</a>
         </td>
         <td align="center" width="200">
-           <a href="#" class="nav">예약확인</a>
+           <a href="RentcarMain.jsp?section=CarReserveView.jsp" class="nav">예약확인</a>
         </td>
         <td align="center" width="200" >
            <a href="#" class="nav">게시판</a>

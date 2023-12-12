@@ -5,17 +5,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="css/reset.css" rel="stylesheet" type="text/css">
 <style type="text/css">
  *{box-sizing: border-box;text-decoration: none; color:black;}
   Footer{
-    position:absolute;
-    left:0;
-    bottom:0;
     width : 100%;
     background: rgb(222,226,230);
   }
-  .container02{
-    width:1000px;
+  .footerWrap{
+    width:1000px; 
     height : 150px;
     margin: 0 auto;
   }
@@ -33,7 +31,7 @@
 </head>
 <body>
 <Footer>
-<div class="container02">
+<div class="footerWrap">
   <div class="footerimg">
      <img alt="" src="img/sk_logo_gray.png" >
   </div>
