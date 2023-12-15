@@ -1,3 +1,4 @@
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="db.CarViewBean"%>
 <%@page import="db.CarReserveBean"%>
 <%@page import="java.util.ArrayList"%>
@@ -40,6 +41,8 @@
       //한사람이 여러대를 에약 할 수 있으므로 ArrayList를 이용함
       RentCarDAO rdao = new RentCarDAO();
       ArrayList<CarViewBean> carlist = rdao.getAllReserve(id);
+      DecimalFormat dif = new DecimalFormat("#,##0");
+      
 %>
       <div class="reserve">
       <h2>차량 예약 내역</h2>
@@ -68,12 +71,28 @@
             <td align="center" whidth="150" ><%=cbean.getName()%></td>
             <td align="center" whidth="150" ><%=cbean.getRday()%></td>
             <td align="center" whidth="60" ><%=cbean.getDday()%></td>
-            <td align="center" whidth="100" ><%=cbean.getPrice()%>원</td>
+            <td align="center" whidth="100" ><%=dif.format(cbean.getPrice()) %>원</td>
             <td align="center" whidth="60" ><%=cbean.getCarcnt()%></td>
-            <td align="center" whidth="60" ><%=cbean.getUsein()%></td>
-            <td align="center" whidth="60" ><%=cbean.getUsewifi()%></td>
-            <td align="center" whidth="60" ><%=cbean.getUsenavi()%></td>
-            <td align="center" whidth="60" ><%=cbean.getUsebaby()%></td>
+            <td align="center" whidth="60" >
+             <% 
+                if(cbean.getUsein() == 1){
+             %> 적용 <%  }else{ %> 미적용 <% } %>
+            </td>
+            <td align="center" whidth="60" >
+               <% 
+                if(cbean.getUsewifi() == 1){
+             %> 적용 <%  }else{ %> 미적용 <% } %>
+            </td>
+            <td align="center" whidth="60" >
+               <% 
+                if(cbean.getUsenavi() == 1){
+             %> 적용 <%  }else{ %> 미적용 <% } %>
+             </td>
+            <td align="center" whidth="60" >
+              <% 
+                if(cbean.getUsebaby() == 1){
+             %> 적용 <%  }else{ %> 미적용 <% } %>
+            </td>
             <td align="center" whidth="90" >
                <button type="button" onclick="location.href='CarReserveDel.jsp?no=<%=cbean.getNo()%>'">삭제</button>
             </td>

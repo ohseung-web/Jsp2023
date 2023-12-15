@@ -227,7 +227,7 @@ public class RentCarDAO {
     	     pstmt.setInt(4, bean.getDday());
     	     pstmt.setString(5, bean.getRday());
     	     pstmt.setInt(6, bean.getUsein());
-    	     pstmt.setInt(7, bean.getUserwifi());
+    	     pstmt.setInt(7, bean.getUsewifi());
     	     pstmt.setInt(8, bean.getUsenavi());
     	     pstmt.setInt(9, bean.getUsebaby());
     	     pstmt.executeUpdate();

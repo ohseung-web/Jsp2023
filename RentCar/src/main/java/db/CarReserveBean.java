@@ -9,7 +9,7 @@ public class CarReserveBean {
 	private int dday;//대여기간
 	private String rday;//대여일 Date  type으로는 받아 오질 못함
 	private int usein;
-	private int userwifi;
+	private int usewifi;
 	private int usenavi;
 	private int usebaby;
 	
@@ -55,11 +55,11 @@ public class CarReserveBean {
 	public void setUsein(int usein) {
 		this.usein = usein;
 	}
-	public int getUserwifi() {
-		return userwifi;
+	public int getUsewifi() {
+		return usewifi;
 	}
-	public void setUserwifi(int userwifi) {
-		this.userwifi = userwifi;
+	public void setUsewifi(int usewifi) {
+		this.usewifi = usewifi;
 	}
 	public int getUsenavi() {
 		return usenavi;

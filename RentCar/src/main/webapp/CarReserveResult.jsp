@@ -51,7 +51,7 @@
    Date today = new Date(); // 오늘날짜
    
    //날짜를 변환해주는 클래스 선언
-   SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+   SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
    DecimalFormat dcf = new DecimalFormat("#,##0");
    
 	   rday = sdf.parse(rbean.getRday());
@@ -59,6 +59,7 @@
  
    //날짜비교 메소드를 사용가능해 진다.
    int compare = rday.compareTo(today);
+   //예약하려는 날짜와 오늘날짜가 같으면 0이 넘어옴
    //예약하려는 날짜보다 오늘날짜가 크다면 -1이 넘어옴
    //예약하려는 날짜가 오늘날짜 보다 크거나 같으면 1이 넘어몸;
     
@@ -69,35 +70,34 @@
 	      history.go(-1);
 	   </script>
 	<%   
-      }
-       
-      // 결과 적으로 아무런 문제가 없다면 데이터를 저장 후 결과페이지 보여주기
+  }else{
+	  
+	  // 결과 적으로 아무런 문제가 없다면 데이터를 저장 후 결과페이지 보여주기
       // id 값이 빈클래스에 존재하지 않기때문에 
       
-      String dbId = (String)session.getAttribute("id");
-      rbean.setId(dbId);
-      
+     // String dbId = (String)session.getAttribute("id");
+      rbean.setId(id);
+     
       //데이터 베이스에 빈클래스를 저장
       RentCarDAO rdao = new RentCarDAO();
       rdao.setReserveCar(rbean);
-      
-      //차량 정보 얻어오기 : 차량이미지 가져오기 위해 작성
-      CarListBean cbean = rdao.getOneCar(rbean.getNo());
-      // 차량 총예약 금액
-      int totalcar = cbean.getPrice()*rbean.getCarcnt()*rbean.getDday() ;
-      
-      int usein = 0;
-      if(rbean.getUsein()==1) usein = 10000; //보험
-      int usenavi = 0;
-      if(rbean.getUsenavi()==1) usenavi = 10000; //wifi
-      int usebaby = 0;
-      if(rbean.getUsebaby()==1) usebaby = 10000; //베이비시트
-      
+  
+     //차량 정보 얻어오기 : 차량이미지 가져오기 위해 작성
+     CarListBean cbean = rdao.getOneCar(rbean.getNo());
+     // 차량 총예약 금액
+     int totalcar = cbean.getPrice()*rbean.getCarcnt()*rbean.getDday() ;
+  
+     int usein = 0;
+     if(rbean.getUsein()==1) usein = 10000; //보험
+     int usenavi = 0;
+     if(rbean.getUsenavi()==1) usenavi = 10000; //네비
+     int usebaby = 0;
+     if(rbean.getUsebaby()==1) usebaby = 10000; //베이비시트
+
     //옵션 금액
-      int totaloption = rbean.getCarcnt()*rbean.getDday()*(usein + usenavi + usebaby);
-   %>
- 
-   <div class="reserve">
+    int totaloption = rbean.getCarcnt()*rbean.getDday()*(usein + usenavi + usebaby);
+%>
+      <div class="reserve">
       <h2>차량 예약 완료 화면</h2>
       <table width="1000">
          <tr>
@@ -115,5 +115,9 @@
          </tr>
       </table>
    </div>
+<%        
+  }
+%>
+   
 </body>
 </html>

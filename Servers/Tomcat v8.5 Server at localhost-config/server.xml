@@ -185,7 +185,7 @@
       <Context docBase="Fooding" path="/Fooding" reloadable="true" source="org.eclipse.jst.jee.server:Fooding">
         <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" maxWaite="5000" name="jdbc/pool" password="12345678" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/jspdatabase?serverTimezone=UTC" username="root"/>
       </Context>
-      <Context docBase="FileUpLoad" path="/FileUpLoad" reloadable="true" source="org.eclipse.jst.jee.server:FileUpLoad"/></Host>
+      <Context docBase="FileUpLoad" path="/FileUpLoad" reloadable="true" source="org.eclipse.jst.jee.server:FileUpLoad"/><Context docBase="MVC_day01" path="/MVC_day01" reloadable="true" source="org.eclipse.jst.jee.server:MVC_day01"/></Host>
     </Engine>
   </Service>
 </Server>
