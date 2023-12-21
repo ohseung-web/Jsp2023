@@ -97,27 +97,31 @@
     //옵션 금액
     int totaloption = rbean.getCarcnt()*rbean.getDday()*(usein + usenavi + usebaby);
 %>
-      <div class="reserve">
-      <h2>차량 예약 완료 화면</h2>
-      <table width="1000">
-         <tr>
-            <td align="center" ><img src="img/<%=cbean.getImg()%>" id="reserveImg"></td>
-         </tr>
-         <tr height="50">
-           <td align="center" >차량 총에약 금액 <%=dcf.format(totalcar)%>원</td>
-         </tr>
-          <tr height="50">
-            <td align="center" >차량 총옵션 금액 <%=dcf.format(totaloption)%>원</td>
-         </tr>
-         </tr>
-          <tr height="50">
-           <td align="center" >차량 총금액 <%=dcf.format(totaloption + totalcar)%>원</td>
-         </tr>
-      </table>
-   </div>
-<%        
+	<div class="reserve">
+		<h2>차량 예약 완료 화면</h2>
+		<table width="1000">
+			<tr>
+				<td align="center"><img src="img/<%=cbean.getImg()%>"
+					id="reserveImg"></td>
+			</tr>
+			<tr height="50">
+				<td align="center">차량 총에약 금액 <%=dcf.format(totalcar)%>원
+				</td>
+			</tr>
+			<tr height="50">
+				<td align="center">차량 총옵션 금액 <%=dcf.format(totaloption)%>원
+				</td>
+			</tr>
+			</tr>
+			<tr height="50">
+				<td align="center">차량 총금액 <%=dcf.format(totaloption + totalcar)%>원
+				</td>
+			</tr>
+		</table>
+	</div>
+	<%        
   }
 %>
-   
+
 </body>
 </html>

@@ -83,7 +83,7 @@
         	 if(bean.getSubject() != null){
         		   %>
         	        <tr height="40">
-        	           <td width="50" align="center"><%=number-- %></td>
+        	           <td width="50" align="left"><%=number-- %></td>
         	           <td width="320" align="left"><a href="BoardInfo.jsp?num=<%=bean.getNum()%>">
         	           <%
         	              if(bean.getRe_step() > 1){
@@ -94,9 +94,9 @@
         	              }
         	           %>
         	              <%=bean.getSubject() %></a></td>
-        	           <td width="100" align="center"><%=bean.getWriter() %></td>
-        	           <td width="150" align="center"><%=bean.getReg_date() %></td>
-        	           <td width="80" align="center"><%=bean.getReadcount() %></td>
+        	           <td width="100" align="left"><%=bean.getWriter() %></td>
+        	           <td width="150" align="left"><%=bean.getReg_date() %></td>
+        	           <td width="80" align="left"><%=bean.getReadcount() %></td>
         	       </tr> 
         	
         	<% } %> 
