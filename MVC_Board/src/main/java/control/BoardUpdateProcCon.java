@@ -40,7 +40,7 @@ public class BoardUpdateProcCon extends HttpServlet {
 			BoardDAO bdao = new BoardDAO();
 			bdao.updateBoard(num,subject,content);
 			// 수정이 완료되었다면 전체게시글 보기로 이동 시킴
-			request.setAttribute("msg", "3");
+            //  request.setAttribute("msg", "3");
 			RequestDispatcher rdis = request.getRequestDispatcher("BoardListCon.do");
 			rdis.forward(request, response);
 			

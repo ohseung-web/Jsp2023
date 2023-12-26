@@ -78,7 +78,7 @@
 			<!-- number-1을 이용하여 1씩 감소한다.  number=10이면 다음 number=9가된다 -->
 			<c:set var="number" value="${number - 1 }" />
 		</c:forEach>
-</table>
+    </table>
 	
 	<div class="pageing">
 		<!-- 페이지 카운터링 소스 작성 [1] [2] [3] [다음] ....... -->
