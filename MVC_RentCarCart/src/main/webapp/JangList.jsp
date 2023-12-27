@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,6 +69,7 @@
 
    <div class="jangList">
        <h2>장바구니</h2>
+      
 		<table width="800"  class="janglisttable">
 			<tr height="40" class="title">
 				<td align="center"  width="10">체크</td>
@@ -79,8 +81,8 @@
 			</tr>
 			<c:set var="index" value="0"/>
 			<c:forEach var="jdto" items="${jalist}">
+			  <form action ="RentDeleteJang.do" method="post">
 				<!-- 하나씩 처리해야 되니까 form 태그는 forEach 문 내부에 배치시킨다. -->
-				<form action ="RentDeletePro.do" method="post">
 					<tr height="40">
 						<td align="center"  width="10">
 							<input type="checkbox"  name="chk" value="${jdto.no}">
@@ -91,25 +93,26 @@
 						</td>
 						<td align="center" width="50" >
 						    <div class="cntcontainer">
-						       <input type="button" value="-" class="minus" onclick="minusfn(${index})">
-						       <input type="text" value="${jdto.cnt }" class="spancnt">
-						       <input type="button" value="+" class="plus" onclick="plusfn(${index})">
+						       <input type="button" value="-" class="minus" onclick="fn_update(false,${index},this.form)">
+						       <input type="text"   name="cnt" value="${jdto.cnt }" class="spancnt" >
+						       <input type="button" value="+" class="plus" onclick="fn_update(true,${index},this.form)">
 						       <input type="hidden" name="no" value="${jdto.no}" class="carno" />
+						       <!-- <input type="submit" value="수정" formaction="RentUpdate.do"/> -->
 						    </div>
 							<%-- <input type="text" value="${jdto.cnt }"  name="cnt"  size="2"  id="jangcnt">개         --%>      
 							<!-- <input type="button" value="수정"  onclick="location.href='RentUpdate.do?no=${jdto.no }&cnt=${qty }'"> -->
-							
-							<!-- <input type="button" value="수정" onclick="fn_rentUpdate(this.form)" />  -->
+							<%-- <input type="hidden" name="no" value="${jdto.no}" class="carno" /> --%>
+							<!-- <input type="submit" value="수정" formaction="RentUpdate.do"/>  -->
 						</td>
-						<td align="center" width="50">${jdto.price }</td>
-						<td align="center" width="50">${jdto.price * jdto.cnt }</td>
+						<td align="center" width="50"><fmt:formatNumber value="${jdto.price }" pattern="#,##0" /></td>
+						<td align="center" width="50" id="total"><fmt:formatNumber value="${jdto.price * jdto.cnt }" pattern="#,##0" /></td>
 					</tr> 
-			   </form>
-			   <c:set var="index" value="${index = index + 1 }"/>
+					<c:set var="index" value="${index = index + 1}"/>
+				</form>
 			</c:forEach>
 			<tr height="40">
 				<td align="center" colspan="6">
-					<input type="submit"   value="삭제" class="bottombtn" >
+					<input type="button"   value="삭제" class="bottombtn" onclick="fn_delete()">
 					<input type="button"   value="목록보기" onclick="location.href='RentListPro.do'" class="bottombtn" >
 				</td>
 			 </tr>
@@ -117,73 +120,87 @@
     </div>		
  		
  <script>
- 	// 자바스크립트 변수는 JSP 변수(EL값)로 사용할 수 없어요.
- 	// 반대로 JSP 변수는 자바스크립트에서 사용할 수 있어요.
- 	// var qty = document.getElementById("jangcnt").value;
-    // var cnt = qty;
-    // console.log(cnt);
-    
+ 	// 자바스크립트 변수는 JSP 변수(EL값)로 사용할 수 없다.
+ 	// 반대로 JSP 변수는 자바스크립트에서 사용할 수 있다.
+ 	   
     let minus = document.querySelectorAll(".minus");
     let plus = document.querySelectorAll(".plus");
     let cntinput = document.querySelectorAll(".spancnt");
-    let carNumber = document.querySelectorAll(".carno");
-    let quantity = 1;
-    console.log(minus);
-    console.log(plus);
+    let total = document.querySelectorAll("#total");
     
-    function fn_rentUpdate(f) {
-    	f.action = 'RentUpdate.do';
-    	f.submit();  // 서브밋은 input들을 파라미터를 붙여서 보내니까 따로 안 보내도 된다.
-    }
+    // 삭제 버튼을 클릭해도 삭제가 안되는 이유는 삭제버튼이 form태그 바깥쪽에 위치하기 때문이다.
+    // 이를 해결하기 위해 자바스크립트에서 삭제함수를 만들어 사용한다.
 
-    // 마이너스 버튼 클릭시 수량 감소
-    function minusfn(index){
-    	if(cntinput[index].value == 1){
-    		alert("최대 수량 : 1대 입니다.");
-		}else{
-			quantity--;
-            cntinput[index].value = quantity;
-            console.log(quantity);
-		}
-    }
-    
-    function plusfn(index){
-    	if(cntinput[index].value >=1){
-			   quantity++;
-	           cntinput[index].value = quantity;
-	           console.log(quantity);
+    function fn_delete(){
+    	let param="";
+    	let chk_list = document.getElementsByName("chk");
+    	
+    	for(let i=0; i<chk_list.length; i++){
+    		if(chk_list[i].checked){
+    			param = (param + chk_list[i].value+" ");
+    		}
+    	}
+    	
+    	location.href='RentDeleteJang.do?chk='+param;
+    } 
+  
+    // plus, minus버튼클릭시 수량 증가/감소 시킨다.
+    // 증가/감소된 수량을 RentUpdate.do를 이용하여 데이터 베이스에 넘기는 함수
+    // f는 this.form의 매개변수이다.
+    function fn_update(isBool,i,f){
+    	
+    	if(isBool == false){
+    		
+    		if( parseInt(cntinput[i].value) > 1 ){
+	    		 cntinput[i].value = parseInt(cntinput[i].value)-1;
+			}else{
+	            window.alert("수량은 1에서 9999 사이의 값으로 입력해 주십시오.");
 			}
+    		
+    	}else {
+    		
+    		if( parseInt(cntinput[i].value) < 9999){
+		           cntinput[i].value = parseInt(cntinput[i].value) + 1;
+				}else{
+					window.alert("수량은 1에서 9999 사이의 값으로 입력해 주십시오.");	
+				}
+    		
+    	}
+    	
+    	f.action ='RentUpdate.do';
+    	f.submit();
     }
     
-    /* for(let i=0; i<minus.length; i++){
-    	
+    
+    
+    /* function fn_rentUpdate(f) {
+    	f.action = "RentUpdate.do";
+    	f.submit();  // 서브밋은 input들을 파라미터를 붙여서 보내니까 따로 안 보내도 된다.
+    }  */
+    
+    
+   /* for(let i=0; i<minus.length; i++){
+	        // 마이너스 버튼 클릭시 수량 감소
     		minus[i].addEventListener("click",()=>{
-    			if(cntinput[i].value >= 1){
-    				quantity--;
-                    cntinput[i].value = quantity;
-                    console.log(quantity);
+    			if( parseInt(cntinput[i].value) > 1 ){
+    	    		 cntinput[i].value = parseInt(cntinput[i].value)-1;
     			}else{
-    				alert("최대 수량 : 1대 입니다.");
+    	            window.alert("수량은 1에서 9999 사이의 값으로 입력해 주십시오.");
     			}
-                
             })
-    	
-    }
-    
-    // 플러스 버튼 클릭시 수량 증가
-    for(let i=0; i<plus.length; i++){
-    	
-    		plus[i].addEventListener("click",() =>{
-    			if(cntinput[i].value >=1){
-    			   quantity++;
-     	           cntinput[i].value = quantity;
-     	           console.log(quantity);
-    			}
-    	           
+            
+            // 플러스 버튼 클릭시 수량 증가
+            plus[i].addEventListener("click",() =>{
+    			if( parseInt(cntinput[i].value) < 9999){
+    		           cntinput[i].value = parseInt(cntinput[i].value) + 1;
+    				}else{
+    					window.alert("수량은 1에서 9999 사이의 값으로 입력해 주십시오.");	
+    				}
     	    })
-        
-    } */
+    	 
+    } */ 
     
+ 
  </script>
    
 </body>

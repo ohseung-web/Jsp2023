@@ -31,20 +31,34 @@ public class JangProc extends HttpServlet {
     	JangDTO jdto = new JangDTO();
     	JangDAO jdao = new JangDAO();
   
+    	// 반드시 no를 null처리 하여야 한다.
     	if(request.getParameter("no") != null) {
     		
     		// Rentinfo에서 떠 넘겨준 값을 JangDTO에 insert 하기
-        	jdto.setNo(Integer.parseInt(request.getParameter("no")));
+    		int no = Integer.parseInt(request.getParameter("no"));
+    		int cnt = Integer.parseInt(request.getParameter("cnt"));
+    		
+        	jdto.setNo(no);
         	jdto.setImg(request.getParameter("img"));
         	jdto.setName(request.getParameter("name"));
-        	jdto.setCnt(Integer.parseInt(request.getParameter("cnt")));
+        	jdto.setCnt(cnt);
         	jdto.setPrice(Integer.parseInt(request.getParameter("price")));
         	
-        	// JangDTO의 값을 JangDAO로 insert 하기, insert 하고 난 후 select 하여 값을 확인하고 장바구니에 담는다.
-        	jdao.insertJang(jdto);
+        	// 장바구니에 중복으로 상품이 담기지 못하도록 rentjang테이블에 no에 해당하는 상품의 개수를 세어서 담는다.
+        	int count = jdao.getNoCount(no);
+        	
+        	if(count == 0) {
+        		// insert 
+            	jdao.insertJang(jdto);
+            	
+        	}else {
+        		// rentjang테이블에 같은 no의 상품이존재 하기때문에 수량만 업데이트한다.
+        		jdao.updateNoCount(cnt, no);
+        	}
     	}
     	
-    	// 값을 배열로 담아 장바구니 목록으로 리턴
+    	 // insert 하고 난 후 select 하여 값을 확인한다.
+    	// 값을 배열로 담아 장바구니 목록으로 리턴한다.
     	ArrayList<JangDTO> jalist = jdao.getAllJang();
     	request.setAttribute("jalist", jalist);
     	

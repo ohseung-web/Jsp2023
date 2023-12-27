@@ -51,7 +51,6 @@
                    <input type="hidden"  name="no"  value="${rdto.no }">
                    <input type ="hidden"  name="img"  value="${rdto.img }" >
                    <input type ="hidden"  name="name"  value="${rdto.name }" >
-                   <%-- <input type ="hidden"  name="cnt"  value="${cnt }" > --%>
                    <input type ="hidden"  name="price"  value="${rdto.price }" >
                    <input type="submit"  value="장바구니 담기">&nbsp;&nbsp;
                    <input type="button"   value="목록보기" onclick="location.href='RentListPro.do'">

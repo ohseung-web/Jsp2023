@@ -99,5 +99,115 @@ public class JangDAO {
 		}
 	}
     
-    //
+    // 장바구니 번호를 이용하여 해당 번호가 있으면 cnt로 개수를 리턴하는 메소드
+    public int getNoCount(int no) {
+    	getConnect();
+    	int cnt = 0;
+    	
+    	try {
+      		 String sql = "select count(*) from rentjang where no=?";
+      		 pstmt = con.prepareStatement(sql);
+      	     pstmt.setInt(1, no);
+      	     rs = pstmt.executeQuery();
+      	     if(rs.next()) {
+      	    	 cnt = rs.getInt(1);
+      	     }
+   		} catch (Exception e) {
+   			e.printStackTrace();
+   		} finally {
+   			try {
+   				if (con != null)
+   					con.close();
+   				if (pstmt != null)
+   					pstmt.close();
+   				if (rs != null)
+   					rs.close();
+   			} catch (SQLException se) {
+   				se.printStackTrace();
+   			}
+   		}
+    	return cnt;
+    }
+    
+    
+    // 번호를 만족하는 개수 누적 업데이트 메소드
+    public JangDTO updateNoCount(int cnt, int no) {
+    	getConnect();
+    	
+    	JangDTO jdto = new JangDTO();
+    	try {
+     		 String sql = "update rentjang set cnt = cnt + ? where no=?";
+     		 pstmt = con.prepareStatement(sql);
+     		 pstmt.setInt(1, cnt);
+     	     pstmt.setInt(2, no);
+     	     pstmt.executeUpdate();
+  		} catch (Exception e) {
+  			e.printStackTrace();
+  		} finally {
+  			try {
+  				if (con != null)
+  					con.close();
+  				if (pstmt != null)
+  					pstmt.close();
+  				if (rs != null)
+  					rs.close();
+  			} catch (SQLException se) {
+  				se.printStackTrace();
+  			}
+  		}
+    	return jdto;
+    }
+    
+    // 번호에 해당하는 차량 한대만 삭제하는 메소드
+    public void deletejang(int no) {
+    	getConnect();
+    	
+    	try {
+    		 String sql = "delete from rentjang where no=?";
+    		 pstmt = con.prepareStatement(sql);
+    		 pstmt.setInt(1, no);
+    	     pstmt.executeUpdate();
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 		} finally {
+ 			try {
+ 				if (con != null)
+ 					con.close();
+ 				if (pstmt != null)
+ 					pstmt.close();
+ 				if (rs != null)
+ 					rs.close();
+ 			} catch (SQLException se) {
+ 				se.printStackTrace();
+ 			}
+ 		}
+    }
+    
+    // 장바구니에서 수량만 변경되는 메소드 
+    public JangDTO updatecount(int cnt, int no) {
+    	getConnect();
+    	
+    	JangDTO jdto = new JangDTO();
+    	try {
+     		 String sql = "update rentjang set cnt=?  where no=?";
+     		 pstmt = con.prepareStatement(sql);
+     		 pstmt.setInt(1, cnt);
+     	     pstmt.setInt(2, no);
+     	     pstmt.executeUpdate();
+  		} catch (Exception e) {
+  			e.printStackTrace();
+  		} finally {
+  			try {
+  				if (con != null)
+  					con.close();
+  				if (pstmt != null)
+  					pstmt.close();
+  				if (rs != null)
+  					rs.close();
+  			} catch (SQLException se) {
+  				se.printStackTrace();
+  			}
+  		}
+    	return jdto;
+    }
 }

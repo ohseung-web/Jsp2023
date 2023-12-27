@@ -50,7 +50,7 @@
         <td align="center" width="80">${rdto.info }</td>
        </tr> 
      </c:forEach> 
-     <input type="button"  value="장바구니 보기" onclick="location.href='JangProc.do'">
+ <!--     <input type="button"  value="장바구니 보기" onclick="location.href='JangProc.do'"> -->
    </table>   
   </div>
 
