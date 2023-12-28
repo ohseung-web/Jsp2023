@@ -210,4 +210,43 @@ public class JangDAO {
   		}
     	return jdto;
     }
+    
+    //상품번호에 해당하는 하나의 상품정보만 리턴하는 메소드
+    public JangDTO buyselect(int no){
+    	getConnect();
+    	JangDTO jdto = new JangDTO();
+  
+    	try {
+    		 String sql = "select * from rentjang where no=?";
+    		 pstmt = con.prepareStatement(sql);
+    		 pstmt.setInt(1, no);
+    	     rs = pstmt.executeQuery();
+    	     
+    	     if(rs.next()) {
+    	    	 
+    	    	 jdto.setNo(rs.getInt(1));
+    	    	 jdto.setImg(rs.getString(2));
+    	    	 jdto.setName(rs.getString(3));
+    	    	 jdto.setCnt(rs.getInt(4));
+    	    	 jdto.setPrice(rs.getInt(5));
+    	
+    	     }
+    	     
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 		} finally {
+ 			try {
+ 				if (con != null)
+ 					con.close();
+ 				if (pstmt != null)
+ 					pstmt.close();
+ 				if (rs != null)
+ 					rs.close();
+ 			} catch (SQLException se) {
+ 				se.printStackTrace();
+ 			}
+ 		}
+    	
+    	return jdto;
+    }
 }

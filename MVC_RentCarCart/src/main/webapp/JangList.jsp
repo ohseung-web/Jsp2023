@@ -112,8 +112,9 @@
 			</c:forEach>
 			<tr height="40">
 				<td align="center" colspan="6">
-					<input type="button"   value="삭제" class="bottombtn" onclick="fn_delete()">
+					<input type="button"   value="선택삭제" class="bottombtn" onclick="fn_delete()">
 					<input type="button"   value="목록보기" onclick="location.href='RentListPro.do'" class="bottombtn" >
+					<input type="button"   value="주문하기" onclick="OrderList()" class="bottombtn" >
 				</td>
 			 </tr>
 		</table>
@@ -130,7 +131,6 @@
     
     // 삭제 버튼을 클릭해도 삭제가 안되는 이유는 삭제버튼이 form태그 바깥쪽에 위치하기 때문이다.
     // 이를 해결하기 위해 자바스크립트에서 삭제함수를 만들어 사용한다.
-
     function fn_delete(){
     	let param="";
     	let chk_list = document.getElementsByName("chk");
@@ -144,6 +144,21 @@
     	location.href='RentDeleteJang.do?chk='+param;
     } 
   
+    // 주문하기
+    function OrderList(){
+    	
+    	let param="";
+    	let chk_list = document.getElementsByName("chk");
+    	
+    	for(let i=0; i<chk_list.length; i++){
+    		if(chk_list[i].checked){
+    			param = (param + chk_list[i].value+" ");
+    		}
+    	}
+    	
+    	location.href='OrderListPro.do?chk='+param;
+    }
+    
     // plus, minus버튼클릭시 수량 증가/감소 시킨다.
     // 증가/감소된 수량을 RentUpdate.do를 이용하여 데이터 베이스에 넘기는 함수
     // f는 this.form의 매개변수이다.
