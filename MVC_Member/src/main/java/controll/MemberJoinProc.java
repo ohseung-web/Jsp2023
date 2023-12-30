@@ -75,9 +75,6 @@ public class MemberJoinProc extends HttpServlet {
 			rdis.forward(request, response);
 		}
 		
-		
-		
-		
-		
+
 	}
 }

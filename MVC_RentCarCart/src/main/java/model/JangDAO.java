@@ -249,4 +249,128 @@ public class JangDAO {
     	
     	return jdto;
     }
-}
+    
+    // 주문일자와 오늘날짜가 같을 경우 주문번호가 1씩 증가되는 메소드
+    public int noaddSelect() {
+    	getConnect();
+    	// maysql ifnull(a,0) => a가 null이면 0이 출력
+    	int maxno = 0;
+    	try {
+   		 String sql = "select ifnull(max(order_no),0)+1 from order_product where order_date = current_date()";
+   		 pstmt = con.prepareStatement(sql);
+   	     rs = pstmt.executeQuery();
+   	     if(rs.next()) {
+   	    	 maxno = rs.getInt(1);
+   	     }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null)
+					con.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
+   	
+   	return maxno;
+    	
+    }
+    
+   // 구매한 상품 한개의 정보를 저장 (insert)하는 메소드를 작성
+    public void insertProduct(ProductDTO pdto) {
+    	getConnect();
+    	
+    	try {
+      		 String sql = "insert into order_product values(current_date(),?,?,?,?,?,?,?,?)";
+      		 pstmt = con.prepareStatement(sql);
+      		 pstmt.setInt(1, pdto.getOrder_no());
+      		 pstmt.setInt(2, pdto.getNo());
+      		 pstmt.setString(3, pdto.getImg());
+      		 pstmt.setString(4, pdto.getName());
+      		 pstmt.setInt(5, pdto.getCnt());
+      		 pstmt.setInt(6, pdto.getPrice());
+      		 pstmt.setInt(7, pdto.getTotal());
+      		 pstmt.setString(8, pdto.getId());
+      		 pstmt.executeUpdate();
+      	  
+   		} catch (Exception e) {
+   			e.printStackTrace();
+   		} finally {
+   			try {
+   				if (con != null)
+   					con.close();
+   				if (pstmt != null)
+   					pstmt.close();
+   				if (rs != null)
+   					rs.close();
+   			} catch (SQLException se) {
+   				se.printStackTrace();
+   			}
+   		}
+    	
+    }
+    
+   // 구매한 상품 한개의 배송자 정보를 저장 (insert)하는 메소드를 작성
+    public void insertBuy(BuyDTO bdto) {
+    	getConnect();
+    	
+    	try {
+      		 String sql = "insert into order_address values(current_date(),?,?,?,?,?,?,?)";
+      		 pstmt = con.prepareStatement(sql);
+      		 pstmt.setInt(1, bdto.getOrder_no());
+      		 pstmt.setString(2, bdto.getBuy_name());
+      		 pstmt.setString(3, bdto.getBuy_phone());
+      		 pstmt.setString(4, bdto.getBuy_email());
+      		 pstmt.setInt(5, bdto.getBuy_postcode());
+      		 pstmt.setString(6, bdto.getBuy_roadaddress());
+      		 pstmt.setString(7, bdto.getId());
+      		 pstmt.executeUpdate();
+   		} catch (Exception e) {
+   			e.printStackTrace();
+   		} finally {
+   			try {
+   				if (con != null)
+   					con.close();
+   				if (pstmt != null)
+   					pstmt.close();
+   				if (rs != null)
+   					rs.close();
+   			} catch (SQLException se) {
+   				se.printStackTrace();
+   			}
+   		}	
+    }
+    
+    // 구매정보에 담긴 상품을 장바구니에서 삭제하는 메소드
+    public void deleteJang(int no) {
+    	getConnect();
+    	
+    	try {
+     		 String sql = "delete from rentjang where no=?";
+     		 pstmt = con.prepareStatement(sql);
+     		 pstmt.setInt(1, no);
+     		 pstmt.executeUpdate();
+     	  
+  		} catch (Exception e) {
+  			e.printStackTrace();
+  		} finally {
+  			try {
+  				if (con != null)
+  					con.close();
+  				if (pstmt != null)
+  					pstmt.close();
+  				if (rs != null)
+  					rs.close();
+  			} catch (SQLException se) {
+  				se.printStackTrace();
+  			}
+    } 
+   }
+    
+    
+ }

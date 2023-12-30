@@ -27,10 +27,13 @@ public class OrderList extends HttpServlet {
 	
     protected void reqPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+    	request.setCharacterEncoding("UTF-8");
+    	
     	JangDAO jdao = new JangDAO();
     	JangDTO jdto = new JangDTO();
     	ArrayList<JangDTO> ac = new ArrayList<>();
     	
+		/* String loginId = request.getParameter("loginId"); */
     	String chk = request.getParameter("chk");
     	String [] arrChk = chk.split(" ");
     	int aChk = 0;
@@ -47,6 +50,8 @@ public class OrderList extends HttpServlet {
     	
     	//select한 결과를 저장
     	request.setAttribute("ac", ac);
+		/* request.setAttribute("loginId", loginId); */
+    	
     	RequestDispatcher rdis = request.getRequestDispatcher("RentcarMain.jsp?section=OrderList.jsp");
     	rdis.forward(request, response);
     	

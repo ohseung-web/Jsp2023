@@ -51,7 +51,8 @@
 <body>
   <div class="addressContainer">
    <h2> 주문 상세내역</h2>
-   <form action="ToOrderListProc.do" name="oder" method="post">
+   아이디 : ${rentlogin}
+   <form action="ToOrderListProc.do" name="formname" method="post">
       <table width="600" border="1" id="ordertable">
        <tr height="40">
          <td width="50">상품번호</td>
@@ -77,6 +78,7 @@
                 <input type="hidden" name="cnt" value="${ck.cnt }">
                </td>
                <td width="50">${ck.price }
+                <input type="hidden" name="rentlogin" value="${rentlogin}">
                 <input type="hidden" name="price" value="${ck.price }">
                </td>
                <td width="50">${ck.price * ck.cnt}</td>
@@ -136,7 +138,9 @@
   </div>
   
   <script type="text/javascript">
-  
+   let loginId = "<c:out value='${rentlogin}'/>"; 
+   console.log(rentlogin)
+   
   // 우편번호 찾기 API코드
     function DaumPostcode(){
     	
@@ -158,12 +162,12 @@
     }
   
     function checkMember(){
-    	
+        // 정규표현식 
     	let regExpName = /^[가-힣]*$/; /* 한글만 받겠다. */
     	let regExpPhone = /^\d{3}-\d{3,4}-\d{4}$/;
     	let regExpEmail = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
     	
-    	let form = document.order;
+    	let formname = document.formname;
     	let name = document.getElementById('buy_name').value;
     	let email = document.getElementById('email').value;
     	let phone01 = document.getElementById('phone01').value;
@@ -184,7 +188,7 @@
     		return
     	}
     	
-    	form.submit();
+    	formname.submit();
     }
   
   </script>

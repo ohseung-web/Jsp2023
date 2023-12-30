@@ -69,7 +69,7 @@
 
    <div class="jangList">
        <h2>장바구니</h2>
-      
+    
 		<table width="800"  class="janglisttable">
 			<tr height="40" class="title">
 				<td align="center"  width="10">체크</td>
@@ -97,13 +97,8 @@
 						       <input type="text"   name="cnt" value="${jdto.cnt }" class="spancnt" >
 						       <input type="button" value="+" class="plus" onclick="fn_update(true,${index},this.form)">
 						       <input type="hidden" name="no" value="${jdto.no}" class="carno" />
-						       <!-- <input type="submit" value="수정" formaction="RentUpdate.do"/> -->
 						    </div>
-							<%-- <input type="text" value="${jdto.cnt }"  name="cnt"  size="2"  id="jangcnt">개         --%>      
-							<!-- <input type="button" value="수정"  onclick="location.href='RentUpdate.do?no=${jdto.no }&cnt=${qty }'"> -->
-							<%-- <input type="hidden" name="no" value="${jdto.no}" class="carno" /> --%>
-							<!-- <input type="submit" value="수정" formaction="RentUpdate.do"/>  -->
-						</td>
+						</td>    
 						<td align="center" width="50"><fmt:formatNumber value="${jdto.price }" pattern="#,##0" /></td>
 						<td align="center" width="50" id="total"><fmt:formatNumber value="${jdto.price * jdto.cnt }" pattern="#,##0" /></td>
 					</tr> 
@@ -119,15 +114,50 @@
 			 </tr>
 		</table>
     </div>		
- 		
+  
+ 	<%-- <input type="text" value="${jdto.cnt }"  name="cnt"  size="2"  id="jangcnt">개         --%>      
+	<!-- <input type="button" value="수정"  onclick="location.href='RentUpdate.do?no=${jdto.no }&cnt=${qty }'"> -->
+	<%-- <input type="hidden" name="no" value="${jdto.no}" class="carno" /> --%>
+	<!-- <input type="submit" value="수정" formaction="RentUpdate.do"/>  -->
+	
+		
  <script>
- 	// 자바스크립트 변수는 JSP 변수(EL값)로 사용할 수 없다.
+ 
+ 	// 자바스크립트 변수는 JSP 변수(EL값)을 직접적으로는 사용할 수 없다.
  	// 반대로 JSP 변수는 자바스크립트에서 사용할 수 있다.
- 	   
     let minus = document.querySelectorAll(".minus");
     let plus = document.querySelectorAll(".plus");
     let cntinput = document.querySelectorAll(".spancnt");
     let total = document.querySelectorAll("#total");
+   
+    // 자바스크립트에세 EL로 받아온 값을 변수로 사용하는 방법
+	let loginId = "<c:out value='${rentlogin}' />";
+	
+	// 주문하기
+    function OrderList(){
+		
+		// 주문하기전 로그인 확인 에러체크
+    	if(loginId == ""){
+    		// 로그인되면 메인화면, 아니면 Error.jsp로 이동하는 Servlet으로 이동
+    		/* location.href='LoginOK.do'; */
+    		
+    		alert("로그인 후 사용하세요!");
+    		location.href='RentcarMain.jsp?section=MemberLogin.jsp';	
+    		
+        }else {
+    		let param="";
+        	let chk_list = document.getElementsByName("chk");
+        	
+        	for(let i=0; i<chk_list.length; i++){
+        		if(chk_list[i].checked){
+        			param = (param + chk_list[i].value+" ");
+        		}
+        	}
+    		
+    		location.href='OrderListPro.do?chk='+param;
+        }	
+  }
+	
     
     // 삭제 버튼을 클릭해도 삭제가 안되는 이유는 삭제버튼이 form태그 바깥쪽에 위치하기 때문이다.
     // 이를 해결하기 위해 자바스크립트에서 삭제함수를 만들어 사용한다.
@@ -144,20 +174,9 @@
     	location.href='RentDeleteJang.do?chk='+param;
     } 
   
-    // 주문하기
-    function OrderList(){
     	
-    	let param="";
-    	let chk_list = document.getElementsByName("chk");
+    
     	
-    	for(let i=0; i<chk_list.length; i++){
-    		if(chk_list[i].checked){
-    			param = (param + chk_list[i].value+" ");
-    		}
-    	}
-    	
-    	location.href='OrderListPro.do?chk='+param;
-    }
     
     // plus, minus버튼클릭시 수량 증가/감소 시킨다.
     // 증가/감소된 수량을 RentUpdate.do를 이용하여 데이터 베이스에 넘기는 함수
@@ -185,6 +204,7 @@
     	f.action ='RentUpdate.do';
     	f.submit();
     }
+    
     
     
     

@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.JangDAO;
 import model.JangDTO;
@@ -31,6 +32,9 @@ public class JangProc extends HttpServlet {
     	JangDTO jdto = new JangDTO();
     	JangDAO jdao = new JangDAO();
   
+//    	HttpSession session = request.getSession();
+//    	String loginid = (String)session.getAttribute("rentlogin");
+    	
     	// 반드시 no를 null처리 하여야 한다.
     	if(request.getParameter("no") != null) {
     		
@@ -61,6 +65,7 @@ public class JangProc extends HttpServlet {
     	// 값을 배열로 담아 장바구니 목록으로 리턴한다.
     	ArrayList<JangDTO> jalist = jdao.getAllJang();
     	request.setAttribute("jalist", jalist);
+//    	request.setAttribute("loginid", loginid);
     	
     	RequestDispatcher rdis = request.getRequestDispatcher("RentcarMain.jsp?section=JangList.jsp");
     	rdis.forward(request, response);

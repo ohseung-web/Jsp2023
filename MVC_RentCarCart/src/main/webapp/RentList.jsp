@@ -38,8 +38,6 @@
      </tr>
      <!-- 반복문 코딩 입력 위치 -->
      <c:forEach var="rdto"  items="${alist }">
-        <%--  out.print("no"+${rdto.no })
-         out.print("no"+${rdto.img }) --%>
        <tr height="40">
         <td align="center" width="50">${rdto.no }</td>
         <td align="center" width="50"><a href="RentInfo.do?no=${rdto.no }">
@@ -50,7 +48,6 @@
         <td align="center" width="80">${rdto.info }</td>
        </tr> 
      </c:forEach> 
- <!--     <input type="button"  value="장바구니 보기" onclick="location.href='JangProc.do'"> -->
    </table>   
   </div>
 

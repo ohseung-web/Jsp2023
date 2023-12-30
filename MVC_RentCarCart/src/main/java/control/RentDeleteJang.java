@@ -19,11 +19,9 @@ public class RentDeleteJang extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		reqPro(request, response);
 	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		reqPro(request, response);
 	}
-	
     protected void reqPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
     	request.setCharacterEncoding("UTF-8");
@@ -48,7 +46,6 @@ public class RentDeleteJang extends HttpServlet {
     	
     	RequestDispatcher rdis = request.getRequestDispatcher("RentcarMain.jsp?section=JangList.jsp");
     	rdis.forward(request, response);
-    	
 	}
 
 }

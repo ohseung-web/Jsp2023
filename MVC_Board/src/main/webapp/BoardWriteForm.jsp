@@ -73,7 +73,7 @@
 			let formname = document.formname
 			let sub = document.getElementsByClassName("b_subject")[0];
 			let cont = document.getElementsByClassName("b_contents")[0];
-			if(!sub.value){
+			if(sub.value==""){ // sub.value == null은 null도 값으로 인식하여 공백이 입력되기때문에 !sub.value으로 또는 sub.value=""으로 값이 아니면으로 조건을 지정한다.
 				alert("제목을 입력하세요");
 				sub.focus();
 				return;

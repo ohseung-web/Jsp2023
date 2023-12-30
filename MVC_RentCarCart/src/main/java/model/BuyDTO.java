@@ -9,8 +9,15 @@ public class BuyDTO {
 	private String buy_email;
 	private int buy_postcode;
 	private String buy_roadaddress;
+	private String id;
 	
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getOrder_date() {
 		return order_date;
 	}

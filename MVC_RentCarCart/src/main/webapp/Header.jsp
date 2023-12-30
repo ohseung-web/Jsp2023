@@ -38,7 +38,24 @@
      position: absolute;
      bottom: 1px;
   }
-
+  .logout{
+     display:flex;
+     justify-content: center;
+     align-items: center;
+      width: 200px;
+      height: 35px;
+  }
+  .userlogin a{
+      display: inline-block;
+      width : 150px;
+      font-size: 15px;
+      margin-right: 5px;
+      width:100px;
+  }
+   .userlogin a{
+     text-decoration: none; color: black;
+  }
+  
 </style>
 </head>
 <body>
@@ -55,7 +72,10 @@
            </c:when>
            <c:otherwise>
               ${rentlogin }님
-              <button type="button" onclick="location.href='MemberLogoutProc.do'">로그아웃</button>   
+            <!--  <div class="logout"> -->
+              <%-- <span class="userlogin"><a href="LoginOK.do">${rentlogin }님</a></span> --%>
+              <button class="logoutbtn" type="button" onclick="location.href='MemberLogoutProc.do'">로그아웃</button>   
+             <!-- </div>  -->
            </c:otherwise>
         </c:choose>      
         </td>

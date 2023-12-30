@@ -31,15 +31,6 @@ public class RentInfo extends HttpServlet {
 		RentDAO rdao = new RentDAO();
 		RentDTO rdto = rdao.getOneCar(no);
 		
-//		request.setAttribute("no", rdto.getNo());
-//		request.setAttribute("name", rdto.getName());
-//		request.setAttribute("category", rdto.getCategory());
-//		request.setAttribute("price", rdto.getPrice());
-//		request.setAttribute("usepeople", rdto.getUsepeople());
-//		request.setAttribute("company", rdto.getCompany());
-//		request.setAttribute("img", rdto.getImg());
-//		request.setAttribute("info", rdto.getInfo());
-		
 		request.setAttribute("rdto", rdto);
 		
 		RequestDispatcher rdis = request.getRequestDispatcher("RentcarMain.jsp?section=RentInfo.jsp");
@@ -48,3 +39,5 @@ public class RentInfo extends HttpServlet {
 	}
 
 }
+
+

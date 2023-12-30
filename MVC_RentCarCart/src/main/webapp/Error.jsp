@@ -10,7 +10,7 @@
 <body>
    <c:if test="${null ne LoginError}">
 		<script>
-			alert("${LoginError}");
+			window.alert("${LoginError}");
 			location.href= "RentcarMain.jsp?section=MemberLogin.jsp";
 		</script>
 	</c:if>

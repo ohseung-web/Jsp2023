@@ -37,7 +37,7 @@
  %>
       <script type="text/javascript">
         alert("로그인 후 작성하세요!!");
-        location.href="Main02.jsp?section=FoodingBoardList.jsp";
+        location.href="Main02.jsp?section=login.jsp";
       </script>
 <% 	
     }else { 
