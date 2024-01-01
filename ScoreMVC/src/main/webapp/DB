@@ -1,0 +1,10 @@
+create table score(
+num varchar2(10) primary key,
+name varchar2(20),
+sub1 number(3) check (sub1 between 0 and 100),
+sub2 number(3) check (sub2 between 0 and 100),
+sub3 number(3) check (sub3 between 0 and 100),
+total number(3),
+average number(3),
+grade varchar2(10));
+
