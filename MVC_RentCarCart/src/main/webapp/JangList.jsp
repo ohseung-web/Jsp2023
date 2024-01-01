@@ -123,13 +123,13 @@
 		
  <script>
  
- 	// 자바스크립트 변수는 JSP 변수(EL값)을 직접적으로는 사용할 수 없다.
- 	// 반대로 JSP 변수는 자바스크립트에서 사용할 수 있다.
+
+	// 자바스크립트 변수는 JSP 변수(EL값)을 직접적으로는 사용할 수 없다.
+	// 반대로 JSP 변수는 자바스크립트에서 사용할 수 있다.
     let minus = document.querySelectorAll(".minus");
     let plus = document.querySelectorAll(".plus");
     let cntinput = document.querySelectorAll(".spancnt");
-    let total = document.querySelectorAll("#total");
-   
+
     // 자바스크립트에세 EL로 받아온 값을 변수로 사용하는 방법
 	let loginId = "<c:out value='${rentlogin}' />";
 	
@@ -154,11 +154,13 @@
         		}
         	}
     		
-    		location.href='OrderListPro.do?chk='+param;
+        	// 동시에 여러개 파라미터 값 보내는 방법
+    		location.href='OrderListPro.do?chk='+ param + '&loginId='+loginId;
+    		
         }	
   }
 	
-    
+   // location.href="search.jsp?type="+type+"&type2=type"+type2;
     // 삭제 버튼을 클릭해도 삭제가 안되는 이유는 삭제버튼이 form태그 바깥쪽에 위치하기 때문이다.
     // 이를 해결하기 위해 자바스크립트에서 삭제함수를 만들어 사용한다.
     function fn_delete(){
@@ -173,20 +175,16 @@
     	
     	location.href='RentDeleteJang.do?chk='+param;
     } 
-  
-    	
-    
-    	
-    
+ 
     // plus, minus버튼클릭시 수량 증가/감소 시킨다.
     // 증가/감소된 수량을 RentUpdate.do를 이용하여 데이터 베이스에 넘기는 함수
     // f는 this.form의 매개변수이다.
     function fn_update(isBool,i,f){
-    	
+    	console.log(i)
     	if(isBool == false){
     		
     		if( parseInt(cntinput[i].value) > 1 ){
-	    		 cntinput[i].value = parseInt(cntinput[i].value)-1;
+	    		 cntinput[i].value = parseInt(cntinput[i].value) - 1;
 			}else{
 	            window.alert("수량은 1에서 9999 사이의 값으로 입력해 주십시오.");
 			}
@@ -200,7 +198,7 @@
 				}
     		
     	}
-    	
+  
     	f.action ='RentUpdate.do';
     	f.submit();
     }

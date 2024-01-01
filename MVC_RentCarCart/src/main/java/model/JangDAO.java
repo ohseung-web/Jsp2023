@@ -253,32 +253,32 @@ public class JangDAO {
     // 주문일자와 오늘날짜가 같을 경우 주문번호가 1씩 증가되는 메소드
     public int noaddSelect() {
     	getConnect();
-    	// maysql ifnull(a,0) => a가 null이면 0이 출력
-    	int maxno = 0;
+    	// maysql의 ifnull(a,0) => a가 null이면 0이 출력
+    //	int maxno = 0;
+    	int order_no = 0;
+    	
     	try {
-   		 String sql = "select ifnull(max(order_no),0)+1 from order_product where order_date = current_date()";
+   	//	 String sql = "select ifnull(max(order_no),0)+1 from order_product where order_date = current_date()";
+   		 String sql = "select max(order_no)+1 from order_product where order_date = current_date()";
    		 pstmt = con.prepareStatement(sql);
    	     rs = pstmt.executeQuery();
    	     if(rs.next()) {
-   	    	 maxno = rs.getInt(1);
+   	    //	 maxno = rs.getInt(1);
+   	    	 order_no = rs.getInt(1);
    	     }
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (con != null)
-					con.close();
-				if (pstmt != null)
-					pstmt.close();
-				if (rs != null)
-					rs.close();
+				if (con != null) con.close();
+				if (pstmt != null) pstmt.close();
+				if (rs != null) rs.close();
 			} catch (SQLException se) {
 				se.printStackTrace();
 			}
 		}
    	
-   	return maxno;
-    	
+     	return order_no;
     }
     
    // 구매한 상품 한개의 정보를 저장 (insert)하는 메소드를 작성
@@ -302,12 +302,9 @@ public class JangDAO {
    			e.printStackTrace();
    		} finally {
    			try {
-   				if (con != null)
-   					con.close();
-   				if (pstmt != null)
-   					pstmt.close();
-   				if (rs != null)
-   					rs.close();
+   				if (con != null) con.close();
+   				if (pstmt != null) pstmt.close();
+   				if (rs != null) rs.close();
    			} catch (SQLException se) {
    				se.printStackTrace();
    			}
@@ -334,12 +331,9 @@ public class JangDAO {
    			e.printStackTrace();
    		} finally {
    			try {
-   				if (con != null)
-   					con.close();
-   				if (pstmt != null)
-   					pstmt.close();
-   				if (rs != null)
-   					rs.close();
+   				if (con != null) con.close();
+   				if (pstmt != null) pstmt.close();
+   				if (rs != null) rs.close();
    			} catch (SQLException se) {
    				se.printStackTrace();
    			}
@@ -372,5 +366,44 @@ public class JangDAO {
     } 
    }
     
-    
+    // 구매한 한 사람의 배송지 정보 리턴 메소드
+	public BuyDTO getOneBuy(String id) {
+		getConnect();
+		BuyDTO bdto = new BuyDTO();
+
+		try {
+			// 최근 주소지가 출력되도록 주문일자와 주문번호를 내림차순 정렬한다.
+			String sql = "select * from order_address where id = ? order by order_date desc, order_no desc ";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				bdto.setOrder_date(rs.getString(1).toString());
+				bdto.setOrder_no(rs.getInt(2));
+				bdto.setBuy_name(rs.getString(3));
+				bdto.setBuy_phone(rs.getString(4));
+				bdto.setBuy_email(rs.getString(5));
+				bdto.setBuy_postcode(rs.getInt(6));
+				bdto.setBuy_roadaddress(rs.getString(7));
+				bdto.setId(rs.getString(8));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null)
+					con.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+			return bdto;
+
+		}
+	}
  }

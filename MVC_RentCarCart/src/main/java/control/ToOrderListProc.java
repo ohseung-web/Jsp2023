@@ -53,8 +53,7 @@ public class ToOrderListProc extends HttpServlet {
 			
 			    pdto.setOrder_date(pdto.getOrder_date());
 	            pdto.setOrder_no(orderNo);
-	            System.out.println("for문안에"+orderNo);
-	            
+	            	            
 	    		pdto.setNo(Integer.parseInt(noarr[i]));
 	    		pdto.setImg(imgarr[i]);
 	    		pdto.setName(namearr[i]);   	
@@ -68,14 +67,15 @@ public class ToOrderListProc extends HttpServlet {
 		}
 		
 		// order_address 테이블에 insert
-		bdto.setOrder_date(pdto.getOrder_date()) ;
-    	bdto.setOrder_no(pdto.getOrder_no());
+		bdto.setOrder_date(pdto.getOrder_date()); // order_product테이블의 구매일자
+    	bdto.setOrder_no(pdto.getOrder_no()); //  order_product테이블의 구매번호
     	bdto.setBuy_name(request.getParameter("buy_name"));
     	bdto.setBuy_phone(phone01+"-"+phone02+"-"+phone03);
     	bdto.setBuy_email(request.getParameter("email"));
     	bdto.setBuy_postcode(Integer.parseInt(request.getParameter("postcode")));
-    	bdto.setBuy_roadaddress(request.getParameter("roadAddress")+" "+ detailAddress);
+    	bdto.setBuy_roadaddress(request.getParameter("roadAddress")+"   "+ detailAddress);
     	bdto.setId(loginId);
+    	
     	jdao.insertBuy(bdto);
     	
     	//  구매정보에 담긴 상품을 장바구니에서 삭제한다.
