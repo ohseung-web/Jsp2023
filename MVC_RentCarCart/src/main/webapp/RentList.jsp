@@ -10,6 +10,7 @@
     .rentcontainer{
         margin: 10px auto;
         width: 800px;
+        height: 760px;
     }
     h2{
         text-align: center;
@@ -20,6 +21,25 @@
     .rentcontainer input{
        margin: 10px auto;
        margin-left : 380px;
+    }
+     .pageing{
+       width : 300px;
+       text-align: center;
+       margin : 10px auto;
+       
+    }
+    .rentcontainer .pageing a{
+        display: inline-block;
+        width : 25px;
+        height: 25px;
+        line-height: 25px;
+        margin-right: 5px;
+        border : 1px solid gray;
+    }
+    .rentcontainer .pageing a:hover{
+       background: darkgray;
+       color : #fff;
+       font-weight : 800;
     }
 </style>
 </head>
@@ -48,7 +68,29 @@
         <td align="center" width="80">${rdto.info }</td>
        </tr> 
      </c:forEach> 
-   </table>   
+   </table> 
+   
+    <div class="pageing">
+		<!-- 페이지 카운터링 소스 작성 [1] [2] [3] [다음] ....... -->
+
+		<!-- [이전]이라는 링크를 만들건지 파악-->
+		<c:if test="${startPage > pageBlock }">
+			<a href="RentListPro.do?pageNum=${startPage - pageBlock}"> [이전]
+			</a>
+		</c:if>
+
+		<!-- 페이징 처리 -->
+		<c:forEach var="i" begin="${startPage}" end="${endPage}">
+			<a href="RentListPro.do?pageNum=${i}"> ${i} </a>
+		</c:forEach>
+
+		<!-- [다음]이라는 페이지를 만들건지 파악 -->
+		<c:if test="${endPage < pageCount }">
+			<a href="RentListPro.do?pageNum=${startPage + pageBlock}"> [다음]
+			</a>
+		</c:if>		
+    </div>
+     
   </div>
 
 </body>

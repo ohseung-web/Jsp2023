@@ -138,4 +138,71 @@ public class RentDAO {
     	return chkpw;
     } 
     
+    // 렌트카 전체 개수 리턴하는 메소드
+    public int getAllCount() {
+    	getConnect();
+    	
+    	int count = 0;
+    	try {
+    	     String sql ="select count(*) from rentcar";
+    	     pstmt = con.prepareStatement(sql);
+    	     rs = pstmt.executeQuery();
+    	     if(rs.next()) {
+    	    	 count = rs.getInt(1); 
+    	    }
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}finally {
+    		try {
+    			 if(con != null) con.close();
+    			 if(pstmt != null) pstmt.close();
+    			 if(rs != null) rs.close();
+    		}catch(SQLException se) {
+    			se.printStackTrace();
+    		}
+    	}
+    	
+    	return count;
+    }
+    
+    // 렌트카의 모든 정보를 리턴하는 메소드
+    public ArrayList<RentDTO> getAllRentcar(int start, int pageSize){
+    	
+    	getConnect();
+    	ArrayList<RentDTO> a = new ArrayList<RentDTO>();
+    	
+    	try {
+   	         String sql ="select * from rentcar order by no desc limit ?,?";
+   	         pstmt = con.prepareStatement(sql);
+   	         pstmt.setInt(1, start-1);
+   	         pstmt.setInt(2, pageSize);
+   	         rs = pstmt.executeQuery();
+   	         while(rs.next()) {
+   	        	RentDTO rdto = new RentDTO();
+   	        	rdto.setNo(rs.getInt(1));
+   	        	rdto.setName(rs.getString(2));
+   	        	rdto.setCategory(rs.getInt(3));
+   	        	rdto.setPrice(rs.getInt(4));
+   	        	rdto.setUsepeople(rs.getInt(5));
+   	        	rdto.setCompany(rs.getString(6));
+   	        	rdto.setImg(rs.getString(7));
+   	        	rdto.setInfo(rs.getString(8));
+   	        	
+   	        	a.add(rdto);
+   	         }
+   	  
+	      } catch (Exception e) {
+	      	e.printStackTrace();
+	      } finally {
+		    try {
+			      if (con != null) con.close();
+			      if (pstmt != null) pstmt.close();
+			      if (rs != null) rs.close();
+		  }catch (SQLException se) {
+			    se.printStackTrace();
+		    }
+   	  }
+    	
+    	return a;
+    }
 }

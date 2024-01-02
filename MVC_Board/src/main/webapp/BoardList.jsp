@@ -34,6 +34,7 @@
 </style>
 </head>
 
+<%-- <c:if test="${msg != null } && ${msg eq '0' }"> --%>
 <c:if test="${msg != null }">
   <script type="text/javascript">
      alert("비밀번호를 확인하세요");
