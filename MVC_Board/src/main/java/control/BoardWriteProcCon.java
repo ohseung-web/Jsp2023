@@ -40,8 +40,10 @@ public class BoardWriteProcCon extends HttpServlet {
 		       BoardDAO bdao = new BoardDAO();
 			   bdao.insrtBoard(bdto);
 			  
-			   RequestDispatcher rdis = request.getRequestDispatcher("BoardListCon.do");
-			   rdis.forward(request, response);
+			//   RequestDispatcher rdis = request.getRequestDispatcher("BoardListCon.do");
+			//   rdis.forward(request, response);
+			   
+			   response.sendRedirect("BoardListCon.do");
 	}
 
 }

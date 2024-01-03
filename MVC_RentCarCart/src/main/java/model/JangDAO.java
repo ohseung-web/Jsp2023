@@ -40,7 +40,7 @@ public class JangDAO {
     	
     	try {
     	 
-    		 String sql = "select * from rentjang order by no";
+    		 String sql = "select * from rentjang order by no desc";
     		 pstmt = con.prepareStatement(sql);
     		 rs = pstmt.executeQuery();
     		 
@@ -259,12 +259,12 @@ public class JangDAO {
     	
     	try {
    	//	 String sql = "select ifnull(max(order_no),0)+1 from order_product where order_date = current_date()";
-   		 String sql = "select max(order_no)+1 from order_product where order_date = current_date()";
+   		 String sql = "select max(order_no) from order_product where order_date = current_date()";
    		 pstmt = con.prepareStatement(sql);
    	     rs = pstmt.executeQuery();
    	     if(rs.next()) {
    	    //	 maxno = rs.getInt(1);
-   	    	 order_no = rs.getInt(1);
+   	    	 order_no = rs.getInt(1)+1;
    	     }
 		} catch (Exception e) {
 			e.printStackTrace();

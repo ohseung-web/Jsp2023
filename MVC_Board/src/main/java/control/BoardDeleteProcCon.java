@@ -38,7 +38,7 @@ public class BoardDeleteProcCon extends HttpServlet {
 			
   		}else {
 	       
-  			request.setAttribute("msg", "2");
+  			request.setAttribute("msg", "0");
   			RequestDispatcher rdis = request.getRequestDispatcher("BoardListCon.do");
 			rdis.forward(request, response);
 		}

@@ -30,6 +30,7 @@ public class BoardReWriterProcCon extends HttpServlet {
     	
     	//BoardDTO에 넘어온 데이터를 저장 
     	BoardDTO bdto = new BoardDTO();
+    	
     	bdto.setWriter(request.getParameter("writer"));
     	bdto.setSubject(request.getParameter("subject"));
     	bdto.setEmail(request.getParameter("email"));
@@ -41,10 +42,15 @@ public class BoardReWriterProcCon extends HttpServlet {
     	bdto.setRe_level(Integer.parseInt(request.getParameter("re_level")));
     	
     	BoardDAO bdao = new BoardDAO();
-    	bdao.reInsertBoard(bdto);
     	
-    	RequestDispatcher rdis = request.getRequestDispatcher("BoardListCon.do");
-    	rdis.forward(request, response);
+    		bdao.reInsertBoard(bdto);
+    
+    	// RequestDispatcher rdis = request.getRequestDispatcher("BoardListCon.do");
+    	// rdis.forward(request, response);
+    	
+        // response.sendRedirect는 통신을 끝내기때문에 RequestDispatcher을 이용하여 페이지를 이동할 때 새로고침(F5)를
+        // 누르면 무한대로 insert되는 문제를 해결 할 수 있다.
+        response.sendRedirect("BoardListCon.do");
 	   
 	}
 

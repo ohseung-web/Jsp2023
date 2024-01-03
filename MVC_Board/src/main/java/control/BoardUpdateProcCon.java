@@ -46,7 +46,7 @@ public class BoardUpdateProcCon extends HttpServlet {
 			
 		}else {
 			// 비밀번호가 틀리다면 이전페이지로 이동 시킴
-			request.setAttribute("msg", "1");
+			request.setAttribute("msg", "0");
 			RequestDispatcher rdis = request.getRequestDispatcher("BoardListCon.do");
 			rdis.forward(request, response);
 		}
