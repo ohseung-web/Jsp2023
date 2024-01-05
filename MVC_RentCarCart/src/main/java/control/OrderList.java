@@ -41,15 +41,21 @@ public class OrderList extends HttpServlet {
     	int aChk = 0;
     
     	// 장바구니에서 선택한 상품이 있을때만 구매해야 하므로 null처리한다.
-    	if(chk != null) {
+    	if(chk != null && !chk.isEmpty()) {
     		
     		for(int i=0; i<arrChk.length; i++) {
     			aChk = Integer.parseInt(arrChk[i]);
     			jdto = jdao.buyselect(aChk);
     			ac.add(jdto);
     		}
+    		
+    	}else { // 선택된 상품이 없을 떄 예외처리
+    		request.setAttribute("msgchk", "상품을 선택하세요");
+    		RequestDispatcher rdis = request.getRequestDispatcher("Error.jsp");
+    	    rdis.forward(request, response);
     	}
     	
+    	// 상품을 이미 구매한 회원인 경우 자동으로 주소 출력하는 코드
     	BuyDTO bdto = new BuyDTO();
     	// 한 사람의 구매주소 정보를 저장
     	bdto = jdao.getOneBuy(loginId);
