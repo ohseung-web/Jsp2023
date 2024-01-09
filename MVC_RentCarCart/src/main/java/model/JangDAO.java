@@ -406,4 +406,30 @@ public class JangDAO {
 
 		}
 	}
+	
+	// rentjang의 전체 개수
+    public int rentjangCount() {
+    	getConnect();
+    	int rentCount = 0;
+    	try {
+			
+			String sql = "select count(*) from rentjang";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				rentCount = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) con.close();
+				if (pstmt != null) pstmt.close();
+				if (rs != null) rs.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+    	return rentCount;
+      }
+    } 	
  }

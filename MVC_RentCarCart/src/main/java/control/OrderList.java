@@ -70,19 +70,19 @@ public class OrderList extends HttpServlet {
         	
             // indexOf("a") : 문자 a가 위치하는 index번호를 숫자로 변환하여 출력
         	int stringNum = bdto.getBuy_roadaddress().indexOf("   "); 
-  		    String roadaddr = bdto.getBuy_roadaddress().substring(0, stringNum); 
-  		    
-  		    // substring(5) : 5번째위치 부터 그 뒤로 모두 자르기
-  		    String detailaddr = bdto.getBuy_roadaddress().substring(stringNum+3);
-  		    
-  		    request.setAttribute("bdto", bdto);
+    		    String roadaddr = bdto.getBuy_roadaddress().substring(0, stringNum); 
+    		    
+    		    // substring(5) : 5번째위치 부터 그 뒤로 모두 자르기
+    		    String detailaddr = bdto.getBuy_roadaddress().substring(stringNum+3);
+    		    
+    		    request.setAttribute("bdto", bdto);
         	request.setAttribute("phone02", phone02);
         	request.setAttribute("phone03", phone03);
-			request.setAttribute("roadaddr", roadaddr);
-  	      	request.setAttribute("detailaddr", detailaddr);
- 
+    		request.setAttribute("roadaddr", roadaddr);
+    	      	request.setAttribute("detailaddr", detailaddr);
+
     	}
-  
+    
         	//select한 결과를 저장
         	request.setAttribute("ac", ac);
 
@@ -90,5 +90,5 @@ public class OrderList extends HttpServlet {
     	    rdis.forward(request, response);
     	
 	}
-
+ 
 }

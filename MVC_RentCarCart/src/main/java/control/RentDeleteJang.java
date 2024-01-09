@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.JangDAO;
 import model.JangDTO;
@@ -40,6 +41,20 @@ public class RentDeleteJang extends HttpServlet {
     		jdao.deletejang(Integer.parseInt(arrChk[i]));
     	}
     	
+    	//--------------------------------------------------------------
+    	// rentjang 테이블에 상품을 삭제하고 난 후 전체 개수를 세어서 세션에 담아 JangList.jsp 떠넘긴다.
+    	 int rentJangCount = jdao.rentjangCount();
+    	 HttpSession session = request.getSession();
+    	 
+    	 if(rentJangCount == 0) {
+    		 session.invalidate();
+    	 }else {
+    		 session.setAttribute("rentCount", rentJangCount);
+        	 // 세션시간 무한대로 설정
+        	 session.setMaxInactiveInterval(-1);
+    	 }
+       //------------------------------------------------------------
+    	  
     	// 데이터 삭제한 후 장바구니 목록을 확인할 수 있도록 배열에 담아 넘긴다.
     	ArrayList<JangDTO> jalist = jdao.getAllJang();
     	request.setAttribute("jalist", jalist);

@@ -55,7 +55,27 @@
    .userlogin a{
      text-decoration: none; color: black;
   }
-  
+  #cartCount{
+    width : 20px;
+    height: 20px;
+    border : none; 
+  }
+  #cartCount.addcount{
+     border-radius: 50%;
+     background: black;
+     color:#eee;
+     line-height: 20px;
+     font-size : 12px;
+     text-align: center;
+  }
+  #cartCount.removecount{
+    display : none;
+    color:white;
+  }
+  .cartnav{
+    display: inline-block;
+    width : 80px; 
+  }
 </style>
 </head>
 <body>
@@ -91,14 +111,26 @@
            <a href="#" class="nav">게시판</a>
         </td>
         <td align="center" width="200" >
-           <a href="JangProc.do" class="nav">장바구니</a>
+           <a href="JangProc.do" class="nav cartnav">장바구니</a><input type="text" id="cartCount" name="cartCount" value="${rentCount}">
         </td>
         <td align="center" width="200" >
-           <a href="#" class="nav">고객센터</a>
+           <a href="#" class="nav cartnav">최근본상품</a>
         </td>
      </tr>
    </table>
 </div>
 </Header>
+  <script type="text/javascript">
+  
+    let count ="<c:out value='${rentCount}'/>";
+    let rentJangCount = document.querySelector("#cartCount");
+  
+    if(count == 0){
+    	rentJangCount.classList.add('removecount');
+    }else{
+    	rentJangCount.classList.add('addcount');
+    }
+    
+  </script>
 </body>
 </html>

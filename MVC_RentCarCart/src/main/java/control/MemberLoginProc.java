@@ -43,6 +43,7 @@ public class MemberLoginProc extends HttpServlet {
 				// servlet에서 session을 지정하는 방식
 				HttpSession session = request.getSession();
 				session.setAttribute("rentlogin", userId);
+				session.setMaxInactiveInterval(60*5);//5분동안 로그인 상태 유지 함
 				
 				RequestDispatcher rdis = request.getRequestDispatcher("RentcarMain.jsp");
 				rdis.forward(request, response);

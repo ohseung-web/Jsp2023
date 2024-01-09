@@ -61,6 +61,21 @@ public class JangProc extends HttpServlet {
         	}
     	}
     	
+    	//--------------------------------------------------------------
+    	// rentjang 테이블에 상품을 삽입하고 난후 전체 개수를 세어 세션에 담아 JangList.jsp에 떠넘긴다.
+    	 int rentJangCount = jdao.rentjangCount();
+    	 HttpSession session = request.getSession();
+    	 
+    	 if(rentJangCount == 0) {
+    		 session.invalidate();
+    	 }else {
+    		 session.setAttribute("rentCount", rentJangCount);
+        	 // 세션시간 무한대로 설정
+        	 session.setMaxInactiveInterval(-1);
+    	 }
+    	 
+    	//------------------------------------------------------------
+    	 
     	 // insert 하고 난 후 select 하여 값을 확인한다.
     	// 값을 배열로 담아 장바구니 목록으로 리턴한다.
     	ArrayList<JangDTO> jalist = jdao.getAllJang();

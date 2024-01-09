@@ -71,7 +71,7 @@ public class RentList extends HttpServlet {
         
         //페이징 처리하는 소스코드 변수초기화 작업 ----------------------------------
         int pageCount = 0; //전체 페이지 넘버수를 담는 변수
-        int pageBlock = 3; //한 화면에 페이징 하고 싶은 개수
+        int pageBlock = 1; //한 화면에 페이징 하고 싶은 개수
         int startPage = 1; //한 화면에 제일 첫번째 페이징 넘버를 담는 변수
         int endPage = 0; //한 화면에 제일 마지막 페이징 넘버를 담는 변수
         

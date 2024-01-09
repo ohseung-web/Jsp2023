@@ -41,7 +41,8 @@ public class ToOrderListProc extends HttpServlet {
 		String [] cntarr = request.getParameterValues("cnt");
 		String [] pricearr = request.getParameterValues("price");
 		
-		int orderNo = jdao.noaddSelect();
+		// order_no의 값을 작성하는 메소드
+		int orderNo = jdao.noaddSelect();	
 		String phone01 = request.getParameter("phone01");
 		String phone02 = request.getParameter("phone02");
 		String phone03 = request.getParameter("phone03");

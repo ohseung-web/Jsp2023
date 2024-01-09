@@ -30,6 +30,8 @@
     }
     .rentcontainer .pageing a{
         display: inline-block;
+       /*  width : 100px;
+        height: 30px; */
         width : 25px;
         height: 25px;
         line-height: 25px;
@@ -75,22 +77,27 @@
 
 		<!-- [이전]이라는 링크를 만들건지 파악-->
 		<c:if test="${startPage > pageBlock }">
-			<a href="RentListPro.do?pageNum=${startPage - pageBlock}"> [이전]
+			<a href="RentListPro.do?pageNum=${startPage - pageBlock}"> ◀ 
 			</a>
 		</c:if>
 
 		<!-- 페이징 처리 -->
 		<c:forEach var="i" begin="${startPage}" end="${endPage}">
-			<a href="RentListPro.do?pageNum=${i}"> ${i} </a>
+			<a href="RentListPro.do?pageNum=${i}">${i}</a>
 		</c:forEach>
 
 		<!-- [다음]이라는 페이지를 만들건지 파악 -->
 		<c:if test="${endPage < pageCount }">
-			<a href="RentListPro.do?pageNum=${startPage + pageBlock}"> [다음]
+			<a href="RentListPro.do?pageNum=${startPage + pageBlock}"> ▶
 			</a>
 		</c:if>		
+		
+		<!-- The more 방식 페이징 -->
+		<%-- <c:forEach var="i" begin="${startPage}" end="${endPage}">
+			<a href="RentListPro.do?pageNum=${i}"> The more </a>
+		</c:forEach> --%>
+		
     </div>
-     
   </div>
 
 </body>
