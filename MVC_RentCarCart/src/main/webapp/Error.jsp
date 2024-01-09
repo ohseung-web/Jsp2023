@@ -20,5 +20,11 @@
 			location.href= "JangProc.do";
 		</script>
 	</c:if>
+	<c:if test="${null ne msgDelete}">
+		<script>
+			window.alert("${msgDelete}");
+			location.href= "JangProc.do";
+		</script>
+	</c:if>
 </body>
 </html>

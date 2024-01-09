@@ -36,9 +36,16 @@ public class RentDeleteJang extends HttpServlet {
 		 String chk = request.getParameter("chk"); 
     	
     	String [] arrChk = chk.split(" ");
-    	/// chk박스의 값이 value="${jdto.no}"인 숫자로 되어있기때문에 반드시 Integer.parseInt()로 형변환 한다.
-    	for(int i=0; i<arrChk.length; i++) {
-    		jdao.deletejang(Integer.parseInt(arrChk[i]));
+    	
+    	if(chk != null && !chk.isEmpty()) {
+    		/// chk박스의 값이 value="${jdto.no}"인 숫자로 되어있기때문에 반드시 Integer.parseInt()로 형변환 한다.
+        	for(int i=0; i<arrChk.length; i++) {
+        		jdao.deletejang(Integer.parseInt(arrChk[i]));
+        	}
+    	}else {
+    		request.setAttribute("msgDelete", "삭제할 상품을 선택하세요");
+    		RequestDispatcher rdis = request.getRequestDispatcher("Error.jsp");
+    		rdis.forward(request, response);
     	}
     	
     	//--------------------------------------------------------------

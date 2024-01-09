@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://kit.fontawesome.com/2cd23a15d7.js" crossorigin="anonymous"></script>
 <style type="text/css">
    .jangList{
         margin: 10px auto;
@@ -63,16 +64,59 @@
        height: 30px;
        cursor: pointer;
     }
+    .nullJangList {
+       width : 300px;
+       margin : 0 auto;
+       text-align: center;
+    }
+    .nullJangList .nullimg {
+       margin : 0 auto;
+       margin-top : 40px;
+       width: 70px;
+    }
+    .nullJangList .nullimg img{
+       width: 50px;
+       height: 50px; 
+    }
+    .nullJangList p{
+       margin : 0;
+       width : 250px;
+       height: 20px;
+       font-size: 17px;
+       color : darkgray;
+    } 
+    .jangList  .janglisttable input[type='checkbox']{
+       display : none;
+    }
+   .jangList  .janglisttable  .chklabel::before {
+    content: '\f00c';
+    font-family: fontawesome;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    line-height: 13px;
+    font-size: 12px;
+    border-radius: 3px;
+    border: 1px solid gray;
+    margin-right: 5px;
+    color: transparent;
+    display: inline-block;
+}
+.jangList  .janglisttable input[type='checkbox']:checked + .chklabel::before {
+   background-color: rgb(43, 43, 43);
+   color: white;
+}
 </style>
 </head>
 <body>
 
    <div class="jangList">
        <h2>장바구니</h2>
-    
+      <c:choose>
+       <c:when test="${not empty jalist }">
 		<table width="800"  class="janglisttable">
 			<tr height="40" class="title">
-				<td align="center"  width="10">체크</td>
+				<td align="center"  width="10"><input type="checkbox" name="chk" onclick="selectAll(this)" id="chkproduct01"><label for="chkproduct01" class="chklabel"></td>
 				<td align="center" width="50">상품번호</td>
 				<td align="center" width="50">상품명</td>
 				<td align="center" width="50">상품수량</td>
@@ -85,7 +129,7 @@
 				<!-- 하나씩 처리해야 되니까 form 태그는 forEach 문 내부에 배치시킨다. -->
 					<tr height="40">
 						<td align="center"  width="10">
-							<input type="checkbox" class="chk" name="chk" value="${jdto.no}">
+							<input type="checkbox" class="chk" name="chk" value="${jdto.no}" id="${jdto.no }"><label for="${jdto.no }" class="chklabel">
 						</td>
 						<td align="center" width="50" >${jdto.no }</td>
 						<td align="center" width="50">
@@ -108,11 +152,20 @@
 			<tr height="40">
 				<td align="center" colspan="6">
 					<input type="button"   value="선택삭제" class="bottombtn" onclick="fn_delete()">
+					<input type="button"   value="전체삭제" class="bottombtn" onclick="fn_Alldelete()">
 					<input type="button"   value="목록보기" onclick="location.href='RentListPro.do'" class="bottombtn" >
 					<input type="button"   value="주문하기" onclick="OrderList()" class="bottombtn" >
 				</td>
 			 </tr>
 		</table>
+		</c:when>
+		<c:otherwise>
+		   <div class="nullJangList">
+		     <div class="nullimg"><img alt="" src="img/nullCart.png"> </div>
+		      <p>장바구니가 비어 있습니다.</p>
+		   </div>
+		</c:otherwise>
+		</c:choose>
     </div>		
   
  	<%-- <input type="text" value="${jdto.cnt }"  name="cnt"  size="2"  id="jangcnt">개         --%>      
@@ -132,8 +185,31 @@
     let chk_list = document.querySelectorAll(".chk");
     let param = "";
     
+    // 체크박스클릭시 전체 체크박스선택
+     function selectAll(selectAll)  {
+       let checkboxes = document.getElementsByName('chk');
+  
+       for(let i=0; i<checkboxes.length; i++){
+    	   checkboxes[i].checked = selectAll.checked;
+       }
+       
+    /*  checkboxes.forEach((checkbox) => {
+     checkbox.checked = selectAll.checked;
+     }) */
+     
+   }
+    
     // 자바스크립트에세 EL로 받아온 값을 변수로 사용하는 방법
 	let loginId = "<c:out value='${rentlogin}' />";
+	
+	//전체삭제
+	function fn_Alldelete(){
+		for(let i=0; i<chk_list.length; i++){
+			param = (param + chk_list[i].value+" ");
+		}
+		
+		location.href ='RentDeleteJang.do?chk='+param;
+	}
 	
 	// 주문하기
     function OrderList(){
