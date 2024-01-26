@@ -86,9 +86,14 @@
      <tr height="70">
         <td colspan="4" align="left"><a href="RentcarMain.jsp" ><img src="img/sk_logo.png" height="65"></a></td>
         <td align="center" width="200">
+        <!-- 로그인이 null이면 id = geust로 저장하는 부분 -->
+        <%-- <c:if test="${rentlogin == null }">
+           <c:set var="rentlogin" value="${rentlogin = 'geust'}"/>
+        </c:if>
+        ${rentlogin } --%>
         <c:choose>
-           <c:when test="${rentlogin == null }">
-             <button type="button" onclick="location.href='RentcarMain.jsp?section=MemberLogin.jsp'">로그인</button>   
+           <c:when test="${rentlogin == null}">
+            <button type="button" onclick="location.href='RentcarMain.jsp?section=MemberLogin.jsp'">로그인</button>   
            </c:when>
            <c:otherwise>
               ${rentlogin }님
@@ -102,19 +107,19 @@
      </tr>
      <tr height="50">
         <td align="center" width="200" >
-           <a href="RentListPro.do" class="nav">예약하기</a>
+           <a href="RentListPro.do?category=1" class="nav">소형차</a>
         </td>
         <td align="center" width="200">
-           <a href="RentcarMain.jsp?section=CarReserveView.jsp" class="nav">예약확인</a>
+           <a href="RentListPro.do?category=2" class="nav">중형차</a>
         </td>
         <td align="center" width="200" >
-           <a href="#" class="nav">게시판</a>
+           <a href="RentListPro.do?category=3" class="nav">대형차</a>
         </td>
         <td align="center" width="200" >
-           <a href="JangProc.do" class="nav cartnav">장바구니</a><input type="text" id="cartCount" name="cartCount" value="${rentCount}">
+          <a href="JangProc.do" class="nav cartnav">장바구니</a><input type="text" id="cartCount" name="cartCount" value="${rentCount}">
         </td>
         <td align="center" width="200" >
-           <a href="#" class="nav cartnav">최근본상품</a>
+           <a href="WishListProc.do" class="nav cartnav">최근본상품</a>
         </td>
      </tr>
    </table>

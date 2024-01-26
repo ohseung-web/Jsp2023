@@ -39,7 +39,7 @@ public class OrderList extends HttpServlet {
     	String chk = request.getParameter("chk");
     	String [] arrChk = chk.split(" ");
     	int aChk = 0;
-    
+        
     	// 장바구니에서 선택한 상품이 있을때만 구매해야 하므로 null처리한다.
     	if(chk != null && !chk.isEmpty()) {
     		
@@ -64,21 +64,21 @@ public class OrderList extends HttpServlet {
     	// BuyDTO에 존재하는 phone, roadaddress를 문자 자르기 함수를 이용하여 잘라 보낸다.
     	if(loginId.equals(bdto.getId())) {
     		
-    		// substring(a, b) : a부터 b전까지 문자 자르기
-    		String phone02 = bdto.getBuy_phone().substring(4, 8);
-        	String phone03 = bdto.getBuy_phone().substring(9, 13);
+    		     // substring(a, b) : a부터 b전까지 문자 자르기
+    		       String phone02 = bdto.getBuy_phone().substring(4, 8);
+                   String phone03 = bdto.getBuy_phone().substring(9, 13);
         	
-            // indexOf("a") : 문자 a가 위치하는 index번호를 숫자로 변환하여 출력
-        	int stringNum = bdto.getBuy_roadaddress().indexOf("   "); 
+               // indexOf("a") : 문자 a가 위치하는 index번호를 숫자로 변환하여 출력
+        	    int stringNum = bdto.getBuy_roadaddress().indexOf("   "); 
     		    String roadaddr = bdto.getBuy_roadaddress().substring(0, stringNum); 
     		    
     		    // substring(5) : 5번째위치 부터 그 뒤로 모두 자르기
     		    String detailaddr = bdto.getBuy_roadaddress().substring(stringNum+3);
     		    
     		    request.setAttribute("bdto", bdto);
-        	request.setAttribute("phone02", phone02);
-        	request.setAttribute("phone03", phone03);
-    		request.setAttribute("roadaddr", roadaddr);
+        	    request.setAttribute("phone02", phone02);
+        	    request.setAttribute("phone03", phone03);
+    		    request.setAttribute("roadaddr", roadaddr);
     	      	request.setAttribute("detailaddr", detailaddr);
 
     	}

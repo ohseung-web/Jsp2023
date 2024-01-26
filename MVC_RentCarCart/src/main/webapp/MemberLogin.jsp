@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,9 +40,12 @@
 </style>
 </head>
 <body>
+
+<%  String chk = request.getParameter("chk"); %>
 <div class="container2">
+       <%=chk %>
        <h2> 로그인 </h2>
-       <form action="MemberLoginProc.do" method="post" id="login">
+       <form action="MemberLoginProc.do?chk=<%=chk %>" method="post" id="login">
           <table width="400" border="1" id="logintable">
              <tr height="50">
                 <td width="150">아이디</td>
@@ -52,7 +56,10 @@
                 <td width="250"><input type="password" name="pw"></td>
              </tr>
              <tr height="50">
-                <td colspan="2"><input type="submit" value="로그인"></td>
+                <td colspan="2">
+                <%-- <input type="hidden" name="chk" value="<%=chk %>" > --%>
+                <input type="submit" value="로그인">
+                </td>
              </tr>             
           </table>
        </form>

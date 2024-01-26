@@ -33,15 +33,16 @@ public class JangDAO {
     
     ////////////////////////////////////////////////////////////////////
  // 모든 장바구니의 정보를 검색하는 메소드
-    public ArrayList<JangDTO> getAllJang(){
+    public ArrayList<JangDTO> getAllJang(String id){
     	getConnect();
     	
     	ArrayList<JangDTO> a = new ArrayList<JangDTO>();
     	
     	try {
     	 
-    		 String sql = "select * from rentjang order by no desc";
+    		 String sql = "select * from rentjang where id=? order by no desc";
     		 pstmt = con.prepareStatement(sql);
+    		 pstmt.setString(1, id);
     		 rs = pstmt.executeQuery();
     		 
     		 while(rs.next()) {
@@ -75,13 +76,14 @@ public class JangDAO {
    
     	try {
        	 
-   		 String sql = "insert into rentjang values(?,?,?,?,?)";
+   		 String sql = "insert into rentjang values(?,?,?,?,?,?)";
    		 pstmt = con.prepareStatement(sql);
    	     pstmt.setInt(1, jdto.getNo());
    	     pstmt.setString(2, jdto.getImg());
     	 pstmt.setString(3, jdto.getName());
    		 pstmt.setInt(4, jdto.getCnt());
    		 pstmt.setInt(5, jdto.getPrice());
+   		 pstmt.setString(6, jdto.getId());
    		 pstmt.executeUpdate(); 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -131,15 +133,16 @@ public class JangDAO {
     
     
     // 번호를 만족하는 개수 누적 업데이트 메소드
-    public JangDTO updateNoCount(int cnt, int no) {
+    public JangDTO updateNoCount(int cnt, int no, String id) {
     	getConnect();
     	
     	JangDTO jdto = new JangDTO();
     	try {
-     		 String sql = "update rentjang set cnt = cnt + ? where no=?";
+     		 String sql = "update rentjang set cnt = cnt + ? where no=? and id=?";
      		 pstmt = con.prepareStatement(sql);
      		 pstmt.setInt(1, cnt);
      	     pstmt.setInt(2, no);
+     	     pstmt.setString(3, id);
      	     pstmt.executeUpdate();
   		} catch (Exception e) {
   			e.printStackTrace();
@@ -166,6 +169,7 @@ public class JangDAO {
     		 String sql = "delete from rentjang where no=?";
     		 pstmt = con.prepareStatement(sql);
     		 pstmt.setInt(1, no);
+    		// pstmt.setString(2, id);
     	     pstmt.executeUpdate();
  		} catch (Exception e) {
  			e.printStackTrace();
@@ -184,15 +188,16 @@ public class JangDAO {
     }
     
     // 장바구니에서 수량만 변경되는 메소드 
-    public JangDTO updatecount(int cnt, int no) {
+    public JangDTO updatecount(int cnt, int no, String id) {
     	getConnect();
     	
     	JangDTO jdto = new JangDTO();
     	try {
-     		 String sql = "update rentjang set cnt=?  where no=?";
+     		 String sql = "update rentjang set cnt=?  where no=? and id=?";
      		 pstmt = con.prepareStatement(sql);
      		 pstmt.setInt(1, cnt);
      	     pstmt.setInt(2, no);
+     	     pstmt.setString(3, id);
      	     pstmt.executeUpdate();
   		} catch (Exception e) {
   			e.printStackTrace();
@@ -348,6 +353,7 @@ public class JangDAO {
      		 String sql = "delete from rentjang where no=?";
      		 pstmt = con.prepareStatement(sql);
      		 pstmt.setInt(1, no);
+     		// pstmt.setString(2, id);
      		 pstmt.executeUpdate();
      	  
   		} catch (Exception e) {
@@ -408,13 +414,14 @@ public class JangDAO {
 	}
 	
 	// rentjang의 전체 개수
-    public int rentjangCount() {
+    public int rentjangCount(String id) {
     	getConnect();
     	int rentCount = 0;
     	try {
 			
-			String sql = "select count(*) from rentjang";
+			String sql = "select count(*) from rentjang where id = ?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				rentCount = rs.getInt(1);

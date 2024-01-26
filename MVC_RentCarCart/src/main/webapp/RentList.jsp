@@ -48,7 +48,18 @@
 <body>
 
   <div class="rentcontainer">
-     <h2>모든 상품 보기</h2>
+    <c:choose>
+       <c:when test="${cate == 1 }">
+         <c:set var="cateName" value="${cateName = '소형차'}"/>
+       </c:when>
+       <c:when test="${cate == 2 }">
+         <c:set var="cateName" value="${cateName = '중형차'}"/>
+       </c:when>
+       <c:when test="${cate == 3 }">
+         <c:set var="cateName" value="${cateName = '대형차'}"/>
+       </c:when>
+    </c:choose>
+     <h2> ${cateName} 상품 보기</h2>
    <table width="800" border="1" class="renttable">
      <tr height="40">
       <td align="center" width="50">상품번호</td>
@@ -72,32 +83,32 @@
      </c:forEach> 
    </table> 
    
-    <div class="pageing">
+   <div class="pageing">
 		<!-- 페이지 카운터링 소스 작성 [1] [2] [3] [다음] ....... -->
-
+    
 		<!-- [이전]이라는 링크를 만들건지 파악-->
 		<c:if test="${startPage > pageBlock }">
-			<a href="RentListPro.do?pageNum=${startPage - pageBlock}"> ◀ 
+			<a href="RentListPro.do?pageNum=${startPage - pageBlock}&category=${cate}"> ◀ 
 			</a>
 		</c:if>
 
 		<!-- 페이징 처리 -->
 		<c:forEach var="i" begin="${startPage}" end="${endPage}">
-			<a href="RentListPro.do?pageNum=${i}">${i}</a>
+			<a href="RentListPro.do?pageNum=${i}&category=${cate}">${i}</a>
 		</c:forEach>
 
 		<!-- [다음]이라는 페이지를 만들건지 파악 -->
 		<c:if test="${endPage < pageCount }">
-			<a href="RentListPro.do?pageNum=${startPage + pageBlock}"> ▶
+			<a href="RentListPro.do?pageNum=${startPage + pageBlock}&category=${cate}"> ▶
 			</a>
 		</c:if>		
-		
+
 		<!-- The more 방식 페이징 -->
 		<%-- <c:forEach var="i" begin="${startPage}" end="${endPage}">
 			<a href="RentListPro.do?pageNum=${i}"> The more </a>
 		</c:forEach> --%>
 		
-    </div>
+    </div> 
   </div>
 
 </body>

@@ -26,6 +26,11 @@ public class RentDeleteJang extends HttpServlet {
     protected void reqPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
     	request.setCharacterEncoding("UTF-8");
+    	String loginId = request.getParameter("loginId"); 
+    	
+    	if(loginId == "") {
+    		loginId = "geust";
+    	}
     	
     	// JangList.jsp에서 chk박스는 동시에 여러개를 선택할 수 있기때문에
     	// request.getParameterValues( )를 이용하여 값을 받아온다.
@@ -50,7 +55,7 @@ public class RentDeleteJang extends HttpServlet {
     	
     	//--------------------------------------------------------------
     	// rentjang 테이블에 상품을 삭제하고 난 후 전체 개수를 세어서 세션에 담아 JangList.jsp 떠넘긴다.
-    	 int rentJangCount = jdao.rentjangCount();
+    	 int rentJangCount = jdao.rentjangCount(loginId);
     	 HttpSession session = request.getSession();
     	 
     	 if(rentJangCount == 0) {
@@ -63,7 +68,7 @@ public class RentDeleteJang extends HttpServlet {
        //------------------------------------------------------------
     	  
     	// 데이터 삭제한 후 장바구니 목록을 확인할 수 있도록 배열에 담아 넘긴다.
-    	ArrayList<JangDTO> jalist = jdao.getAllJang();
+    	ArrayList<JangDTO> jalist = jdao.getAllJang(loginId);
     	request.setAttribute("jalist", jalist);
     	
     	RequestDispatcher rdis = request.getRequestDispatcher("RentcarMain.jsp?section=JangList.jsp");

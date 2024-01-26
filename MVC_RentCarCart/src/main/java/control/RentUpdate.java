@@ -31,10 +31,20 @@ public class RentUpdate extends HttpServlet {
 	
 		int no = Integer.parseInt(request.getParameter("no"));
 		int cnt = Integer.parseInt(request.getParameter("cnt"));
+		String loginId = request.getParameter("loginId"); 
 		
-		jdao.updatecount(cnt, no);
+//		System.out.println("장바구니에서 넘어온 id"+loginId);
 		
-		ArrayList<JangDTO> jalist = jdao.getAllJang();
+//		jangList.jsp에서 수정시 로그인id가 공백이면 geust로 id 저장한다.
+		if(loginId == "") {
+			loginId = "geust";
+		}
+		
+//		System.out.println("geust를 담은 id"+loginId);
+		
+		jdao.updatecount(cnt, no, loginId);
+		
+		ArrayList<JangDTO> jalist = jdao.getAllJang(loginId);
 		request.setAttribute("jalist", jalist);
 		
 		RequestDispatcher rdis =  request.getRequestDispatcher("RentcarMain.jsp?section=JangList.jsp");

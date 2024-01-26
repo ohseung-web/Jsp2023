@@ -197,6 +197,15 @@
       <Context docBase="MVC_RentCarCart" path="/MVC_RentCarCart" reloadable="true" source="org.eclipse.jst.jee.server:MVC_RentCarCart">
          <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" maxWaite="5000" name="jdbc/pool" password="12345678" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/jspdatabase?serverTimezone=UTC" username="root"/>
       </Context>
+      <Context docBase="LivingnTree" path="/LivingnTree" reloadable="true" source="org.eclipse.jst.jee.server:LivingnTree">
+         <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" maxWaite="5000" name="jdbc/pool" password="12345678" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/livingntree?serverTimezone=UTC" username="root"/>
+      </Context>
+      <Context docBase="LivingnTree_SeungJun" path="/LivingnTree_SeungJun" reloadable="true" source="org.eclipse.jst.jee.server:LivingnTree_SeungJun">
+          <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" maxWaite="5000" name="jdbc/pool" password="12345678" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/livingntree?serverTimezone=UTC" username="root"/>
+      </Context>
+      <Context docBase="MVCRentcarCart_defalutVersion" path="/MVCRentcarCart_defalutVersion" reloadable="true" source="org.eclipse.jst.jee.server:MVCRentcarCart_defalutVersion">
+         <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" maxWaite="5000" name="jdbc/pool" password="12345678" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/jspdatabase?serverTimezone=UTC" username="root"/>
+      </Context>
       </Host>
     </Engine>
   </Service>

@@ -85,6 +85,7 @@
        font-size: 17px;
        color : darkgray;
     } 
+    /* 체크박스 선택 CSS  */
     .jangList  .janglisttable input[type='checkbox']{
        display : none;
     }
@@ -96,15 +97,19 @@
     text-align: center;
     line-height: 13px;
     font-size: 12px;
-    border-radius: 3px;
+    color : #eee;
+    border-color : gray;
+   /*  border-radius: 3px; */
     border: 1px solid gray;
     margin-right: 5px;
-    color: transparent;
+    /* color: transparent; */
     display: inline-block;
 }
 .jangList  .janglisttable input[type='checkbox']:checked + .chklabel::before {
-   background-color: rgb(43, 43, 43);
-   color: white;
+   /* background-color: rgb(43, 43, 43); */
+  /*  color: white; */
+   color: black;
+   font-weight: bold;
 }
 </style>
 </head>
@@ -140,6 +145,7 @@
 						       <input type="button" value="-" class="minus" onclick="fn_update(false,${index},this.form)">
 						       <input type="text"   name="cnt" value="${jdto.cnt }" class="spancnt" >
 						       <input type="button" value="+" class="plus" onclick="fn_update(true,${index},this.form)">
+						       <input type="hidden" name="id" value="${rentlogin}" class="carid" />
 						       <input type="hidden" name="no" value="${jdto.no}" class="carno" />
 						    </div>
 						</td>    
@@ -185,7 +191,16 @@
     let chk_list = document.querySelectorAll(".chk");
     let param = "";
     
-    // 체크박스클릭시 전체 체크박스선택
+    //체크박스 클릭시 상품코드 선택하여 param에 저장하는 함수
+    function chklist(){
+    	for(let i=0; i<chk_list.length; i++){
+    		if(chk_list[i].checked){
+      			param = (param + chk_list[i].value+" ");
+      		}
+    	}
+    }
+    
+    // 맨위에 체크박스클릭시 전체 체크박스 모두 선택
      function selectAll(selectAll)  {
        let checkboxes = document.getElementsByName('chk');
   
@@ -204,11 +219,11 @@
 	
 	//전체삭제
 	function fn_Alldelete(){
-		for(let i=0; i<chk_list.length; i++){
+		/* for(let i=0; i<chk_list.length; i++){
 			param = (param + chk_list[i].value+" ");
-		}
-		
-		location.href ='RentDeleteJang.do?chk='+param;
+		} */
+		chklist();
+		location.href ='RentDeleteJang.do?chk='+param + '&loginId='+loginId;
 	}
 	
 	// 주문하기
@@ -220,18 +235,21 @@
     		/* location.href='LoginOK.do'; */
     		
     		alert("로그인 후 사용하세요!");
-    		location.href='RentcarMain.jsp?section=MemberLogin.jsp';	
+    		
+    		chklist();
+    		location.href='RentcarMain.jsp?section=MemberLogin.jsp?chk='+param;	
     		
         }else{
         	
        // 	let param="";
         //	let chk_list = document.getElementsByName("chk");
         	
-        	   for(let i=0; i<chk_list.length; i++){
+        	   /* for(let i=0; i<chk_list.length; i++){
               		if(chk_list[i].checked){
               			param = (param + chk_list[i].value+" ");
               		}
-        	     }
+        	     } */
+        	     chklist(); 
         	   // location.href="search.jsp?type="+type+"&type2=type"+type2;
        		   // 동시에 여러개 파라미터 값 보내는 방법
      		    location.href='OrderListPro.do?chk='+ param + '&loginId='+loginId;
@@ -244,13 +262,13 @@
     //	let param="";
     //	let chk_list = document.getElementsByName("chk");
     //  상품 번호 1 2 3  ....	
-    	for(let i=0; i<chk_list.length; i++){
+    	/* for(let i=0; i<chk_list.length; i++){
     		if(chk_list[i].checked){
     			param = (param + chk_list[i].value+" ");
     		}
-    	}
-    	
-    	location.href='RentDeleteJang.do?chk='+param;
+    	} */
+    	chklist();
+    	location.href='RentDeleteJang.do?chk='+param + '&loginId='+loginId;
     } 
  
     // plus, minus버튼클릭시 수량 증가/감소 시킨다.
@@ -258,30 +276,26 @@
     // f는 this.form의 매개변수이다.
     function fn_update(isBool,i,f){
     	console.log(i)
-    	if(isBool == false){
-    		
-    		if( parseInt(cntinput[i].value) > 1 ){
-	    		 cntinput[i].value = parseInt(cntinput[i].value) - 1;
-			}else{
-	            window.alert("수량은 1에서 9999 사이의 값으로 입력해 주십시오.");
-			}
-    		
-    	}else {
-    		
-    		if( parseInt(cntinput[i].value) < 9999){
-		           cntinput[i].value = parseInt(cntinput[i].value) + 1;
-				}else{
-					window.alert("수량은 1에서 9999 사이의 값으로 입력해 주십시오.");	
-				}
-    		
-    	}
-  
-    	f.action ='RentUpdate.do';
+    	 if(isBool == false){
+       		
+       		if( parseInt(cntinput[i].value) > 1 ){
+   	    		 cntinput[i].value = parseInt(cntinput[i].value) - 1;
+   			}else{
+   	            window.alert("수량은 1에서 9999 사이의 값으로 입력해 주십시오.");
+   			}
+       		
+         }else {
+       		
+       		if( parseInt(cntinput[i].value) < 9999){
+   		           cntinput[i].value = parseInt(cntinput[i].value) + 1;
+   				}else{
+   					window.alert("수량은 1에서 9999 사이의 값으로 입력해 주십시오.");	
+   				}
+         }
+      
+    	f.action ='RentUpdate.do?loginId='+loginId;
     	f.submit();
     }
-    
-    
-    
     
     /* function fn_rentUpdate(f) {
     	f.action = "RentUpdate.do";
