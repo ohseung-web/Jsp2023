@@ -125,7 +125,7 @@ p.txtInfo{
 .tableBox table #pwq, .tableBox table #pwa{
     width: 450px;
 }
-select #pwq, select #phone1{
+#pwq, #phone1{
     max-width: 100%;
     height: 40px;
     padding: 0 30px 0 15px;
@@ -137,6 +137,7 @@ select #pwq, select #phone1{
     background-position: right 10px center;
     /* background: #fff url(img/icon/ico_select.png) no-repeat right 10px center; */
     background-size: 14px 8px;
+    appearance:none;
 }
 .tableBox table .formMultiple{
     padding-top: 22px;
@@ -217,7 +218,7 @@ input[type="text"][readonly]{
             <div class="title">
                 <h2>회원 가입</h2>
             </div>
-            <form action="MemberJoinProc.do" class="memberArea">
+            <form action="MemberJoinProc.do" name="formname" class="memberArea">
                 <div class="titleArea">
                     <h3>기본정보</h3>
                     <p class="required">
@@ -231,21 +232,24 @@ input[type="text"][readonly]{
                             <th><img src="img/icon/ico_required.svg" alt="필수">아이디</th>   
                             <td>
                                 <input type="text" id="id" name="id">
-                                <div class="txtInfo">(영문소문자/숫자, 4~16자)</div>
+                                <div class="txtInfo">(영문소문자/숫자, 4~16자, 숫자로 시작하는 아이디 사용 불가)</div>
                                 <p id="idMsg" class="txtInfo txtSuccess"></p>
                             </td>
                         </tr>
                         <tr>
                             <th><img src="img/icon/ico_required.svg" alt="필수">비밀번호</th>   
                             <td>
-                                <input type="text" id="pw" name="pw">
-                                <div class="txtInfo">(영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자)</div>
+                                <input type="password" id="pw" name="pw">
+                                <div class="txtInfo">
+                                	(영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자)<br>
+                                	입력 가능 특수문자: ~ ` ! @ # $ % ^ ( ) * _ - { } [ ] | ; : < > , . ? /
+                                </div>
                             </td>
                         </tr>
                         <tr>
                             <th><img src="img/icon/ico_required.svg" alt="필수">비밀번호 확인</th>   
                             <td>
-                                <input type="text" id="pwchk" name="pwchk">
+                                <input type="password" id="pwchk" name="pwchk">
                                 <p id="pwchkMsg" class="txtInfo"></p>
                             </td>
                         </tr>
@@ -253,11 +257,11 @@ input[type="text"][readonly]{
                             <th><img src="img/icon/ico_required.svg" alt="필수">비밀번호 확인 질문</th>   
                             <td>
                                 <select id="pwq" name="pwq">
-                                    <option value="pwq_01">기억에 남는 추억의 장소는?</option>
-                                    <option value="pwq_02">가장 기억에 남는 선생님 성함은?</option>
-                                    <option value="pwq_03">받았던 선물 중 기억에 남는 독특한 선물은?</option>
-                                    <option value="pwq_04">인상깊게 읽은 책 이름은?</option>
-                                    <option value="pwq_05">다시 태어나고 싶으면 되고 싶은 것은?</option>
+                                    <option value="기억에 남는 추억의 장소는?">기억에 남는 추억의 장소는?</option>
+                                    <option value="가장 기억에 남는 선생님 성함은?">가장 기억에 남는 선생님 성함은?</option>
+                                    <option value="받았던 선물 중 기억에 남는 독특한 선물은?">받았던 선물 중 기억에 남는 독특한 선물은?</option>
+                                    <option value="인상깊게 읽은 책 이름은?">인상깊게 읽은 책 이름은?</option>
+                                    <option value="다시 태어나고 싶으면 되고 싶은 것은?">다시 태어나고 싶으면 되고 싶은 것은?</option>
                                 </select>
                             </td>
                         </tr>
@@ -292,11 +296,11 @@ input[type="text"][readonly]{
                             <th><img src="img/icon/ico_required.svg" alt="필수">휴대전화</th>   
                             <td>
                                 <select id="phone1" name="phone1">
-                                    <option value="1">010</option>
-                                    <option value="2">016</option>
-                                    <option value="3">017</option>
-                                    <option value="4">018</option>
-                                    <option value="5">019</option>
+                                    <option value="010">010</option>
+                                    <option value="016">016</option>
+                                    <option value="017">017</option>
+                                    <option value="018">018</option>
+                                    <option value="019">019</option>
                                 </select>
                                 -
                                 <input type="text" id="phone2" name="phone2" maxlength="4">
@@ -315,12 +319,85 @@ input[type="text"][readonly]{
                 </div>
                 <div class="btnBox">
                     <input type="button" class="normalBtn" onclick="history.go(-1)" value="취소">
-                    <input type="submit" class="submitBtn" value="가입하기">
+                    <input type="button" class="submitBtn" onclick="checkMember()" value="가입하기">
                 </div>
             </form>
         </div>
     </div>
     <script>
+    let id = document.getElementById('id');
+    let pw = document.getElementById('pw');
+    let pwchk = document.getElementById('pwchk');
+    let pwa = document.getElementById('pwa');
+    let name = document.getElementById('name');
+    let defaultaddr = document.getElementById('defaultaddr');
+    let detailaddr = document.getElementById('detailaddr');
+    let phone1 = document.getElementById('phone1');
+    let phone2 = document.getElementById('phone2');
+    let phone3 = document.getElementById('phone3');
+    let email = document.getElementById('email');
+    
+    let idMsg = document.getElementById("idMsg");
+    let pwchkMsg = document.getElementById("pwchkMsg");
+    let emailMsg = document.getElementById("emailMsg");
+
+ 	// 아이디: 영문자로 시작하는 영문자 또는 숫자 4~16자, 숫자로 시작 x
+    const regId = /^[a-z]{1}[a-z0-9]{3,15}$/;
+    // 패스워드: 영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자
+    // 입력 가능 특수문자: ~ ` ! @ # $ % ^ () * _ - {} [] | ; : <> , . ? /
+    const regPw = /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[~`!@#\$%\^\(\)\*_\-\{\}\[\]\|;:<>,\.\?/])[A-Za-z0-9~`!@#\$%\^\(\)*_\-\{\}\[\]\|;:<>,\.\?/]{8,16}$/;
+    // 휴대전화: ex) 010-0000-0000, 010-111-1111
+    const regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+    // 이메일: ex) jsp2024@gmail.com, genius@snu.ac.kr
+    const regEmail = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]+$/;
+    
+    // 유효하지 않은 아이디/이메일일 경우 화면에 표시, 비밀번호 불일치 시 화면에 표시
+    id.addEventListener("focusout", () =>{
+        if(id.value !== "" && id.value !== ""){
+				if(regId.test(id.value)){
+					idMsg.innerHTML = "사용 가능한 아이디입니다.";
+                    idMsg.classList.remove('error');
+				}
+				else{
+					idMsg.innerHTML = "유효하지 않은 아이디입니다.";
+                    idMsg.classList.add('error');
+				}
+			}
+		else{
+			idMsg.innerHTML = "아이디를 입력해주세요.";
+            idMsg.classList.add('error');
+		}
+    })
+
+    pwchk.addEventListener("focusout", () =>{
+		if(pw.value === pwchk.value || pw.value === ""){
+			pwchkMsg.innerHTML = "";
+			pwchkMsg.classList.remove('error');
+		}
+		else{
+			pwchkMsg.innerHTML = "비밀번호가 일치하지 않습니다.";
+			pwchkMsg.classList.add('error');
+		}
+	})
+
+    email.addEventListener("focusout", () =>{
+        if(email.value !== "" && email.value !== ""){
+				if(regEmail.test(email.value)){
+					emailMsg.innerHTML = "";
+                    emailMsg.classList.remove('error');
+				}
+				else{
+					emailMsg.innerHTML = "유효한 이메일을 입력해주세요.";
+                    emailMsg.classList.add('error');
+				}
+			}
+		else{
+			emailMsg.innerHTML = "이메일을 입력해주세요.";
+            emailMsg.classList.add('error');
+		}
+    })
+    
+    // 주소검색 클릭 시 Daum 주소 API가 뜨도록 설정
     function DaumPostcode(){
     	new daum.Postcode({
     		oncomplete: function (data){
@@ -335,6 +412,79 @@ input[type="text"][readonly]{
     			document.getElementById('detailaddr').focus();
     		},
     	}).open();	
+    }
+
+    // 가입버튼 누를 시 예외처리
+    // 1) 입력값이 null
+    // 2) 정규식 오류
+    // 3) 패스워드 불일치
+    function checkMember(){
+    	let formname = document.formname;
+    	let phone = phone1.value+"-"+phone2.value+"-"+phone3.value;
+    	/* console.log(id.value);
+    	console.log(pw.value);
+    	console.log(pwchk.value);
+    	console.log(pwq.value);
+    	console.log(pwa.value);
+    	console.log(defaultaddr.value);
+    	console.log(phone1.value);
+    	console.log(phone2.value);
+    	console.log(phone3.value);
+    	console.log(phone);
+    	console.log(email.value); */
+    	// 1)
+    	if(id.value === ""){
+			alert('아이디를 입력해주세요.');
+			return;
+		}
+    	if(pw.value === "" || pwchk === ""){
+			alert('비밀번호 항목은 필수 입력값입니다.');
+			return;
+		}
+    	if(pwa.value === ""){
+			alert('비밀번호 확인시 답변 항목은 필수 입력값입니다.');
+			return;
+		}
+    	if(name.value === ""){
+			alert('이름을 입력해주세요.');
+			return;
+		}
+    	if(defaultaddr.value === "" || detailaddr.value === ""){
+			alert('주소를 입력해주세요.');
+			return;
+		}
+    	if(phone2.value === "" || phone3.value === ""){
+			alert('휴대전화를 입력해주세요.');
+			return;
+		}
+    	if(email.value === ""){
+			alert('이메일을 입력해주세요.');
+			return;
+		}
+    	// 2)
+		if(!regId.test(id.value)){
+			alert('유효하지 않은 아이디입니다.');
+			return;
+		}
+		if(!regPw.test(pw.value)){
+			alert('유효하지 않은 비밀번호입니다.');
+			return;
+		}
+		if(!regPhone.test(phone)){
+			alert('올바른 휴대전화번호를 입력하세요.');
+			return;
+		}
+		if(!regEmail.test(email.value)){
+			alert('입력하신 이메일을 사용할 수 없습니다.');
+			return;
+		}
+		// 3)
+		if(pw.value !== pwchk.value){
+			alert('패스워드가 일치하지 않습니다.');
+			return;
+		}
+		
+		formname.submit();
     }
     </script>
 </body>

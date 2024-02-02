@@ -64,7 +64,31 @@
          <td width="50">상품가격</td>
          <td width="50">총금액</td>
        </tr>
-         <c:forEach var="ck" items="${ac }">
+       <c:choose>
+          <c:when test="${rdto ne isEmpty }">
+              <tr height="40">
+               <td width="50">${rdto.no }
+                <input type="hidden" name="no" value="${rdto.no }">
+               </td>
+               <td width="50">
+                <img src="img/${rdto.img }" width="60" height="60">
+                <input type="hidden" name="img" value="${rdto.img }">
+               </td>
+               <td width="50">${rdto.name }
+                <input type="hidden" name="name" value="${rdto.name }">
+               </td>
+               <td width="50">${cnt}개
+                <input type="hidden" name="cnt" value="0">
+               </td>
+               <td width="50"><fmt:formatNumber value="${rdto.price }" pattern="#,##0" />
+                <input type="hidden" name="rentlogin" value="${rentlogin}">
+                <input type="hidden" name="price" value="${rdto.price }">
+               </td>
+               <td width="50"><fmt:formatNumber value="${rdto.price * cnt}" pattern="#,##0" /></td>
+             </tr>
+          </c:when>
+          <c:otherwise>
+            <c:forEach var="ck" items="${ac }">
              <tr height="40">
                <td width="50">${ck.no }
                 <input type="hidden" name="no" value="${ck.no }">
@@ -85,7 +109,9 @@
                </td>
                <td width="50"><fmt:formatNumber value="${ck.price * ck.cnt }" pattern="#,##0" /></td>
              </tr>
-         </c:forEach>
+           </c:forEach>
+          </c:otherwise>
+     </c:choose>   
               <tr height="60">
                 <td align="center" colspan="6" id="rent">배송지 정보</td>
              </tr>

@@ -15,6 +15,7 @@ import model.BuyDTO;
 import model.JangDAO;
 import model.JangDTO;
 import model.RentDAO;
+import model.RentDTO;
 
 
 @WebServlet("/MemberLoginProc.do")
@@ -36,13 +37,21 @@ public class MemberLoginProc extends HttpServlet {
 		String userPw = request.getParameter("pw");
 		
 //		비회원으로 상품을 구매하기위해 사용하는 코드
+		RentDTO rdto = new RentDTO();
 		JangDTO jdto = new JangDTO();
 		JangDAO jdao = new JangDAO();
 		ArrayList<JangDTO> ac = new ArrayList<JangDTO>();
 		
 		// 비회원이 장바구니의 상품을 구매하기위해 선택한 상품 ---------------
 		String chk = request.getParameter("chk");
-		System.out.println("로그인 화면에서 넘겨받은 chk :" + chk);
+		int chkbool = chk.indexOf(" ");//선택한 상품번호옆에 공백이 존재하는지 여부를 체크  
+		String cnt = request.getParameter("cnt"); //상품테이블에서 넘어온 수량
+		int quanty = 0;
+		
+		if(!cnt.equals("null")) {
+			quanty = Integer.parseInt(cnt);
+		}
+		
 		//---------------------------------------------------------
 		//예외처리
 		  if((userId != null && !userId.isEmpty()) && (userPw != null && !userPw.isEmpty())) {
@@ -52,7 +61,7 @@ public class MemberLoginProc extends HttpServlet {
 			
 			// id와 pw가 일치하는지 예외처리
 			// MemberLogin.jsp에서 get방식으로 넘겨준 chk의 값이 null이라는 건 비어있다는 뜻이 아니라 문자 "null"을 넘겼다는 뜻이다.  
-			if(dbPw.equals(userPw) && chk.equals("null")) {			
+			if(dbPw.equals(userPw) && chk.equals("null") && cnt.equals("null")) {			
 				// servlet에서 session을 지정하는 방식
 				//HttpSession session = request.getSession();
 				session.setAttribute("rentlogin", userId);
@@ -62,15 +71,29 @@ public class MemberLoginProc extends HttpServlet {
 				rdis.forward(request, response);
 
 			}else if(dbPw.equals(userPw) && !chk.equals("null")) { // 비회원일 때 선택한 상품을 로그인하고 바로 구매하는 코드
-			
-				String [] arrChk = chk.split(" ");
-		    	int aChk = 0;
-				   for(int i=0; i<arrChk.length; i++) {
-		    			aChk = Integer.parseInt(arrChk[i]);
-		    			jdto = jdao.buyselect(aChk);
-		    			ac.add(jdto);
-		    		}
-				   
+					
+				if(chkbool == -1) {
+					
+					System.out.println("여기로 왔어오~~"+chkbool);
+	        		int chkno = Integer.parseInt(chk);
+	        		System.out.println("여기로 왔어오~~"+chkno);
+	        		rdto = jdao.buyRentselect(chkno);
+	
+	        		request.setAttribute("cnt", quanty);
+	        		request.setAttribute("rdto", rdto);
+	        		
+	        	}else {
+	        		System.out.println("여기 배열로 왔어오~~"+chkbool);
+	        		String [] arrChk = chk.split(" ");
+	            	int aChk = 0;
+	            	for(int i=0; i<arrChk.length; i++) {
+	        			aChk = Integer.parseInt(arrChk[i]);
+	        			jdto = jdao.buyselect(aChk);
+	        			ac.add(jdto);
+	        		}
+	            	request.setAttribute("ac", ac);
+	        	}
+				
 				//-----------------------------------------------------------------------
 				// 상품을 이미 구매한 회원인 경우 자동으로 주소 출력하는 코드
 			    	BuyDTO bdto = new BuyDTO();
@@ -99,10 +122,8 @@ public class MemberLoginProc extends HttpServlet {
 			    	      	request.setAttribute("detailaddr", detailaddr);
 
 			    	}
-				   //--------------------------------------------------------------------------------
-			       
+				   //-------------------------------------------------------------------------------- 
 			       session.setAttribute("rentlogin", userId);
-				   request.setAttribute("ac", ac);
 				   RequestDispatcher rdis = request.getRequestDispatcher("RentcarMain.jsp?section=OrderList.jsp");
 				   rdis.forward(request, response);
 				   

@@ -255,6 +255,46 @@ public class JangDAO {
     	return jdto;
     }
     
+  //상품번호에 해당하는 하나의 상품정보만 상품테이블에서 리턴하는 메소드
+    public RentDTO buyRentselect(int no){
+    	getConnect();
+    	RentDTO rdto = new RentDTO();
+  
+    	try {
+    		 String sql = "select * from rentcar where no=?";
+    		 pstmt = con.prepareStatement(sql);
+    		 pstmt.setInt(1, no);
+    	     rs = pstmt.executeQuery();
+    	     
+    	     if(rs.next()) {
+    	    	 rdto.setNo(rs.getInt(1));
+       			 rdto.setName(rs.getString(2));
+       			 rdto.setCategory(rs.getInt(3));
+       			 rdto.setPrice(rs.getInt(4));
+       			 rdto.setUsepeople(rs.getInt(5));
+       			 rdto.setCompany(rs.getString(6));
+       			 rdto.setImg(rs.getString(7));
+       			 rdto.setInfo(rs.getString(8));
+    	     }
+    	     
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 		} finally {
+ 			try {
+ 				if (con != null)
+ 					con.close();
+ 				if (pstmt != null)
+ 					pstmt.close();
+ 				if (rs != null)
+ 					rs.close();
+ 			} catch (SQLException se) {
+ 				se.printStackTrace();
+ 			}
+ 		}
+    	
+    	return rdto;
+    }
+    
     // 주문일자와 오늘날짜가 같을 경우 주문번호가 1씩 증가되는 메소드
     public int noaddSelect() {
     	getConnect();

@@ -89,7 +89,7 @@ public class LivProductListProc extends HttpServlet {
 		}
 		
 		// 페이징 종료
-		
+		request.setAttribute("count", count);
 		request.setAttribute("pageNum", pageNum);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("pageCount", pageCount);

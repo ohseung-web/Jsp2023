@@ -16,9 +16,10 @@
 <div class="container">
 	<jsp:include page="Header.jsp"/>
 		<section>
-			<jsp:include page="<%=section%>"/>
+			<jsp:include page="<%=section %>"/>
 		</section>
 	<jsp:include page="Footer.jsp"/>
 </div>
+
 </body>
 </html>

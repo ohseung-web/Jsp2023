@@ -41,11 +41,17 @@
 </head>
 <body>
 
-<%  String chk = request.getParameter("chk"); %>
+<%  String chk = request.getParameter("chk"); 
+    String no = request.getParameter("no");
+    if(no != null){
+    	chk = no;
+    }
+    String cnt = request.getParameter("cnt");
+%>
 <div class="container2">
-       <%=chk %>
+       <%=chk %>, <%=no %>
        <h2> 로그인 </h2>
-       <form action="MemberLoginProc.do?chk=<%=chk %>" method="post" id="login">
+       <form action="MemberLoginProc.do?chk=<%=chk %>&cnt=<%=cnt %>" method="post" id="login">
           <table width="400" border="1" id="logintable">
              <tr height="50">
                 <td width="150">아이디</td>

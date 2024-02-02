@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.BuyDTO;
 import model.JangDAO;
 import model.JangDTO;
+import model.RentDTO;
 
 
 @WebServlet("/OrderListPro.do")
@@ -30,6 +31,7 @@ public class OrderList extends HttpServlet {
 		
     	request.setCharacterEncoding("UTF-8");
     	
+    	RentDTO rdto = new RentDTO();
     	JangDAO jdao = new JangDAO();
     	JangDTO jdto = new JangDTO();
     	//BuyDTO bdto = new BuyDTO();
@@ -37,17 +39,38 @@ public class OrderList extends HttpServlet {
     	
 	    String loginId = request.getParameter("loginId"); 
     	String chk = request.getParameter("chk");
-    	String [] arrChk = chk.split(" ");
-    	int aChk = 0;
-        
+    	int chkbool = chk.indexOf(" ");
+      
+    	String cnt = request.getParameter("cnt"); //상품테이블에서 넘어온 수량
+		int quanty = 0;
+		
+		if(cnt != null) {
+			quanty = Integer.parseInt(cnt);
+		}
+		
     	// 장바구니에서 선택한 상품이 있을때만 구매해야 하므로 null처리한다.
     	if(chk != null && !chk.isEmpty()) {
     		
-    		for(int i=0; i<arrChk.length; i++) {
-    			aChk = Integer.parseInt(arrChk[i]);
-    			jdto = jdao.buyselect(aChk);
-    			ac.add(jdto);
-    		}
+    		if(chkbool == -1) {
+    			System.out.println("여기로 왔어오~~"+chkbool);
+        		int chkno = Integer.parseInt(chk);
+        		System.out.println("여기로 왔어오~~"+chkno);
+        		rdto = jdao.buyRentselect(chkno);
+        		
+        		request.setAttribute("cnt", quanty);
+        		request.setAttribute("rdto", rdto);
+        		
+        	}else {
+        		System.out.println("여기 배열로 왔어오~~"+chkbool);
+        		String [] arrChk = chk.split(" ");
+            	int aChk = 0;
+            	for(int i=0; i<arrChk.length; i++) {
+        			aChk = Integer.parseInt(arrChk[i]);
+        			jdto = jdao.buyselect(aChk);
+        			ac.add(jdto);
+        		}
+            	request.setAttribute("ac", ac);
+        	}
     		
     	}else { // 선택된 상품이 없을 떄 예외처리
     		request.setAttribute("msgchk", "상품을 선택하세요");
@@ -84,8 +107,12 @@ public class OrderList extends HttpServlet {
     	}
     
         	//select한 결과를 저장
-        	request.setAttribute("ac", ac);
-
+//    	   if(chkbool == -1) {
+//	    	   request.setAttribute("jdto", jdto);
+//	       }else {
+//	    	   request.setAttribute("ac", ac); 
+//	       }
+//        	
     	    RequestDispatcher rdis = request.getRequestDispatcher("RentcarMain.jsp?section=OrderList.jsp");
     	    rdis.forward(request, response);
     	

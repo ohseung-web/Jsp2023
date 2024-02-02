@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +12,9 @@
   integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
   crossorigin="anonymous"></script>
 <style>
+.headerContainer{
+	border-bottom: 0 !important;
+}
 .sectionContainer{
     width: 100%;
     background-color: #fff;
@@ -500,14 +504,20 @@
                                     	<span class="cart">ADD</span>
                                 	</div>
                             	</div>
+                            	
+                            	<%-- <c:forEach var="pdto" items="${plist}"> --%>
                             	<div class="description">
                                 	<div class="name"><a href="#">Test01</a></div>
+                                	<%-- <div class="name"><a href="#">${pdto.p_name}</a></div> --%>
                                 	<div class="spec">
                                     	<div class="price"><span>10,000원</span></div>
+                                    	<%-- <div class="price"><span>${pdto.p_price}원</span></div> --%>
                                     	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">100원 (1%)</span></div>
                                 	</div>
                             	</div>
+                              <%-- </c:forEach>	 --%>
                         	</div>
+        
                     	</li>
                     	<li>
                         	<div class="prdList_item">

@@ -22,7 +22,7 @@
              // 단, 반드시 new Cookie("key값","해당하는 value값")으로 정의 해야한다.
              Cookie cookie = new Cookie("id",id);  	
         	 //쿠키 유효시간 설정
-        	 cookie.setMaxAge(60*2); // 10분간 유효
+        	 cookie.setMaxAge(60*2); // 2분간 유효
         	 
         	 //사용자에게 cookie값을 넘겨 준다.
         	 response.addCookie(cookie);

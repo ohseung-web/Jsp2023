@@ -206,7 +206,7 @@
       <Context docBase="MVCRentcarCart_defalutVersion" path="/MVCRentcarCart_defalutVersion" reloadable="true" source="org.eclipse.jst.jee.server:MVCRentcarCart_defalutVersion">
          <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" loginTimeout="10" maxWaite="5000" name="jdbc/pool" password="12345678" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/jspdatabase?serverTimezone=UTC" username="root"/>
       </Context>
-      </Host>
+      <Context docBase="Hpage" path="/Hpage" reloadable="true" source="org.eclipse.jst.jee.server:Hpage"/></Host>
     </Engine>
   </Service>
 </Server>

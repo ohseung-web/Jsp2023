@@ -151,6 +151,7 @@
 						</td>    
 						<td align="center" width="50"><fmt:formatNumber value="${jdto.price }" pattern="#,##0" /></td>
 						<td align="center" width="50" id="total"><fmt:formatNumber value="${jdto.price * jdto.cnt }" pattern="#,##0" /></td>
+						<c:set var="cnt"  value="${jdto.cnt }" />
 					</tr> 
 					<c:set var="index" value="${index = index + 1}"/>
 				</form>
@@ -173,12 +174,11 @@
 		</c:otherwise>
 		</c:choose>
     </div>		
-  
+     수량 : ${cnt}
  	<%-- <input type="text" value="${jdto.cnt }"  name="cnt"  size="2"  id="jangcnt">개         --%>      
 	<!-- <input type="button" value="수정"  onclick="location.href='RentUpdate.do?no=${jdto.no }&cnt=${qty }'"> -->
 	<%-- <input type="hidden" name="no" value="${jdto.no}" class="carno" /> --%>
 	<!-- <input type="submit" value="수정" formaction="RentUpdate.do"/>  -->
-	
 		
  <script>
  
@@ -216,6 +216,7 @@
     
     // 자바스크립트에세 EL로 받아온 값을 변수로 사용하는 방법
 	let loginId = "<c:out value='${rentlogin}' />";
+	let cnt = "<c:out value='${cnt}' />";
 	
 	//전체삭제
 	function fn_Alldelete(){
@@ -237,7 +238,7 @@
     		alert("로그인 후 사용하세요!");
     		
     		chklist();
-    		location.href='RentcarMain.jsp?section=MemberLogin.jsp?chk='+param;	
+    		location.href='RentcarMain.jsp?section=MemberLogin.jsp?chk='+param + '&cnt=' + cnt;	
     		
         }else{
         	

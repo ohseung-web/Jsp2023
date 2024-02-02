@@ -10,7 +10,7 @@
     .rentcontainer{
         margin: 10px auto;
         width: 800px;
-        height: 760px;
+        height: 1400px;
     }
     h2{
         text-align: center;
@@ -71,7 +71,10 @@
        </tr> 
      </c:forEach> 
    </table> 
-   
+    ${startPage} <br/>
+    ${endPage} <br />
+    ${pageCount }<br/>
+    ${pageBlock }
     <div class="pageing">
 		<!-- 페이지 카운터링 소스 작성 [1] [2] [3] [다음] ....... -->
 
@@ -94,9 +97,13 @@
 		
 		<!-- The more 방식 페이징 -->
 		<%-- <c:forEach var="i" begin="${startPage}" end="${endPage}">
-			<a href="RentListPro.do?pageNum=${i}"> The more </a>
+		    <a href="RentListPro.do?pageNum=1">The more</a>
+			<c:if test="${endPage < pageCount }">
+			  <c:forEach var="j" begin="${startPage + 1}" end="${startPage + 1}">
+			    <a href="RentListPro.do?pageNum=1">The more</a>
+			  </c:forEach>   
+			</c:if>
 		</c:forEach> --%>
-		
     </div>
   </div>
 
