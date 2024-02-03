@@ -425,42 +425,219 @@ public class LivingDAO {
 	}
 	
 	// product 테이블과 cart 테이블을 join하여 select하는 메서드
-	public ArrayList<CartDTO> getAllCart() {
-		getConnect();
-		ArrayList<CartDTO> a = new ArrayList<>();
-		try {
-			String sql = "select C.c_code,P.p_code,P.p_name,P.p_mainimg,P.p_price,P.p_delivfee,\r\n"
-					+ "C.c_qty,C.c_total,C.m_id from product P inner join cart C on P.p_code = C.p_code";
-			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				CartDTO cdto = new CartDTO();
-				cdto.setC_code(rs.getInt(1));
-				cdto.setP_code(rs.getInt(2));
-				cdto.setP_name(rs.getString(3));
-				cdto.setP_mainimg(rs.getString(4));
-				cdto.setP_price(rs.getInt(5));
-				cdto.setP_delivfee(rs.getInt(6));
-				cdto.setC_qty(rs.getInt(7));
-				cdto.setC_total(rs.getInt(8));
-				cdto.setM_id(rs.getString(9));
-				a.add(cdto);
-			}
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
+		public ArrayList<CartDTO> getAllCart(String id) {
+			getConnect();
+			ArrayList<CartDTO> a = new ArrayList<>();
 			try {
-				if(con != null) con.close();
-				if(pstmt != null) pstmt.close();
-				if(rs != null) rs.close();
-			}catch(SQLException se){
-				se.printStackTrace();
+				String sql = "select C.c_code,P.p_code,P.p_name,P.p_mainimg,P.p_price,P.p_delivfee, \r\n"
+						+ "C.c_qty,C.c_total,C.m_id from product P inner join cart C on P.p_code = C.p_code \r\n"
+						+ "where C.m_id=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, id);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					CartDTO cdto = new CartDTO();
+					cdto.setC_code(rs.getInt(1));
+					cdto.setP_code(rs.getInt(2));
+					cdto.setP_name(rs.getString(3));
+					cdto.setP_mainimg(rs.getString(4));
+					cdto.setP_price(rs.getInt(5));
+					cdto.setP_delivfee(rs.getInt(6));
+					cdto.setC_qty(rs.getInt(7));
+					cdto.setC_total(rs.getInt(8));
+					cdto.setM_id(rs.getString(9));
+					a.add(cdto);
+				}
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					if(con != null) con.close();
+					if(pstmt != null) pstmt.close();
+					if(rs != null) rs.close();
+				}catch(SQLException se){
+					se.printStackTrace();
+				}
 			}
+			return a;
 		}
-		return a;
-	}
+		
 	
+	// code에 해당하는 상품이 존재하는지 개수를 세는 메서드
+    // cart 테이블에 데이터가 존재하는지 여부를 확인하는 메서드
+    public int getCodeCount(int code) {
+    	getConnect();
+    	int count = 0;
+    	try {
+    		String sql = "select count(*) from cart where p_code=?";
+    		pstmt = con.prepareStatement(sql);
+    		pstmt.setInt(1, code);
+    		rs = pstmt.executeQuery();
+    		if(rs.next()) {
+    			count = rs.getInt(1);
+    		}
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}finally {
+    		try {
+    			if(con!=null) con.close();
+    			if(pstmt!=null) pstmt.close();
+    			if(rs!=null) rs.close();
+    		}catch(SQLException se) {
+    			se.printStackTrace();
+    		}
+    	}
+    	return count;
+    }
+    
+	
+	// cart의 전체 레코드 개수를 return하는 메서드
+    public int getAllCartCount() {
+    	getConnect();
+    	int count = 0;
+    	try {
+    		String sql = "select count(*) from cart";
+    		pstmt = con.prepareStatement(sql);
+    		rs = pstmt.executeQuery();
+    		if(rs.next()) {
+    			count = rs.getInt(1);
+    		}	
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}finally {
+    		try {
+    			if(con!=null) con.close();
+    			if(pstmt!=null) pstmt.close();
+    			if(rs!=null) rs.close();
+    		}catch(SQLException se) {
+    			se.printStackTrace();
+    		}
+    	}
+    	return count;
+    }
+	
+	// cart 테이블에서 선택한 항목들을 삭제하는 메서드
+    public void deleteCart(int code) {
+    	getConnect();
+    	try {
+    		String sql = "delete from cart where c_code=?";
+    		pstmt = con.prepareStatement(sql);
+    		pstmt.setInt(1, code);
+    		pstmt.executeUpdate();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}finally {
+    		try {
+    			if(con!=null) con.close();
+    			if(pstmt!=null) pstmt.close();
+    			if(rs!=null) rs.close();
+    		}catch(SQLException se) {
+    			se.printStackTrace();
+    		}
+    	}
+    }
+    
+    // cart 테이블에 데이터가 존재할 경우, cnt는 원래 있던 cnt에 누적된다.
+    public void updateCart1(int cnt, int price, int code) {
+    	getConnect();
+    	try {
+    		String sql = "update cart set c_qty= c_qty + ?, c_total = c_qty * ? where p_code = ?";
+    		pstmt = con.prepareStatement(sql);
+    		pstmt.setInt(1, cnt);
+    		pstmt.setInt(2, price);
+    		pstmt.setInt(3, code);
+    		pstmt.executeUpdate();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}finally {
+    		try {
+    			if(con!=null) con.close();
+    			if(pstmt!=null) pstmt.close();
+    			if(rs!=null) rs.close();
+    		}catch(SQLException se) {
+    			se.printStackTrace();
+    		}
+    	}
+    }
+    
+    // cart 테이블에 데이터가 존재할 경우 update
+    public void updateCart2(int cnt, int code) {
+    	getConnect();
+    	try {
+    		String sql = "update cart C inner join product P on P.p_code = C.p_code \r\n"
+    				+ "set C.c_qty=?, C.c_total=C.c_qty*P.p_price where C.c_code=?";
+    		pstmt = con.prepareStatement(sql);
+    		pstmt.setInt(1, cnt);
+    		pstmt.setInt(2, code);
+    		pstmt.executeUpdate();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}finally {
+    		try {
+    			if(con!=null) con.close();
+    			if(pstmt!=null) pstmt.close();
+    			if(rs!=null) rs.close();
+    		}catch(SQLException se) {
+    			se.printStackTrace();
+    		}
+    	}
+    }
+    
+    // 장바구니 총 상품금액을 구하는 메서드
+    public int getItemTotal(String id) {
+    	getConnect();
+    	int itemTotal = 0;
+    	try {
+    		String sql = "select sum(c_total) from cart where m_id=?";
+    		pstmt = con.prepareStatement(sql);
+    		pstmt.setString(1, id);
+    		rs = pstmt.executeQuery();
+    		if(rs.next()) {
+    			itemTotal = rs.getInt(1);
+    		}
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}finally {
+    		try {
+    			if(con!=null) con.close();
+    			if(pstmt!=null) pstmt.close();
+    			if(rs!=null) rs.close();
+    		}catch(SQLException se) {
+    			se.printStackTrace();
+    		}
+    	}
+    	return itemTotal;
+    }
+    
+    // 장바구니 총 배송비를 구하는 메서드
+    public int getShippingTotal(String id) {
+    	getConnect();
+    	int shippingTotal = 0;
+    	try {
+    		String sql = "select sum(P.p_delivfee) from cart C inner join product P on P.p_code = C.p_code where C.m_id=?";
+    		pstmt = con.prepareStatement(sql);
+    		pstmt.setString(1, id);
+    		rs = pstmt.executeQuery();
+    		if(rs.next()) {
+    			shippingTotal = rs.getInt(1);
+    		}
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}finally {
+    		try {
+    			if(con!=null) con.close();
+    			if(pstmt!=null) pstmt.close();
+    			if(rs!=null) rs.close();
+    		}catch(SQLException se) {
+    			se.printStackTrace();
+    		}
+    	}
+    	return shippingTotal;
+    }
+	
+		
+	//----------------------------------------------------    오티가 작성한 부분  ------------------------------------------------
 	// keyword에 해당하는 상품을 리턴하는 메소도
 	public ArrayList<ProductDTO> searchProduct(String keyword, int startRow, int pageSize) {
 		getConnect();

@@ -10,24 +10,33 @@
 <link rel="stylesheet" href="css/reset.css">
 <script src="https://kit.fontawesome.com/82fd850f0d.js" crossorigin="anonymous"></script>
 <style>
-.title h2{
-	margin: 80px 0 40px;
-    text-align: center;
-	font-weight: 700;
-    font-size: 32px;
-    color: #1f1f1f;
-}
 .cartContainer{
     position: relative;
-    /* display: flex;
-    justify-content: center; */
+    display: flex;
+    justify-content: center;
     width: 100%;
 }
 .cartContainer .cartContents{
     max-width: 1480px;
     width: 92%;
     margin: 50px 0;
-    margin : 0 auto;
+}
+.cartContainer .cartContents .prdEmpty{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 60px 0;
+	border-top: 1px solid #e6e6e6;
+	border-bottom: 1px solid #e6e6e6;
+    font-size: 16px;
+    color: #9a9a9a;
+	text-align: center;
+}
+.cartContainer .cartContents .prdEmpty svg{
+	display: block;
+	max-width: 100%;
+    height: auto;
+	margin-bottom: 16px;
 }
 .cartContainer .cartContents .cartPackage{
 	display: flex;
@@ -151,6 +160,7 @@
 	border: 1px solid #e5e5e5;
 	background-color: #fff;
     white-space: nowrap;
+    cursor: pointer;
 }
 .orderList .prdBox .quantity .qtyContainer input[type="text"]{
 	width: 45px;
@@ -311,12 +321,11 @@
 .cartPackage .cartTotal .totalOrder .btnNormal{
 	margin-top: 10px;
 }
- .cartContainer2 .cartContents2 .cartGuide{
+.cartContainer .cartContents .cartGuide{
 	width: 100%;
 	margin: 50px 0 30px;
 	line-height: 18px;
-} 
-
+}
 .cartGuide h3{
 	display: block;
     margin-bottom: 20px;
@@ -357,36 +366,14 @@
     border-radius: 50%;
     background: #6d6d6d;
 }
-/* 빈 장바구니 CSS - 오티 수정 */
-.cartContainer2{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-.cartContainer2 .cartContents2{
-    max-width: 1480px;
-    width: 92%;
-    margin: 50px 0;
-}
-.nullbox{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
- .nullbox .nullbox_wrap .nullimg {
-    display : flex;
-    justify-content : center;
-    align-items: center;
- }
- .nullbox .nullbox_wrap .nulltext {
-    width: cal( 100% - 200px );
-    height : 50px;
+/* 오티수정 CSS 시작 */
+ .title h2{
+	margin: 80px 0 40px;
     text-align: center;
-    font-size: 17px;
-    color : gray;
-    line-height: 50px;
- }
+	font-weight: 700;
+    font-size: 32px;
+    color: #1f1f1f;
+}
  .cartContainer .cartContents .navselect li{
      display: inline-block;
      
@@ -401,7 +388,7 @@
     min-width: 170px;
     text-align: center;
     border-bottom: none;
-    top : -29px;
+    top : -32px;
     left :0;
  }
  .cartContainer .cartContents .navselect{
@@ -411,7 +398,7 @@
     margin: 0 0 50px; 
     background: #fff;
  }
-
+ /* 오티수정 CSS  종료*/
 </style>
 </head>
 <body>
@@ -427,8 +414,9 @@
 		${c.m_id }<br/>
 		<br/>
 	</c:forEach> -->
+	<!-- 오티 수정 코드 -->
 	<div class="title">
-	  <h2>장바구니</h2>
+    <h2>장바구니</h2>
     </div>
     <div class="cartContainer">
        <div class="cartContents"> 
@@ -436,124 +424,113 @@
           <li><a href="#">국내배송상품</a></li>
        </ul>
     </div>
-   </div> 
+   </div>
+   <!-- 오티 수정 코드 종료  --> 
 	<div class="cartContainer">
-	 <c:choose>
-         <c:when test="${not empty cList}">
 		<div class="cartContents">
-			<div class="cartPackage">
-				<div class="cartProduct on">
-					<div class="title">
-						<h3 >장바구니 상품</h3>
-						<i class="fa-solid fa-angle-up" aria-hidden="false"></i>
-					</div>
-					<div class="contents">
-						<c:set var="index" value="0"/>
-						<c:forEach var="c" items="${cList}">
-							<form action="CartDelete.do" method="post">
-								<div class="orderList">
-									<div class="prdBox">
-										<input type="checkbox" id="cartChk" name="cartChk" value="${c.c_code}">
-										<div class="thumbnail">
-											<a href="Main.jsp?section=ProductInfo.jsp?${c.p_code}">
-												<img src="img/productimg/${c.p_mainimg}">
-											</a>
-										</div>
-										<div class="description">
-											<strong class="prdName">
-												<a href="Main.jsp?section=ProductInfo.jsp?${c.p_code}">${c.p_name}</a>
-											</strong>
-											<p class="price">
-												<fmt:formatNumber value="${c.p_price}" pattern="#,##0"/>원
-											</p>
-											<p class="delivfee">
-												배송&nbsp;:&nbsp;
-												<c:choose>
-													<c:when test="${c.p_delivfee eq 0}">
-														[무료]
-													</c:when>
-													<c:otherwise>
-														<fmt:formatNumber value="${c.p_delivfee}" pattern="#,##0"/>원
-													</c:otherwise>
-												</c:choose>
-											</p>
-										</div>
-										<div class="quantity">
-											<span class="label">수량</span>
-											<div class="qtyContainer">
-												<input type="button" value="－" class="minus" onclick="fn_update(false,${index},this.form)">
-												<input type="text" name="cnt" value="${c.c_qty}" class="spancnt">
-												<input type="button" value="＋" class="plus" onclick="fn_update(true,${index},this.form)">
-												<input type="hidden" name="code" value="${c.c_code}" class="cartcode">
+			<c:choose>
+				<c:when test="${not empty cList}">
+					<div class="cartPackage">
+						<div class="cartProduct on">
+							<div class="title">
+								<h3>장바구니 상품</h3>
+								<i class="fa-solid fa-angle-up" aria-hidden="false"></i>
+							</div>
+							<div class="contents">
+								<c:set var="index" value="0"/>
+								<c:forEach var="c" items="${cList}">
+									<form action="CartDelete.do" method="post">
+										<div class="orderList">
+											<div class="prdBox">
+												<input type="checkbox" class="cartChk" name="cartChk" value="${c.c_code}">
+												<div class="thumbnail">
+													<a href="ProductInfo.do?p_code=${c.p_code}">
+														<img src="img/productimg/${c.p_mainimg}">
+													</a>
+												</div>
+												<div class="description">
+													<strong class="prdName">
+														<a href="ProductInfo.do?p_code=${c.p_code}">${c.p_name}</a>
+													</strong>
+													<p class="price">
+														<fmt:formatNumber value="${c.p_price}" pattern="#,##0"/>원
+													</p>
+													<p class="delivfee">
+														배송&nbsp;:&nbsp;
+														<c:choose>
+															<c:when test="${c.p_delivfee eq 0}">
+																[무료]
+															</c:when>
+															<c:otherwise>
+																<fmt:formatNumber value="${c.p_delivfee}" pattern="#,##0"/>원
+															</c:otherwise>
+														</c:choose>
+													</p>
+												</div>
+												<div class="quantity">
+													<span class="label">수량</span>
+													<div class="qtyContainer">
+														<input type="button" value="－" class="minus" onclick="fn_update(false,${index},this.form)">
+														<input type="text" name="cnt" value="${c.c_qty}" class="spancnt" readonly>
+														<input type="button" value="＋" class="plus" onclick="fn_update(true,${index},this.form)">
+														<input type="hidden" name="code" value="${c.c_code}" class="cartcode">
+													</div>
+												</div>
+												<div class="sumPrice">
+													<span class="label">주문금액</span>
+													<strong><fmt:formatNumber value="${c.c_total}" pattern="#,##0"/></strong>
+													원
+												</div>
 											</div>
+											<!-- <a href="#" class="btnDelete"></a> -->
 										</div>
-										<div class="sumPrice">
-											<span class="label">주문금액</span>
-											<strong><fmt:formatNumber value="${c.c_total}" pattern="#,##0"/></strong>
-											원
-										</div>
-									</div>
-									<!-- <a href="#" class="btnDelete"></a> -->
+									</form>
+									<c:set var="index" value="${index=index+1}"/>
+								</c:forEach>
+								<div class="deleteBtnBox">
+									<button class="btnNormal sizeS" onclick="fn_allDelete()">전체삭제</button>
+									<button class="btnNormal sizeS" onclick="fn_delete()">선택삭제</button>
 								</div>
-							</form>
-							<c:set var="index" value="${index=index+1}"/>
-						</c:forEach>
-						<div class="deleteBtnBox">
-							<button class="btnNormal sizeS" onclick="fn_allDelete()">전체삭제</button>
-							<button class="btnNormal sizeS" onclick="fn_delete()">선택삭제</button>
-						</div>
-					</div>
-				</div>
-				<div class="cartTotal">
-					<div class="totalSummary">
-						<div class="totalItem">
-							<h4 class="title">총 상품금액</h4>
-							<div class="data">
-								<strong>
-									<span class="totalItemPrice"></span>
-								</strong>
-								원
 							</div>
 						</div>
-						<div class="totalShipping">
-							<h4 class="title">총 배송비</h4>
-							<div class="data">
-								<strong>
-									<span class="totalDelivPrice"></span>
-								</strong>
-								원
+						<div class="cartTotal">
+							<div class="totalSummary">
+								<div class="totalItem">
+									<h4 class="title">총 상품금액</h4>
+									<div class="data">
+										<strong><fmt:formatNumber value="${itemTotal}" pattern="#,##0" /></strong>
+										원
+									</div>
+								</div>
+								<div class="totalShipping">
+									<h4 class="title">총 배송비</h4>
+									<div class="data">
+										<strong><fmt:formatNumber value="${shippingTotal}" pattern="#,##0" /></strong>
+										원
+									</div>
+								</div>
+								<div class="total">
+									<h3 class="title">결제예정금액</h3>
+									<div class="data">
+										<strong><fmt:formatNumber value="${itemTotal+shippingTotal}" pattern="#,##0" /></strong>
+										원
+									</div>
+								</div>
 							</div>
-						</div>
-						<div class="total">
-							<h3 class="title">결제예정금액</h3>
-							<div class="data">
-								<strong>
-									<span class="totalPrice"></span>
-								</strong>
-								원
+							<div class="totalOrder">
+								<button class="btnSubmit sizeL">주문하기</button>
+								<button class="btnNormal sizeL">관심상품</button>
 							</div>
 						</div>
 					</div>
-					<div class="totalOrder">
-						<button class="btnSubmit sizeL">주문하기</button>
-						<button class="btnNormal sizeL">관심상품</button>
+				</c:when>
+				<c:otherwise>
+					<div class="prdEmpty">
+						<svg xmlns="http://www.w3.org/2000/svg" width="65" height="64" fill="none" viewBox="0 0 65 64" class="icon" role="img"><path d="M63.3 32C63.3 49.0104 49.5104 62.8 32.5 62.8C15.4896 62.8 1.7 49.0104 1.7 32C1.7 14.9896 15.4896 1.2 32.5 1.2C49.5104 1.2 63.3 14.9896 63.3 32Z" stroke="#D9D9D9" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M32.5 18.6665V34.6665" stroke="#D9D9D9" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M32.5 40V44" stroke="#D9D9D9" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+						장바구니가 비어 있습니다.
 					</div>
-				</div>
-			</div>
-	</c:when>
-	   <c:otherwise>
-	      <div class="nullbox">
-	        <div class="nullbox_wrap">
-	            <div class="nullimg"><img alt="" src="img/icon/nullCart.png"></div>
-	            <div class="nulltext">장바구니가 비어있습니다.</div>
-	        </div> 
-	      </div>
-	   </c:otherwise>  		
-	</c:choose>	
-</div>		
- <!-- 장바구니 이용안내 부분 -->	
-   <div class="cartContainer2">
-       <div class="cartContents2">   				
+				</c:otherwise>
+			</c:choose>
 			<div class="cartGuide">
 				<h3>이용안내</h3>
 				<div class="inner">
@@ -575,9 +552,8 @@
 					</ul>
 				</div>
 			</div>
-		  </div>	
 		</div>
-
+	</div>
 	<script>
 		let title = document.querySelector(".cartPackage .cartProduct .title");
 		let cartProduct = document.querySelector(".cartPackage .cartProduct");
@@ -585,6 +561,78 @@
 		title.addEventListener("click", () => {
 			cartProduct.classList.toggle('on');
 		})
+
+		let cnt = document.querySelectorAll(".spancnt");
+		let chk_list = document.querySelectorAll(".cartChk"); // checkbox에 담겨진 code 값을 배열로 처리한 것
+		let param = ""; // checkbox에 담겨진 code 값을 담을 변수
+
+		let loginId = "<c:out value='${loginId}' />";
+		function fn_allDelete() {
+			param = "";
+			for (let i = 0; i < chk_list.length; i++) {
+				param = param + chk_list[i].value + " ";
+			}
+
+			let deleteAllInput = confirm('상품 전체를 삭제하시겠습니까?');
+			if(deleteAllInput){
+				location.href = 'CartDelete.do?chk=' + param;
+			}
+		}
+
+		function fn_delete() {
+			param = "";
+			for (let i = 0; i < chk_list.length; i++) {
+				if (chk_list[i].checked) { // 장바구니에서 선택된 no값만 넘기는 코드
+					param = param + chk_list[i].value + " ";
+				}
+			}
+			
+			if(param === ""){
+				alert('선택된 상품이 없습니다.');
+			}else{
+				let deleteInput = confirm('선택하신 상품을 삭제하시겠습니까?');
+				if(deleteInput){
+					location.href = 'CartDelete.do?chk=' + param;
+				}
+			}
+		}
+
+		function fn_update(isBool, i, f) {
+			if (isBool == false) {
+				// - 버튼
+				if (parseInt(cnt[i].value) > 1) {
+					cnt[i].value = parseInt(cnt[i].value) - 1;
+				} else {
+					alert('최소 주문수량은 1개입니다.');
+				}
+			} else {
+				// + 버튼
+				if (parseInt(cnt[i].value) < 100) {
+					cnt[i].value = parseInt(cnt[i].value) + 1;
+				} else {
+					alert('최대 주문수량은 100개입니다.');
+				}
+			}
+
+			// +,-버튼을 눌렀을 때 cnt가 update되는 servlet으로 보내야 함
+			// <form action="CartUpdate.do" method="">
+			f.action = "CartUpdate.do";
+			f.submit();
+		}
+
+		function OrderList() {
+			if (loginId == "") {
+				location.href = "Main.jsp?section=MemberLogin.jsp";
+			} else {
+				for (let i = 0; i < chk_list.length; i++) {
+					if (chk_list[i].checked) { // 장바구니에서 선택된 code값만 넘기는 코드
+						param = param + chk_list[i].value + " ";
+					}
+				}
+
+				location.href = 'CartOrderPro.do?chk=' + param + '&loginId=' + loginId;
+			}
+		}
 	</script>
 </body>
 </html>
