@@ -52,16 +52,16 @@ public class OrderList extends HttpServlet {
     	if(chk != null && !chk.isEmpty()) {
     		
     		if(chkbool == -1) {
-    			System.out.println("여기로 왔어오~~"+chkbool);
+    			//System.out.println("여기로 왔어오~~"+chkbool);
         		int chkno = Integer.parseInt(chk);
-        		System.out.println("여기로 왔어오~~"+chkno);
+        		//System.out.println("여기로 왔어오~~"+chkno);
         		rdto = jdao.buyRentselect(chkno);
         		
         		request.setAttribute("cnt", quanty);
         		request.setAttribute("rdto", rdto);
         		
         	}else {
-        		System.out.println("여기 배열로 왔어오~~"+chkbool);
+        		//System.out.println("여기 배열로 왔어오~~"+chkbool);
         		String [] arrChk = chk.split(" ");
             	int aChk = 0;
             	for(int i=0; i<arrChk.length; i++) {

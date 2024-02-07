@@ -125,11 +125,13 @@
 	font-size: 13px;
     color: #000;
     line-height: 20px;
+    border : none
 }
 .orderList .prdBox .description .delivfee{
 	margin-top: 5px;
 	font-size: 12px;
     color: #7d7d7d;
+    border : none;
 }
 .orderList .prdBox .quantity{
 	display: flex;
@@ -442,7 +444,7 @@
 									<form action="CartDelete.do" method="post">
 										<div class="orderList">
 											<div class="prdBox">
-												<input type="checkbox" class="cartChk" name="cartChk" value="${c.c_code}">
+												<input type="checkbox" class="cartChk" name="cartChk" value="${c.c_code}" onclick="getCheckboxValue(event)" >
 												<div class="thumbnail">
 													<a href="ProductInfo.do?p_code=${c.p_code}">
 														<img src="img/productimg/${c.p_mainimg}">
@@ -452,7 +454,20 @@
 													<strong class="prdName">
 														<a href="ProductInfo.do?p_code=${c.p_code}">${c.p_name}</a>
 													</strong>
-													<p class="price">
+													<input type="text" class="price" value="${c.p_price}"><br/>
+														<%-- <fmt:formatNumber value="${c.p_price}" pattern="#,##0"/>원 --%>
+												<%-- 	<input type="text" class="delivfee" value="${c.p_delivfee}"> --%>
+														배송&nbsp;:&nbsp;
+														<c:choose>
+															<c:when test="${c.p_delivfee eq 0}">
+															  <!--  [무료] -->
+															   <input type="text" class="delivfee" value="[무료]">
+															</c:when>
+															<c:otherwise>
+																<input type="text" class="delivfee" value="${c.p_delivfee}">원
+															</c:otherwise>
+														</c:choose>
+													<%-- <p class="price">
 														<fmt:formatNumber value="${c.p_price}" pattern="#,##0"/>원
 													</p>
 													<p class="delivfee">
@@ -465,7 +480,7 @@
 																<fmt:formatNumber value="${c.p_delivfee}" pattern="#,##0"/>원
 															</c:otherwise>
 														</c:choose>
-													</p>
+													</p> --%>
 												</div>
 												<div class="quantity">
 													<span class="label">수량</span>
@@ -473,12 +488,13 @@
 														<input type="button" value="－" class="minus" onclick="fn_update(false,${index},this.form)">
 														<input type="text" name="cnt" value="${c.c_qty}" class="spancnt" readonly>
 														<input type="button" value="＋" class="plus" onclick="fn_update(true,${index},this.form)">
-														<input type="hidden" name="code" value="${c.c_code}" class="cartcode">
+														<input type="hidden" name="code" value="${c.p_code}" class="cartcode">
+														<input type="hidden" name="price" value="${c.p_price}" class="cartcode">
 													</div>
 												</div>
 												<div class="sumPrice">
-													<span class="label">주문금액</span>
-													<strong><fmt:formatNumber value="${c.c_total}" pattern="#,##0"/></strong>
+													<span class="label" >주문금액</span>
+													<strong id="ordertotal"><fmt:formatNumber value="${c.c_total}" pattern="#,##0"/></strong>
 													원
 												</div>
 											</div>
@@ -498,27 +514,27 @@
 								<div class="totalItem">
 									<h4 class="title">총 상품금액</h4>
 									<div class="data">
-										<strong><fmt:formatNumber value="${itemTotal}" pattern="#,##0" /></strong>
+									    <strong id="itemtotal"><fmt:formatNumber value="${itemTotal}" pattern="#,##0" /></strong>
 										원
 									</div>
 								</div>
 								<div class="totalShipping">
 									<h4 class="title">총 배송비</h4>
 									<div class="data">
-										<strong><fmt:formatNumber value="${shippingTotal}" pattern="#,##0" /></strong>
+										<strong id="shippinttotal"><fmt:formatNumber value="${shippingTotal}" pattern="#,##0" /></strong>
 										원
 									</div>
 								</div>
 								<div class="total">
 									<h3 class="title">결제예정금액</h3>
 									<div class="data">
-										<strong><fmt:formatNumber value="${itemTotal+shippingTotal}" pattern="#,##0" /></strong>
+										<strong id="total"><fmt:formatNumber value="${itemTotal + shippingTotal}" pattern="#,##0" /></strong>
 										원
 									</div>
 								</div>
 							</div>
 							<div class="totalOrder">
-								<button class="btnSubmit sizeL">주문하기</button>
+								<button class="btnSubmit sizeL" onclick="OrderList()">주문하기</button>
 								<button class="btnNormal sizeL">관심상품</button>
 							</div>
 						</div>
@@ -555,81 +571,138 @@
 		</div>
 	</div>
 	<script>
-		let title = document.querySelector(".cartPackage .cartProduct .title");
-		let cartProduct = document.querySelector(".cartPackage .cartProduct");
+	let title = document.querySelector(".cartPackage .cartProduct .title");
+	let cartProduct = document.querySelector(".cartPackage .cartProduct");
 
-		title.addEventListener("click", () => {
-			cartProduct.classList.toggle('on');
-		})
+	title.addEventListener("click", () => {
+		cartProduct.classList.toggle('on');
+	})
 
-		let cnt = document.querySelectorAll(".spancnt");
-		let chk_list = document.querySelectorAll(".cartChk"); // checkbox에 담겨진 code 값을 배열로 처리한 것
-		let param = ""; // checkbox에 담겨진 code 값을 담을 변수
+	let cnt = document.querySelectorAll(".spancnt");
+	let chk_list = document.querySelectorAll(".cartChk"); // checkbox에 담겨진 code 값을 배열로 처리한 것
+	let param = ""; // checkbox에 담겨진 code 값을 담을 변수
 
-		let loginId = "<c:out value='${loginId}' />";
-		function fn_allDelete() {
-			param = "";
-			for (let i = 0; i < chk_list.length; i++) {
+	let loginId = "<c:out value='${loginId}' />";
+	function fn_allDelete() {
+		param = "";
+		for (let i = 0; i < chk_list.length; i++) {
+			param = param + chk_list[i].value + " ";
+		}
+
+		let deleteAllInput = confirm('상품 전체를 삭제하시겠습니까?');
+		if(deleteAllInput){
+			location.href = 'CartDelete.do?chk=' + param;
+		}
+	}
+
+	function fn_delete() {
+		param = "";
+		for (let i = 0; i < chk_list.length; i++) {
+			if (chk_list[i].checked) { // 장바구니에서 선택된 no값만 넘기는 코드
 				param = param + chk_list[i].value + " ";
 			}
-
-			let deleteAllInput = confirm('상품 전체를 삭제하시겠습니까?');
-			if(deleteAllInput){
+		}
+		
+		if(param === ""){
+			alert('선택된 상품이 없습니다.');
+		}else{
+			let deleteInput = confirm('선택하신 상품을 삭제하시겠습니까?');
+			if(deleteInput){
 				location.href = 'CartDelete.do?chk=' + param;
 			}
 		}
+	}
 
-		function fn_delete() {
+	function fn_update(isBool, i, f) {
+		if (isBool == false) {
+			// - 버튼
+			if (parseInt(cnt[i].value) > 1) {
+				cnt[i].value = parseInt(cnt[i].value) - 1;
+			} else {
+				alert('최소 주문수량은 1개입니다.');
+			}
+		} else {
+			// + 버튼
+			if (parseInt(cnt[i].value) < 100) {
+				cnt[i].value = parseInt(cnt[i].value) + 1;
+			} else {
+				alert('최대 주문수량은 100개입니다.');
+			}
+		}
+
+		// +,-버튼을 눌렀을 때 cnt가 update되는 servlet으로 보내야 함
+		// <form action="CartUpdate.do" method="">
+		f.action = "CartUpdate.do";
+		f.submit();
+	}
+
+	/* 오티 작성 부분 체크박스를 체크한 상품만 총금액 출력되도록 할 것  */
+	let itemtotal = document.getElementById("itemtotal");
+	let shippinttotal = document.getElementById("shippinttotal");
+	let total = document.getElementById("total");
+	let price = document.querySelectorAll(".price");
+	let delivfee = document.querySelectorAll(".delivfee");
+	let itTotal = "<c:out value='${itemTotal}' />"; // DB의 상품 총금액
+	let deTotal = "<c:out value='${shippingTotal}' />"; // DB의 배송비 총금액
+	let totalMomey = "<c:out value='${itemTotal + shippingTotal}' />" // DB의 결제예정 총금액
+	
+	function getCheckboxValue(event)  { // input[type=checkbox]를 체크하는 메소드
+
+		let itemsum = 0;
+		let delisum = 0;
+	    let k = 0;
+	    
+		  if(event.target.checked)  {
+			 
+			  for (let i = 0; i < chk_list.length; i++) {
+				  
+					if (chk_list[i].checked == true) {  // 선택한 상품의 상품금액, 배송비, 결제예정금액 변경하는 코드
+						console.log(i);
+					    itemsum = itemsum + (price[i].value * cnt[i].value);
+						itemtotal.innerText = itemsum.toLocaleString("ko-KR");
+						console.log(itemsum);
+						
+						if( delivfee[i].value == "[무료]"){
+							delivfee[i].value = 0;
+							console.log(delivfee[i].value);
+							shippinttotal.innerText = delivfee[i].value;
+							total.innerText = ( itemsum + parseInt(delivfee[i].value) ).toLocaleString("ko-KR"); 
+						}else {
+							delisum = delisum + parseInt(delivfee[i].value);
+							shippinttotal.innerText = delisum.toLocaleString("ko-KR");
+							total.innerText = ( itemsum + delisum ).toLocaleString("ko-KR"); 
+						} 
+						
+			       }else if(chk_list[i].checked == false) { // 체크를 해제하였을 경우 상품금액, 배송비, 결제예정금액 변경하는 코드
+			    	      k = i;
+			    	      console.log(i);
+			              console.log("체크해제 i :" + k);
+			       } 
+			  }
+			  
+		  } else {
+			  // 체크가되었던 상품을 체크해제 하면 이전의 DB에서 떠넘겨 가저온 상품총금액, 배송비총금액, 총결제예정금액 그대로 출력하는 코드
+			  itemtotal.innerText = parseInt(itTotal).toLocaleString("ko-KR");
+			  shippinttotal.innerText = parseInt(deTotal).toLocaleString("ko-KR");
+			  total.innerText = parseInt(totalMomey).toLocaleString("ko-KR");
+		  }	  
+	}
+
+	/* 오티 작성 완료 ------------------------------------------------------*/
+	
+	function OrderList() {
 			param = "";
 			for (let i = 0; i < chk_list.length; i++) {
-				if (chk_list[i].checked) { // 장바구니에서 선택된 no값만 넘기는 코드
+				if (chk_list[i].checked) { // 장바구니에서 선택된 code값만 넘기는 코드
 					param = param + chk_list[i].value + " ";
 				}
 			}
 			
 			if(param === ""){
 				alert('선택된 상품이 없습니다.');
-			}else{
-				let deleteInput = confirm('선택하신 상품을 삭제하시겠습니까?');
-				if(deleteInput){
-					location.href = 'CartDelete.do?chk=' + param;
-				}
-			}
-		}
-
-		function fn_update(isBool, i, f) {
-			if (isBool == false) {
-				// - 버튼
-				if (parseInt(cnt[i].value) > 1) {
-					cnt[i].value = parseInt(cnt[i].value) - 1;
-				} else {
-					alert('최소 주문수량은 1개입니다.');
-				}
-			} else {
-				// + 버튼
-				if (parseInt(cnt[i].value) < 100) {
-					cnt[i].value = parseInt(cnt[i].value) + 1;
-				} else {
-					alert('최대 주문수량은 100개입니다.');
-				}
-			}
-
-			// +,-버튼을 눌렀을 때 cnt가 update되는 servlet으로 보내야 함
-			// <form action="CartUpdate.do" method="">
-			f.action = "CartUpdate.do";
-			f.submit();
-		}
-
-		function OrderList() {
-			if (loginId == "") {
+			}else if (loginId == "") {
 				location.href = "Main.jsp?section=MemberLogin.jsp";
 			} else {
-				for (let i = 0; i < chk_list.length; i++) {
-					if (chk_list[i].checked) { // 장바구니에서 선택된 code값만 넘기는 코드
-						param = param + chk_list[i].value + " ";
-					}
-				}
-
 				location.href = 'CartOrderPro.do?chk=' + param + '&loginId=' + loginId;
 			}
 		}

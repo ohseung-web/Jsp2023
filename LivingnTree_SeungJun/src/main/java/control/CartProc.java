@@ -49,11 +49,20 @@ public class CartProc extends HttpServlet {
 			cdto.setP_code(code);
 			cdto.setC_qty(cnt);
 			cdto.setC_total(total);
+			
+			// 오티 수정 부분 ------------- 이부분 수정되지 않으면 계속 guest에 담김 상품은 장바구니에 담기지 않는다.
 			cdto.setM_id(loginId);
 			
+//			if(loginId == null) {
+//				cdto.setM_id("guest");
+//			}else {
+//				cdto.setM_id(loginId);
+//			}
+			
 			// 장바구니에 중복으로 상품이 담기는 오류를 해결
-			int count = ldao.getCodeCount(code);
+			int count = ldao.getCodeCount(code, loginId);
 			System.out.println("기존에 상품이 존재하는지 개수:"+count);
+			
 			if(count==0) { // 장바구니에 선택한 상품이 없을 때 장바구니에 새로 추가(insert)한다.
 				ldao.insertCart(cdto);
 			}else { // 장바구니에 선택한 상품이 이미 존재하면 개수만 update 해준다.
@@ -71,7 +80,13 @@ public class CartProc extends HttpServlet {
 		request.setAttribute("itemTotal", itemTotal);
 		request.setAttribute("shippingTotal", shippingTotal);
 		
+		// 오티 수정 부분 ---------------------------
 		ArrayList<CartDTO> cList = ldao.getAllCart(loginId);
+//		if(loginId == null) {
+//			cList = ldao.getAllCart("guest");
+//        }else {
+//        	cList = ldao.getAllCart(loginId);
+//        }
 		request.setAttribute("cList", cList);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=CartList.jsp");

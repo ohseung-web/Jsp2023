@@ -466,13 +466,14 @@ public class LivingDAO {
 	
 	// code에 해당하는 상품이 존재하는지 개수를 세는 메서드
     // cart 테이블에 데이터가 존재하는지 여부를 확인하는 메서드
-    public int getCodeCount(int code) {
+    public int getCodeCount(int code, String loginId) {
     	getConnect();
     	int count = 0;
     	try {
-    		String sql = "select count(*) from cart where p_code=?";
+    		String sql = "select count(*) from cart where p_code=? and m_id=?";
     		pstmt = con.prepareStatement(sql);
     		pstmt.setInt(1, code);
+    		pstmt.setString(2, loginId);
     		rs = pstmt.executeQuery();
     		if(rs.next()) {
     			count = rs.getInt(1);
@@ -562,14 +563,14 @@ public class LivingDAO {
     }
     
     // cart 테이블에 데이터가 존재할 경우 update
-    public void updateCart2(int cnt, int code) {
+    public void updateCart2(int cnt, int price, int code) {
     	getConnect();
     	try {
-    		String sql = "update cart C inner join product P on P.p_code = C.p_code \r\n"
-    				+ "set C.c_qty=?, C.c_total=C.c_qty*P.p_price where C.c_code=?";
+    		String sql = "update cart set c_qty=?, c_total= c_qty * ? where p_code=?";
     		pstmt = con.prepareStatement(sql);
     		pstmt.setInt(1, cnt);
-    		pstmt.setInt(2, code);
+    		pstmt.setInt(2, price);
+    		pstmt.setInt(3, code);
     		pstmt.executeUpdate();
     	}catch(Exception e) {
     		e.printStackTrace();
@@ -583,6 +584,27 @@ public class LivingDAO {
     		}
     	}
     }
+//    public void updateCart2(int cnt, int code) {
+//    	getConnect();
+//    	try {
+//    		String sql = "update cart C inner join product P on P.p_code = C.p_code \r\n"
+//    				+ "set C.c_qty=?, C.c_total=C.c_qty*P.p_price where C.c_code=?";
+//    		pstmt = con.prepareStatement(sql);
+//    		pstmt.setInt(1, cnt);
+//    		pstmt.setInt(2, code);
+//    		pstmt.executeUpdate();
+//    	}catch(Exception e) {
+//    		e.printStackTrace();
+//    	}finally {
+//    		try {
+//    			if(con!=null) con.close();
+//    			if(pstmt!=null) pstmt.close();
+//    			if(rs!=null) rs.close();
+//    		}catch(SQLException se) {
+//    			se.printStackTrace();
+//    		}
+//    	}
+//    }
     
     // 장바구니 총 상품금액을 구하는 메서드
     public int getItemTotal(String id) {
@@ -636,7 +658,77 @@ public class LivingDAO {
     	return shippingTotal;
     }
 	
-		
+    // cart 테이블에서 주문한 상품 중 하나의 정보를 return
+    public CartDTO getCartSelect(int code) {
+    	getConnect();
+    	CartDTO cdto = new CartDTO();
+    	try {
+    		String sql = "select C.c_code,P.p_code,P.p_name,P.p_mainimg,P.p_price,P.p_delivfee, \r\n"
+					+ "C.c_qty,C.c_total,C.m_id from product P inner join cart C on P.p_code = C.p_code \r\n"
+					+ "where C.c_code=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, code);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				cdto.setC_code(rs.getInt(1));
+				cdto.setP_code(rs.getInt(2));
+				cdto.setP_name(rs.getString(3));
+				cdto.setP_mainimg(rs.getString(4));
+				cdto.setP_price(rs.getInt(5));
+				cdto.setP_delivfee(rs.getInt(6));
+				cdto.setC_qty(rs.getInt(7));
+				cdto.setC_total(rs.getInt(8));
+				cdto.setM_id(rs.getString(9));
+			}
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}finally {
+    		try {
+    			if(con!=null) con.close();
+    			if(pstmt!=null) pstmt.close();
+    			if(rs!=null) rs.close();
+    		}catch(SQLException se) {
+    			se.printStackTrace();
+    		}
+    	}
+    	return cdto;
+    }
+	
+    // 로그인 되어있는 아이디로 MemberDTO 가져오기
+    public MemberDTO getMemberByLoginId(String id) {
+		getConnect();
+		MemberDTO mdto = new MemberDTO();
+		try {
+			String sql = "select * from member where m_id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				mdto.setM_id(rs.getString(1));
+				mdto.setM_pw(rs.getString(2));
+				mdto.setM_pwq(rs.getString(3));
+				mdto.setM_pwa(rs.getString(4));
+				mdto.setM_name(rs.getString(5));
+				mdto.setM_postcode(rs.getInt(6));
+				mdto.setM_defaultaddr(rs.getString(7));
+				mdto.setM_detailaddr(rs.getString(8));
+				mdto.setM_phone(rs.getString(9));
+				mdto.setM_email(rs.getString(10));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(con != null) con.close();
+				if(pstmt != null) pstmt.close();
+				if(rs != null) rs.close();
+			}catch(SQLException se){
+				se.printStackTrace();
+			}
+		}
+		return mdto;
+	}
+    
 	//----------------------------------------------------    오티가 작성한 부분  ------------------------------------------------
 	// keyword에 해당하는 상품을 리턴하는 메소도
 	public ArrayList<ProductDTO> searchProduct(String keyword, int startRow, int pageSize) {

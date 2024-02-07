@@ -292,7 +292,7 @@
         			<img src="img/productimg/${sdto.p_mainimg}" alt="">
       			</a>
       			<div class="icon_box">
-        			<span class="cart"><a href="JangProc.do">ADD</a></span>
+        			<span class="cart"><a href="CartProc.do?code=${sdto.p_code}&cnt=${1}&price=${sdto.p_price}">ADD</a></span>
       			</div>
     			</div>
     			<div class="description">

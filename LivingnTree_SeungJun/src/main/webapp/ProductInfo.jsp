@@ -396,7 +396,7 @@ table{
                     	<div class="actionButton">
                     		<button type="button" class="btnSubmit" onclick="">BUY IT NOW</button>
                     		<button type="submit" class="btnNormal actionCart">CART</button>
-                    		<button type="button" class="btnNormal actionWish" onclick="">WISH LIST</button>
+                    		<button type="button" class="btnNormal actionWish" onclick="location.href='myShopProc.do?code=${pdto.p_code}&mainimg=${pdto.p_mainimg}&price=${pdto.p_price}'">WISH LIST</button>
                     	</div>
                     </div>
                 </form>

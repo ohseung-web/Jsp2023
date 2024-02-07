@@ -13,9 +13,10 @@ import javax.servlet.http.HttpSession;
 
 import model.CartDTO;
 import model.LivingDAO;
+import model.MemberDTO;
 
-@WebServlet("/CartUpdate.do")
-public class CartUpdate extends HttpServlet {
+@WebServlet("/MyShop.do")
+public class MyShop extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		reqPro(request, response);
 	}
@@ -23,34 +24,17 @@ public class CartUpdate extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		reqPro(request, response);
 	}
-
+	
 	protected void reqPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LivingDAO ldao = new LivingDAO();
-		CartDTO cdto = new CartDTO();
-		
 		HttpSession session = request.getSession();
 		String loginId = (String)session.getAttribute("loginId");
-		if(loginId == null) {
-			loginId = "guest";
-		}
 		
-		//String btn = request.getParameter("btn");
-		int cnt = Integer.parseInt(request.getParameter("cnt"));
-		int code = Integer.parseInt(request.getParameter("code"));
-		// 오티 수정부분 price를 CartList.jsp에서 떠넘겨 받아 사용 함
-		int price = Integer.parseInt(request.getParameter("price"));
+		LivingDAO ldao = new LivingDAO();
+		MemberDTO mdto = ldao.getMemberByLoginId(loginId);
 		
-		ldao.updateCart2(cnt, price, code);
+		request.setAttribute("mdto", mdto);
 		
-		int itemTotal = ldao.getItemTotal(loginId);
-		int shippingTotal = ldao.getShippingTotal(loginId);
-		request.setAttribute("itemTotal", itemTotal);
-		request.setAttribute("shippingTotal", shippingTotal);
-		
-		ArrayList<CartDTO> cList = ldao.getAllCart(loginId);
-		request.setAttribute("cList", cList);
-		
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=CartList.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MyShop.jsp");
 		rd.forward(request, response);
 	}
 }

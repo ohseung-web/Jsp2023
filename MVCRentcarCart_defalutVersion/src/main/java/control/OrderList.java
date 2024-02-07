@@ -76,19 +76,16 @@ public class OrderList extends HttpServlet {
     		    String detailaddr = bdto.getBuy_roadaddress().substring(stringNum+3);
     		    
     		    request.setAttribute("bdto", bdto);
-        	request.setAttribute("phone02", phone02);
-        	request.setAttribute("phone03", phone03);
-    		request.setAttribute("roadaddr", roadaddr);
+            	request.setAttribute("phone02", phone02);
+        	    request.setAttribute("phone03", phone03);
+    		    request.setAttribute("roadaddr", roadaddr);
     	      	request.setAttribute("detailaddr", detailaddr);
 
     	}
-    
         	//select한 결과를 저장
         	request.setAttribute("ac", ac);
 
     	    RequestDispatcher rdis = request.getRequestDispatcher("RentcarMain.jsp?section=OrderList.jsp");
     	    rdis.forward(request, response);
-    	
 	}
- 
 }

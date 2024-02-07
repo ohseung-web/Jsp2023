@@ -306,7 +306,13 @@
    .searchcontainer .search_Wrap .search_box input:focus::placeholder{
       visibility: hidden;
    }
-   
+   /* 스크롤은 안보이고 스크롤기능은 실행됨 */
+   /* body::-webkit-scrollbar{display: none;} */
+   /* 화면에 스크롤바 감추기 css */
+  .scrollStop {
+    height: 100%;
+    overflow: hidden;
+   }
   /* modal CSS 종료  */
 </style>
 </head>
@@ -328,7 +334,7 @@
             	</c:choose>
                 <li class="order"><a href="Main.jsp?section=MemberLogin.jsp">주문조회</a></li>
                 <c:if test="${loginId != null}">
-                	<li class="mypage"><a href="#">마이페이지</a></li>
+                	<li class="mypage"><a href="MyShop.do">마이페이지</a></li>
                 </c:if>
                 <li class="recent"><a href="#">최근본상품</a></li>
                 <li class="board">
@@ -433,15 +439,20 @@
         $('.headerContainer .headerContainerWrap .top_nav_box .top_mypage li #modalbtn').click(function(){
             $('.searchcontainer').addClass('on');
             $('.overlay').addClass('on');
+            /* 검색버튼 클릭하면 스크롤바감추고 스크롤 기능도 멈춤 */
+            $('body').addClass('scrollStop');
         })
         $('#closebtn').click(function(){
             $('.searchcontainer').removeClass('on');
             $('.overlay').removeClass('on');
+            /* 종료버튼 클릭하면 스크롤바 감추기 해제 */
+            $('body').removeClass('scrollStop');
         })
         /* 모달창에서 상품검색한 자료 SearchProductProc.do로 전송  */
         $('.searchcontainer .search_Wrap  .search_box .bottom_search_box .search #searchbtn').click(function(){
         	formname.submit();
         })
+        
     })
     
     
