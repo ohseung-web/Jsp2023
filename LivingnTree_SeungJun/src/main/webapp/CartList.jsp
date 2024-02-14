@@ -583,6 +583,7 @@
 	let param = ""; // checkbox에 담겨진 code 값을 담을 변수
 
 	let loginId = "<c:out value='${loginId}' />";
+	
 	function fn_allDelete() {
 		param = "";
 		for (let i = 0; i < chk_list.length; i++) {

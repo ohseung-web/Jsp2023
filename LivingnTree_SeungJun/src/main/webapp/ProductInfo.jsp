@@ -435,8 +435,8 @@ table{
                     <div class="board_title">
                         <h2>REVIEW</h2>
                         <div class="btnBox">
-                            <a href="#" class="normalBtn">LIST</a>
-                            <a href="#" class="normalBtn">WRITE</a>
+                            <a href="ReviewBoardList.do" class="normalBtn">LIST</a>
+                            <a href="Main.jsp?section=ReviewBoardWrite.jsp?p_code=${pdto.p_code}" class="normalBtn">WRITE</a>
                         </div>
                     </div>
                     <div class="board_contents">

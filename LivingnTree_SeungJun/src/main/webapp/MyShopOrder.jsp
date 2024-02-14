@@ -36,34 +36,6 @@
     height: auto;
 	margin-bottom: 16px;
 }
-.myShopContainer .contents .myName{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 500px;
-    margin: 0 auto;
-    padding: 50px 30px;
-    border: 1px solid #e3e3e3;
-    text-align: center;
-}
-.myShopContainer .contents .myName .user{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.myShopContainer .contents .myName .user img{
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-}
-.myShopContainer .contents .myName .user .userName{
-    margin-left: 16px;
-    font-size: 20px;
-    font-weight: 700;
-    color: #1a1a1a;
-    text-align: left;
-}
 .myShopContainer .contents .myShopArea{
     position: relative;
     width: calc(100% - 280px);
@@ -170,14 +142,6 @@
 <body>
     <div class="myShopContainer">
         <div class="contents">
-            <div class="myName">
-                <div class="user">
-                    <div class="userThumb">
-                        <img src="img/icon/img_member_default.gif">
-                    </div>
-                    <div class="userName">안녕하세요, ${mdto.m_name} 님!</div>
-                </div>
-            </div>
             <div class="myShopArea">
                 <div class="myShopMain">
                     <div class="subTitle"><h3>나의 쇼핑 정보</h3></div>
@@ -260,16 +224,16 @@
         </div>
     </div>
     <script>
-        function oh_delete(){
-            let formname = document.formname;
-            let deleteOrder = confirm('해당 주문을 취소하시겠습니까?');
+    	function oh_delete(){
+        	let formname = document.formname;
+        	let deleteOrder = confirm('해당 주문을 취소하시겠습니까?');
 			if(deleteOrder){
 				formname.submit();
 			}else{
-				location.href = "MyShop.do";
+				location.href = "MyShopOrder.do";
 				/* !!!!! 취소 버튼을 눌러도 해당 주문이 취소됨 !!!!! */
 			}
-        }
+    	}
     </script>
 </body>
 </html>

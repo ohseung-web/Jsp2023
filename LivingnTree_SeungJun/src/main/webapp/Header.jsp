@@ -193,6 +193,23 @@
    background: transparent;
    cursor: pointer;
 }
+.headerContainer .headerContainerWrap .top_nav_box .top_mypage li a .cartCount{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 40px;
+    right: 8px;
+    width: 18px;
+    height: 18px;
+    margin-left: 5px;
+    border-radius: 50%;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    line-height: 1;
+    font-size: 12px;
+}
 
 /* modal CSS 시작  */
 .searchcontainer{
@@ -314,6 +331,14 @@
     overflow: hidden;
    }
   /* modal CSS 종료  */
+  #ordersearchbtn{
+     background: transparent;
+     border : none;
+     cursor: pointer;
+     margin: 0 0 0 15px;
+     font-size: 13px;
+     color: #666;
+  }
 </style>
 </head>
 <body>
@@ -332,7 +357,7 @@
                 		<li class="login"><a href="Main.jsp?section=MemberLogin.jsp">로그인</a></li>
             		</c:otherwise>
             	</c:choose>
-                <li class="order"><a href="Main.jsp?section=MemberLogin.jsp">주문조회</a></li>
+                  <li class="order"><button id="ordersearchbtn">주문조회</button></li>
                 <c:if test="${loginId != null}">
                 	<li class="mypage"><a href="MyShop.do">마이페이지</a></li>
                 </c:if>
@@ -343,7 +368,7 @@
                         <i class="fa-solid fa-angle-down" aria-hidden="false"></i>
                     </a>
                     <ul class="boardinfo">
-                        <li><a href="#">상품 리뷰</a></li>
+                        <li><a href="ReviewBoardList.do">상품 리뷰</a></li>
                         <li><a href="#">상품 문의</a></li>
                     </ul>
                 </li>
@@ -362,7 +387,7 @@
                     <li><a href="LivProductListProc.do?p_category=7">생활용품</a></li>
                     <li><a href="LivProductListProc.do?p_category=8">기타용품</a></li>
                     <li><a href="LivProductListProc.do?p_category=9">부속제품</a></li>
-                    <li><a href="#">상품리뷰</a></li>
+                    <li><a href="ReviewBoardList.do">상품리뷰</a></li>
                 </ul>
             </div>
             <ul class="top_mypage">
@@ -379,6 +404,9 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" class="icon" role="img">
                             <path fill="#000" d="M23.073 22.253l-1.946-14.31c-.04-.38-.368-.667-.758-.667h-3.656v-1.74c0-2.543-2.115-4.613-4.713-4.613-2.599 0-4.713 2.07-4.713 4.613v1.74H3.63c-.39 0-.717.288-.758.667L.927 22.253c-.022.21.047.42.192.577.144.157.35.247.566.247h20.63c.216 0 .421-.09.566-.247.145-.157.214-.366.192-.576zM8.81 5.537c0-1.72 1.431-3.122 3.19-3.122 1.758 0 3.19 1.401 3.19 3.122v1.74H8.81v-1.74zm-6.28 16.05l1.786-12.82h2.97v1.644c0 .412.342.746.762.746.421 0 .762-.334.762-.746V8.767h6.38v1.643c0 .412.34.746.761.746.42 0 .762-.334.762-.746V8.767h2.97l1.786 12.819H2.53z"></path>
                         </svg>
+                        <c:if test="${cartCount != null && cartCount > 0}">
+                            <span class="cartCount">${cartCount}</span>
+                        </c:if>
                     </a>
                 </li>
                 <li id="modal">
@@ -401,7 +429,7 @@
       <div class="search_box">
           <p>Find Product</p>
           <div class="bottom_search_box">
-           <form action="SearchProductProc.do" method="post" name="formname">
+           <form action="SearchProductProc.do" method="post" name="formname2">
             <div class="search">
                <input type="text" name="keyword" id="keyword" placeholder="좁은 공간 틈새 수납해보세요">
                <button type="button"  id="searchbtn">
@@ -418,6 +446,9 @@
   </div>
  <div class="overlay"></div>   
 <script>
+ 
+    
+
     $(function(){
         $('.headerContainer .headerContainerWrap .top_area .top_util .board a').click(function(){
             $('.headerContainer .headerContainerWrap .top_area .top_util .board').toggleClass('on');
@@ -450,11 +481,21 @@
         })
         /* 모달창에서 상품검색한 자료 SearchProductProc.do로 전송  */
         $('.searchcontainer .search_Wrap  .search_box .bottom_search_box .search #searchbtn').click(function(){
-        	formname.submit();
+        	formname2.submit();
         })
         
+        // 주문조회 버튼 클릭시 로그인이 안된 상태 이면 로그인 화면으로 이동 - 오티 수정 부분
+        $('.headerContainer .headerContainerWrap .top_area .top_util .order #ordersearchbtn').click(function(){
+        	let loginId ="<c:out value='${loginId}'/>"; // 이미 CartList.jsp인 section에 loginId가 존재하기 때문에 함수안에 정의한다.
+        	if (loginId == "") {
+				location.href = "Main.jsp?section=MemberLogin.jsp";
+			} else {
+				location.href = 'MyShopOrder.do';
+			}
+        })
     })
     
+     
     
      /* 모달창에서 상품검색한 자료 SearchProductProc.do로 전송  */
       /* let searchbtn = document.querySelector(".searchcontainer .search_Wrap  .search_box .bottom_search_box .search #searchbtn");

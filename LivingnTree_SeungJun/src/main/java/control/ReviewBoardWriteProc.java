@@ -1,7 +1,6 @@
 package control;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,11 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.CartDTO;
 import model.LivingDAO;
+import model.MemberDTO;
+import model.ReviewDTO;
 
-@WebServlet("/CartDelete.do")
-public class CartDelete extends HttpServlet {
+@WebServlet("/ReviewBoardWriteProc.do")
+public class ReviewBoardWriteProc extends HttpServlet {
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		reqPro(request, response);
 	}
@@ -25,32 +26,28 @@ public class CartDelete extends HttpServlet {
 	}
 
 	protected void reqPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		
 		LivingDAO ldao = new LivingDAO();
-		CartDTO cdto = new CartDTO();
+		ReviewDTO rdto = new ReviewDTO();
 		
 		HttpSession session = request.getSession();
 		String loginId = (String)session.getAttribute("loginId");
-		if(loginId == null) {
-			loginId = "guest";
-		}
+		String code = request.getParameter("p_code");
 		
-		String chk = request.getParameter("chk");
-		String[] chkArr = chk.split(" "); // ex) chk = "1 2 3 ... " → chkArr = [1,2,3 ...]
+		System.out.println("상품코드 :" + code);
 		
-		for(int i=0;i<chkArr.length;i++) {
-			int check = Integer.parseInt(chkArr[i]);
-			ldao.deleteCart(check);
-		}
+		rdto.setR_pw(request.getParameter("password"));
+		rdto.setP_code(Integer.parseInt(code));
+		rdto.setR_title(request.getParameter("subject"));
+		rdto.setR_content(request.getParameter("content"));
+		rdto.setM_name(ldao.getOneName(loginId));
+		rdto.setM_id(loginId);
 		
-		// 장바구니의 레코드 전체 개수를 session에 담는다.
-		int cartCount = ldao.getAllCartCount(loginId);
-		session.setAttribute("cartCount", cartCount);
-		session.setMaxInactiveInterval(-1); // 무한정으로 세션이 종료되지 않는다.
-		
-		ArrayList<CartDTO> cList = ldao.getAllCart(loginId);
-		request.setAttribute("cList", cList);
-		
-		RequestDispatcher rd = request.getRequestDispatcher("CartProc.do");
-		rd.forward(request, response);
+		ldao.insertReviewBoard(rdto);
+		// insert를 하게되면 새로고침 할때마다 데이터가 DB에 저장되기때문에 response.sendRedirect로 페이지를 떠넘김을 주의 하자!!
+		response.sendRedirect("ReviewBoardList.do");
+		//RequestDispatcher rd = request.getRequestDispatcher("ReviewBoardList.do");
+		//rd.forward(request, response);
 	}
 }
