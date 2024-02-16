@@ -128,7 +128,7 @@ input[type=text], input[type=password] {
     </div>
     <script>
         function form_submit(){
-            document.getElementById('boardUpdateForm').submit();
+            document.getElementById('boardDeleteForm').submit();
         }
     </script>
 </body>

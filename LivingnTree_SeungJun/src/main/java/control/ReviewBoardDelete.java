@@ -29,7 +29,7 @@ public class ReviewBoardDelete extends HttpServlet {
 		ReviewDTO rdto = ldao.getOneUpdateReviewBoard(code);
 		
 		request.setAttribute("rdto", rdto);
-		RequestDispatcher rd = request.getRequestDispatcher("BoardDeleteForm.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=ReviewBoardDelete.jsp");
 		rd.forward(request, response);
 	}
 }

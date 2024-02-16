@@ -983,6 +983,75 @@ public class LivingDAO {
   			return a;
   		}
   		
+  		// 오티 수정 부분
+  	    // 한개의 상품별로 리뷰를 리턴하는 메소드
+  		public ArrayList<ReviewDTO> getOneProductReviewBoard(int startRow, int pageSize, int p_code){
+  			getConnect();
+  			ArrayList<ReviewDTO> a = new ArrayList<>();
+  			try {
+  				String sql = "select R.r_code, R.r_pw, R.p_code, P.p_name, P.p_mainimg, R.r_title, R.r_content, R.m_name, \r\n"
+  						+ "R.r_date, R.r_readcount, R.m_id from review R inner join product P on R.p_code = P.p_code \r\n"
+  						+ "where R.p_code=? order by r_code desc limit ?,?";
+  				pstmt = con.prepareStatement(sql);
+  				pstmt.setInt(1, p_code);
+  				pstmt.setInt(2, startRow-1);
+  				pstmt.setInt(3, pageSize);
+  				rs = pstmt.executeQuery();
+  				while(rs.next()) {
+  					ReviewDTO rdto = new ReviewDTO();
+  					rdto.setR_code(rs.getInt(1));
+  					rdto.setR_pw(rs.getString(2));
+  					rdto.setP_code(rs.getInt(3));
+  					rdto.setP_name(rs.getString(4));
+  					rdto.setP_mainimg(rs.getString(5));
+  					rdto.setR_title(rs.getString(6));
+  					rdto.setR_content(rs.getString(7));
+  					rdto.setM_name(rs.getString(8));
+  					rdto.setR_date(rs.getString(9).toString());
+  					rdto.setR_readcount(rs.getInt(10));
+  					rdto.setM_id(rs.getString(11));
+  					a.add(rdto);
+  				}
+  			}catch(Exception e) {
+  				e.printStackTrace();
+  			}finally {
+  				try {
+  					if(con!=null) con.close();
+  					if(pstmt!=null) pstmt.close();
+  					if(rs!=null) rs.close();
+  				}catch(SQLException se){
+  					se.printStackTrace();
+  				}
+  			}
+  			return a;
+  		}
+  		
+  	 // 상품별 리뷰 개수 리턴하는 메소드  -- 오티수정 부분
+  		public int getOneProductReviewcount(int p_code){
+  			getConnect();
+  			int count = 0;
+  			try {
+  				String sql = "select count(*) from review where p_code=?";
+  				pstmt = con.prepareStatement(sql);
+  				pstmt.setInt(1, p_code);
+  				rs = pstmt.executeQuery();
+  				if(rs.next()) {
+  					count = rs.getInt(1);
+  				}
+  			}catch(Exception e) {
+  				e.printStackTrace();
+  			}finally {
+  				try {
+  					if(con!=null) con.close();
+  					if(pstmt!=null) pstmt.close();
+  					if(rs!=null) rs.close();
+  				}catch(SQLException se){
+  					se.printStackTrace();
+  				}
+  			}
+  			return count;
+  		}
+  		//------------------------------------------------------------------------------------
   		public void insertReviewBoard(ReviewDTO rdto) {
   			getConnect();
   			try {

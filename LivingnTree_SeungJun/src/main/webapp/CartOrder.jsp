@@ -494,7 +494,6 @@ input[type="radio"] + label{
     font-size: 13px;
     /* cursor: default; */
 }
-
 /* 오티 추가 CSS 종료 */
 </style>
 </head>

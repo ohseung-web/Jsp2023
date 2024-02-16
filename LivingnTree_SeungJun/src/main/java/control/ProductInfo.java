@@ -1,6 +1,7 @@
 package control;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.LivingDAO;
 import model.ProductDTO;
+import model.ReviewDTO;
 
 @WebServlet("/ProductInfo.do")
 public class ProductInfo extends HttpServlet {
@@ -27,22 +29,69 @@ public class ProductInfo extends HttpServlet {
 		int code = Integer.parseInt(request.getParameter("p_code"));
 		LivingDAO ldao = new LivingDAO();
 		ProductDTO pdto = ldao.getOneProduct(code);
-		
-		// ReviewDTO rdto = new ReviewDTO();
-		// InquiryDTO idto = new InquiryDTO();
-		// 상품 코드로 리뷰/문의글 개수를 구하는 메서드
-		// int rcnt = ldao.getReviewCount(int code);
-		// int icnt = ldao.getInquiryCount(int code);
-		// 상품 코드에 해당하는 리뷰/문의글 전체를 가져오는 메서드
-		// ArrayList<ReviewDTO> rList = ldao.getSomeReview(int code);
-		// ArrayList<InquiryDTO> iList = ldao.getSomeReview(int code)
-		
+	
+			// 오티 추가 코드 ---- Review 게시판 출력하는 코드 부분
+			int pageSize = 5;
+			
+			String pageNum = request.getParameter("pageNum");
+			if(pageNum==null) {
+				pageNum = "1";
+			}
+			
+			int count = 0;
+			int number = 0;
+			
+			int currentPage = Integer.parseInt(pageNum);
+			
+			// 상품코드별 리뷰 개수
+			count = ldao.getOneProductReviewcount(code);
+			
+			int startRow = (currentPage - 1) * pageSize + 1;
+			int endRow = currentPage * pageSize;
+			
+			// 상품코드별 리뷰 
+			ArrayList<ReviewDTO> aList = ldao.getOneProductReviewBoard(startRow, pageSize, code);
+			
+			number = count - (currentPage - 1) * pageSize;
+			
+			int pageCount = 0;
+			int pageBlock = 3;
+			int startPage = 1;
+			int endPage = 0;
+			
+			if(count>0) {
+				pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+				
+				if(currentPage % pageBlock != 0) {
+					startPage = (currentPage / pageBlock) * pageBlock + 1;
+				}else {
+					startPage = ((currentPage / pageBlock)-1) * pageBlock + 1;
+				}
+				
+				endPage = startPage + pageBlock - 1;
+				
+				if(endPage > pageCount) {
+					endPage = pageCount;
+				}
+			}
+			
+			String msg = (String)request.getAttribute("msg");
+			request.setAttribute("msg", msg);
+			
+			request.setAttribute("aList", aList);
+			request.setAttribute("number", number);
+			request.setAttribute("pageSize", pageSize);
+			request.setAttribute("count", count);
+			request.setAttribute("currentPage", currentPage);
+			
+			request.setAttribute("pageCount", pageCount);
+			request.setAttribute("pageBlock", pageBlock);
+			request.setAttribute("startPage", startPage);
+			request.setAttribute("endPage", endPage);
+			//----------------------------  오티수정 종료 ----------------------
+			
 		request.setAttribute("pdto", pdto);
-		// request.setAttribute("rcnt", rcnt);
-		// request.setAttribute("icnt", icnt);
-		// request.setAttribute("rList", rList);
-		// request.setAttribute("iList", iList);
-		
+	
 		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=ProductInfo.jsp");
 		rd.forward(request, response);
 	}

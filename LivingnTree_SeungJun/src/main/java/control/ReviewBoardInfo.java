@@ -29,21 +29,10 @@ public class ReviewBoardInfo extends HttpServlet {
 		int code = Integer.parseInt(request.getParameter("code"));
 		rdto = ldao.getOneReviewBoard(code);
 		
-		
-//		request.setAttribute("num", rdto.getNum());
-//		request.setAttribute("writer", rdto.getWriter());
-//		request.setAttribute("email", rdto.getEmail());
-//		request.setAttribute("subject", rdto.getSubject());
-//		request.setAttribute("reg_date", rdto.getReg_date());
-//		request.setAttribute("ref", rdto.getRef());
-//		request.setAttribute("re_step", rdto.getRe_step());
-//		request.setAttribute("re_level", rdto.getRe_level());
-//		request.setAttribute("readcount", rdto.getReadcount());
-//		request.setAttribute("content", rdto.getContent());
-		
 		request.setAttribute("rdto", rdto);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=ReviewBoardInfo.jsp");
 		rd.forward(request, response);
 	}
 }
+
