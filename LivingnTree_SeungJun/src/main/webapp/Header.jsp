@@ -375,7 +375,7 @@
             </ul>
         </div>
         <div class="top_nav_box">
-            <div class="top_logo"><a href="Main.jsp"><img src="img/logo/logo_top.jpg" alt="리빙앤트리"></a></div>
+            <div class="top_logo"><a href="MainList.do"><img src="img/logo/logo_top.jpg" alt="리빙앤트리"></a></div>
             <div class="top_category">
                 <ul>
                     <li><a href="LivProductListProc.do?p_category=1">기획전</a></li>

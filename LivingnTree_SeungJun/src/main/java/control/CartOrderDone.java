@@ -52,7 +52,7 @@ public class CartOrderDone extends HttpServlet {
 		String[] pricearr = request.getParameterValues("price");
 		String[] delivfeearr = request.getParameterValues("delivfee");
 		String id = request.getParameter("id");
-		int c_code = Integer.parseInt(request.getParameter("c_code"));
+		//int c_code = Integer.parseInt(request.getParameter("c_code"));
 		
 		int orderCode = ldao.codeaddSelect();
 		
@@ -71,6 +71,7 @@ public class CartOrderDone extends HttpServlet {
 		// 구매한 물품은 장바구니에서 삭제
 		for(int i=0;i<codearr.length;i++) {
 			ldao.deleteOrderCart(Integer.parseInt(codearr[i]), id);
+			
 		}
 		
 		// 배송지 테이블에 insert

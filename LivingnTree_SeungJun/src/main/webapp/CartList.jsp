@@ -444,7 +444,7 @@
 									<form action="CartDelete.do" method="post">
 										<div class="orderList">
 											<div class="prdBox">
-												<input type="checkbox" class="cartChk" name="cartChk" value="${c.c_code}" onclick="getCheckboxValue(event)" >
+												<input type="checkbox" class="cartChk" name="cartChk" value="${c.c_code}">
 												<div class="thumbnail">
 													<a href="ProductInfo.do?p_code=${c.p_code}">
 														<img src="img/productimg/${c.p_mainimg}">
@@ -514,7 +514,7 @@
 								<div class="totalItem">
 									<h4 class="title">총 상품금액</h4>
 									<div class="data">
-									    <strong id="itemtotal"><fmt:formatNumber value="${itemTotal}" pattern="#,##0" /></strong>
+									    <strong id="itemtotal"><fmt:formatNumber value="${itemTotal}" pattern="#,##0" /></strong> 
 										원
 									</div>
 								</div>
@@ -583,6 +583,7 @@
 	let param = ""; // checkbox에 담겨진 code 값을 담을 변수
 
 	let loginId = "<c:out value='${loginId}' />";
+	/* let cnt = "<c:out value='${c_qty}' />"; */
 	
 	function fn_allDelete() {
 		param = "";
@@ -647,47 +648,63 @@
 	let deTotal = "<c:out value='${shippingTotal}' />"; // DB의 배송비 총금액
 	let totalMomey = "<c:out value='${itemTotal + shippingTotal}' />" // DB의 결제예정 총금액
 	
-	function getCheckboxValue(event)  { // input[type=checkbox]를 체크하는 메소드
-
-		let itemsum = 0;
-		let delisum = 0;
-	    let k = 0;
-	    
-		  if(event.target.checked)  {
-			 
-			  for (let i = 0; i < chk_list.length; i++) {
-				  
-					if (chk_list[i].checked == true) {  // 선택한 상품의 상품금액, 배송비, 결제예정금액 변경하는 코드
-						console.log(i);
-					    itemsum = itemsum + (price[i].value * cnt[i].value);
-						itemtotal.innerText = itemsum.toLocaleString("ko-KR");
-						console.log(itemsum);
-						
-						if( delivfee[i].value == "[무료]"){
+	
+	let itemsum = 0; // 선택한 상품 총계
+	let delisum = 0; // 선택한 상품의 배송비 총계
+	let itemsum2 = 0; // 선택한 상품 총계
+	let delisum2 = 0; // 선택한 상품의 배송비 총계
+  
+	/* 체크박스에서 선택한 상품의 상품금액, 배송비, 총 결제예정금액   */
+		   for(let i=0; i<chk_list.length; i++){
+			
+				chk_list[i].addEventListener('change', function() { // 체크박스로 선택한 상품의 금액정보 
+					
+					if(this.checked){ // 체크박스 상품을 선택한 경우
+						itemsum = itemsum + (price[i].value * cnt[i].value);
+						if( delivfee[i].value == "[무료]"){ //배송비 = 무료인 경우 배송비=0
 							delivfee[i].value = 0;
-							console.log(delivfee[i].value);
-							shippinttotal.innerText = delivfee[i].value;
-							total.innerText = ( itemsum + parseInt(delivfee[i].value) ).toLocaleString("ko-KR"); 
+							delisum = delisum + parseInt(delivfee[i].value);
 						}else {
 							delisum = delisum + parseInt(delivfee[i].value);
-							shippinttotal.innerText = delisum.toLocaleString("ko-KR");
-							total.innerText = ( itemsum + delisum ).toLocaleString("ko-KR"); 
-						} 
+						}
 						
-			       }else if(chk_list[i].checked == false) { // 체크를 해제하였을 경우 상품금액, 배송비, 결제예정금액 변경하는 코드
-			    	      k = i;
-			    	      console.log(i);
-			              console.log("체크해제 i :" + k);
-			       } 
-			  }
-			  
-		  } else {
-			  // 체크가되었던 상품을 체크해제 하면 이전의 DB에서 떠넘겨 가저온 상품총금액, 배송비총금액, 총결제예정금액 그대로 출력하는 코드
-			  itemtotal.innerText = parseInt(itTotal).toLocaleString("ko-KR");
-			  shippinttotal.innerText = parseInt(deTotal).toLocaleString("ko-KR");
-			  total.innerText = parseInt(totalMomey).toLocaleString("ko-KR");
-		  }	  
-	}
+						itemtotal.innerText = parseInt(itemsum).toLocaleString("ko-KR");
+						shippinttotal.innerText = parseInt(delisum).toLocaleString("ko-KR");
+						total.innerText = (parseInt(itemsum) + parseInt(delisum)).toLocaleString("ko-KR");
+                        console.log("선택한 인덱스번호 및 금액 :"+  i + itemsum);
+					}
+					   
+				      else if(!this.checked){ //체크박스 상품을 해제한 경우
+						itemsum2 = itemsum2 - (price[i].value * cnt[i].value);
+						if( delivfee[i].value == "[무료]"){ //배송비 = 무료인 경우 배송비=0
+							delivfee[i].value = 0;
+							delisum2 = delisum2 - parseInt(delivfee[i].value);
+						}else {
+							delisum2 = delisum2 - parseInt(delivfee[i].value);
+						}
+					
+						itemtotal.innerText = parseInt(itemsum2).toLocaleString("ko-KR");
+						shippinttotal.innerText = parseInt(delisum2).toLocaleString("ko-KR");
+						total.innerText = (parseInt(itemsum2) + parseInt(delisum2)).toLocaleString("ko-KR"); 
+						console.log("선택해제한 인덱스번호 및 금액 :"+  i + itemsum2);
+						
+	                } 
+				    
+					if(chk_list[i].checked == false){
+				    	itemtotal.innerText = (parseInt(itTotal)-parseInt(itemsum)).toLocaleString("ko-KR");
+						shippinttotal.innerText = (parseInt(deTotal)-parseInt(delisum)).toLocaleString("ko-KR");
+						total.innerText = (parseInt(totalMomey)-(parseInt(itemsum) + parseInt(delisum))).toLocaleString("ko-KR");
+				    }
+				   
+			
+					/* 체크박스 전체선택이 해제되는 코드 찾아서 작성하기 */
+	                /* if(chk_list[i].checked == false){
+						   itemtotal.innerText = parseInt(itTotal).toLocaleString("ko-KR");
+						   shippinttotal.innerText = parseInt(deTotal).toLocaleString("ko-KR");
+						   total.innerText = parseInt(totalMomey).toLocaleString("ko-KR");
+					} */
+				}) 
+	   	}
 
 	/* 오티 작성 완료 ------------------------------------------------------*/
 	
@@ -702,7 +719,8 @@
 			if(param === ""){
 				alert('선택된 상품이 없습니다.');
 			}else if (loginId == "") {
-				location.href = "Main.jsp?section=MemberLogin.jsp";
+				/* location.href = "Main.jsp?section=MemberLogin.jsp"; */
+				location.href='Main.jsp?section=MemberLogin.jsp?chk=' + param 
 			} else {
 				location.href = 'CartOrderPro.do?chk=' + param + '&loginId=' + loginId;
 			}

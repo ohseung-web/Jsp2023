@@ -144,12 +144,16 @@
 </style>
 </head>
 <body>
+<%  
+   String chk = request.getParameter("chk"); 
+   String cnt = request.getParameter("cnt");
+%>
     <div class="loginContainer">
         <div class="contents">
         	<div class="title">
                 <h2>로그인</h2>
             </div>
-            <form action="MemberLoginProc.do" method="post">
+            <form action="MemberLoginProc.do?chk=<%=chk %>&cnt=<%=cnt %>" method="post">
                 <div class="login">
                     <input type="text" id="id" name="id" placeholder="아이디">
                     <input type="password" id="pw" name="pw" placeholder="비밀번호">

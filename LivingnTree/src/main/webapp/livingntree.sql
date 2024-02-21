@@ -15,14 +15,16 @@ m_email varchar(50));
 
 -- 배송지 테이블
 create table delivaddress(
-d_code int auto_increment primary key,
+o_date date,
+o_code int,
 d_delivname varchar(20),
 d_postcode int,
 d_defaultaddr varchar(100),
 d_detailaddr varchar(100),
 d_phone varchar(20),
-d_checkcode int,
-m_id varchar(20));
+d_email varchar(50),
+m_id varchar(20),
+primary key(o_date,o_code));
 
 -- 상품 테이블
 create table product(
@@ -50,7 +52,6 @@ o_code int,
 p_code int,
 o_qty int,
 o_total int,
-d_code int,
 m_id varchar(20),
 primary key(o_date,o_code,p_code));
 

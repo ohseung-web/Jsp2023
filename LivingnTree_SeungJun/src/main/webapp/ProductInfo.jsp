@@ -582,7 +582,7 @@ table{
                     		</span>
                     	</div>
                     	<div class="actionButton">
-                    		<button type="button" class="btnSubmit" onclick="">BUY IT NOW</button>
+                    		<button type="button" class="btnSubmit" onclick="buynow()">BUY IT NOW</button>
                     		<button type="submit" class="btnNormal actionCart">CART</button>
                     		<button type="button" class="btnNormal actionWish" onclick="location.href='myShopProc.do?code=${pdto.p_code}&mainimg=${pdto.p_mainimg}&price=${pdto.p_price}'">WISH LIST</button>
                     	</div>
@@ -702,8 +702,9 @@ table{
                     <div class="board_title">
                         <h2>Q&A</h2>
                         <div class="btnBox">
-                            <a href="#" class="normalBtn">LIST</a>
-                            <a href="#" class="normalBtn">WRITE</a>
+                               <a href="InquiryBoardList.do" class="normalBtn">LIST</a>
+                               <button type="button" onclick="inquiryWrite()" class="normalBtn">WRITE</button>
+                                <!-- <a href="#" class="normalBtn">WRITE</a> -->
                         </div>
                     </div>
                     <div class="board_contents">
@@ -723,6 +724,7 @@ table{
     	let priceTotal2 = document.querySelector("#priceTotal2");
     	let price = "<c:out value='${pdto.p_price}' />";
     	let innerCnt = document.querySelector("#innerCnt");
+    	
     	
     	function fn_update(isBool){
     		if(isBool){
@@ -771,6 +773,8 @@ table{
                 }
             })
         }
+        
+     
         /* 오티 수정 코드 부분  review에서 write 버튼 클릭시 로그인이 되었는지 확인하는 코드*/
         function reviewWrite(){
         	let loginId = "<c:out value='${loginId}' />";
@@ -783,6 +787,38 @@ table{
         		location.href ="Main.jsp?section=ReviewBoardWrite.jsp?p_code=" + p_code;
         	}
         }
+        
+     // inquiry에서 write 버튼 클릭 시 로그인이 되었는지 확인하는 코드
+        function inquiryWrite(){
+        	let loginId = "<c:out value='${loginId}' />";
+        	let p_code = "<c:out value='${pdto.p_code}' />";
+        	
+        	if(loginId == ""){
+        		location.href = "Main.jsp?section=MemberLogin.jsp";
+        	}else{
+        		location.href = "Main.jsp?section=InquiryBoardWrite.jsp?p_code=" + p_code
+        	}
+        }
+     
+        
+        
+        /* 바로구매(BUYNOW)를 클릭 -> 로그인이 안되어 있으면 로그인하고 바로 구매서블릿으로 이동  */
+        /* 로그인이 되어있을 때 바로구매하면 구매서블릿으로 이동 */
+        function buynow(){
+        	let loginId = "<c:out value='${loginId}' />";
+        	let cnt = document.querySelector("#quantity");
+            let chk = "<c:out value='${pdto.p_code}' />";
+            
+        	if(loginId == ""){
+        		alert("회원만 상품을 구매 할 있습니다.");
+        		location.href = "Main.jsp?section=MemberLogin.jsp?chk="+chk + '&cnt='+cnt.value;
+        	}else {
+        		location.href = "CartOrderPro.do?chk="+chk + '&loginId='+loginId + '&cnt='+cnt.value;
+        	}
+        }
+    
+        
+     
     </script>
 </body>
 </html>

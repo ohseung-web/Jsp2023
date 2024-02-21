@@ -29,6 +29,42 @@ public class LivingDAO {
 		}
 	}
 	
+	// 카테고리별 해당 상품들을 return하는 메소드
+		public ArrayList<ProductDTO> getAllMainProduct(int category){
+			getConnect();
+			ArrayList<ProductDTO> a = new ArrayList<>();
+			try {
+				String sql = "select * from product where p_category=? order by p_code asc limit 4";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, category);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					ProductDTO pdto = new ProductDTO();
+					pdto.setP_code(rs.getInt(1));
+					pdto.setP_category(rs.getInt(2));
+					pdto.setP_name(rs.getString(3));
+					pdto.setP_mainimg(rs.getString(4));
+					pdto.setP_detailimg(rs.getString(5));
+					pdto.setP_price(rs.getInt(6));
+					pdto.setP_occ(rs.getString(7));
+					pdto.setP_delivfee(rs.getInt(8));
+					a.add(pdto);
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					if(con != null) con.close();
+					if(pstmt != null) pstmt.close();
+					if(rs != null) rs.close();
+				}catch(SQLException se){
+					se.printStackTrace();
+				}
+			}
+			return a;
+		}
+	
+		
 	// 카테고리별 해당 상품들을 return하는 메서드 (기본)
 	public ArrayList<ProductDTO> getAllProduct(int category, int startRow, int pageSize){
 		getConnect();
@@ -1652,5 +1688,39 @@ public class LivingDAO {
 		   
 		   return mdto;
 	   }
-	//----------------------------------------------------------------			
+	//----------------------------------------------------------------	
+	   // 상품코드별 구매한 하나의 상품을 리턴하는 메소드
+	   public ProductDTO buyProductselect(int p_code){
+	       getConnect();
+	       ProductDTO pdto = new ProductDTO();
+	       try {
+				String sql = "select * from product where p_code=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, p_code);
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					pdto.setP_code(rs.getInt(1));
+					pdto.setP_category(rs.getInt(2));
+					pdto.setP_name(rs.getString(3));
+					pdto.setP_mainimg(rs.getString(4));
+					pdto.setP_detailimg(rs.getString(5));
+					pdto.setP_price(rs.getInt(6));
+					pdto.setP_occ(rs.getString(7));
+					pdto.setP_delivfee(rs.getInt(8));
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					if(con != null) con.close();
+					if(pstmt != null) pstmt.close();
+					if(rs != null) rs.close();
+				}catch(SQLException se){
+					se.printStackTrace();
+				}
+			}
+	       return pdto;
+	   }
+   
+	   //-------------------------------------------------------------------------
 }

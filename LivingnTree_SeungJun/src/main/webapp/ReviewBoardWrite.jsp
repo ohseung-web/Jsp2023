@@ -188,7 +188,7 @@ ul.info li + li{
                             <th class="rw">비밀번호</th>
                             <td>
                                 <input type="password" name="password" id="password" maxlength="20">
-                                <input type="hidden"  name="p_code" value="<%=p_code %>">
+                                <%-- <input type="hidden"  name="p_code" value="<%=p_code %>"> --%>
                             </td>
                         </tr>
                     </table>

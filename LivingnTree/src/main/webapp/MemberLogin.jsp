@@ -31,9 +31,13 @@
     width: 100%;
     height: 48px;
     line-height: 48px;
+    font-size: 13px;
     margin-bottom: 10px;
     padding: 0 20px;
     border: 1px solid #e3e3e3;
+}
+.loginContainer .contents .login input::placeholder{
+	color: #bbb;
 }
 .loginContainer .contents .login_idSave_wrap{
     display: flex;
@@ -97,7 +101,9 @@
 }
 .loginContainer .contents .login_find div:nth-child(2){
     padding-left: 11px;
-    background: url(../img/icon/line2.png) no-repeat left;
+    background: url(img/icon/line2.png);
+    background-repeat: no-repeat;
+    background-position: left;
 }
 .loginContainer .contents .login_util{
     display: flex;
@@ -138,15 +144,16 @@
 </style>
 </head>
 <body>
+	<% String chk = request.getParameter("chk"); %>
     <div class="loginContainer">
         <div class="contents">
         	<div class="title">
                 <h2>로그인</h2>
             </div>
-            <form action="MemberLoginProc.do" method="post">
+            <form action="MemberLoginProc.do?chk=<%=chk %>" method="post">
                 <div class="login">
-                    <input type="text" name="id">
-                    <input type="password" name="pw">
+                    <input type="text" id="id" name="id" placeholder="아이디">
+                    <input type="password" id="pw" name="pw" placeholder="비밀번호">
                 </div>
                 <div class="login_idSave_wrap">
                     <p class="login_idSave">
@@ -159,15 +166,81 @@
                 </div>
             </form>
             <div class="login_find">
-                <div><a href="#">아이디 찾기</a></div>
-                <div><a href="#">비밀번호 찾기</a></div>
+                <div><a href="Main.jsp?section=MemberFindId.jsp">아이디 찾기</a></div>
+                <div><a href="Main.jsp?section=MemberFindPw.jsp">비밀번호 찾기</a></div>
             </div>
             <div class="login_util">
                 <div>아직 회원이 아니신가요?</div>
                 <div>지금 회원가입을 하시면<br>다양하고 특별한 혜택이 준비되어 있습니다.</div>
-                <div><a href="#">회원가입</a></div>
+                <div><a href="Main.jsp?section=MemberJoin.jsp">회원가입</a></div>
             </div>
         </div>
     </div>
+    <script>
+ 		// 쿠키 set, delete, get function
+    	function setCookie(cookieName, value, exdays){
+			var exdate = new Date();
+			exdate.setDate(exdate.getDate() + exdays);
+			var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+			document.cookie = cookieName + "=" + cookieValue;
+		}
+
+		function deleteCookie(cookieName){
+			var expireDate = new Date();
+			expireDate.setDate(expireDate.getDate() - 1);
+			document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+		}
+
+		function getCookie(cookieName) {
+			cookieName = cookieName + '=';
+			var cookieData = document.cookie;
+			var start = cookieData.indexOf(cookieName);
+			var cookieValue = '';
+			if(start != -1){
+    			start += cookieName.length;
+    			var end = cookieData.indexOf(';', start);
+    			if(end == -1)end = cookieData.length;
+    			cookieValue = cookieData.substring(start, end);
+			}
+			return unescape(cookieValue);
+		}    
+    
+        // 아이디저장을 체크하면 아이디 저장(7일동안)
+        window.onload = function(){
+            // 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 쿠키값 없으면 공백.
+            
+            let userLoginId = getCookie("userLoginId");
+            console.log(userLoginId);
+            document.getElementById("id").value = userLoginId;
+
+            // ID가 있는경우 아이디 저장 체크박스 체크
+            if(document.getElementById("id").value != ""){
+                document.getElementById("check_save_id").checked = true;
+            }
+
+            // 아이디 저장하기 체크박스 onchange
+            let check_save_id = document.getElementById("check_save_id");
+    
+            check_save_id.onchange = function (event) {
+                if(check_save_id.checked){ //checked true
+                    let userLoginId = document.getElementById("id").value;
+                    setCookie("userLoginId", userLoginId, 7); // 7일 동안 쿠키 보관
+                }else{ //checked false
+        	        deleteCookie("userLoginId");
+                }
+            };
+
+            // 아이디 저장하기가  눌린상태에서, ID를 입력한 경우
+            let idInput = document.getElementById("id");
+    
+            idInput.addEventListener("keyup", function(e) {
+    	        if(check_save_id.checked){ //checked true
+        	        let userLoginId = document.getElementById("id").value;
+                    setCookie("userLoginId", userLoginId, 7); // 7일 동안 쿠키 보관
+                }
+            })
+        }
+        
+    </script>
 </body>
 </html>

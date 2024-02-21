@@ -6,13 +6,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="css/reset.css">
-<!-- <link rel="stylesheet" href="css/section.css"> -->
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-  crossorigin="anonymous">
-</script>
-<style type="text/css">
+  crossorigin="anonymous"></script>
+<style>
+.headerContainer{
+	border-bottom: 0 !important;
+}
 .sectionContainer{
     width: 100%;
     background-color: #fff;

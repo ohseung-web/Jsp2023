@@ -26,9 +26,14 @@ public class LivProductListProc extends HttpServlet {
 	protected void reqPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LivingDAO ldao = new LivingDAO();
 		
-		int category = 0;
-		if(request.getParameter("p_category") != null) {
-			category = Integer.parseInt(request.getParameter("p_category"));
+		String category = "";
+		if(category != null) {
+			category = request.getParameter("p_category");
+		}
+		
+		String order = request.getParameter("order");
+		if(order == null) {
+			order = "1";
 		}
 		
 		// 페이징 시작
@@ -45,12 +50,21 @@ public class LivProductListProc extends HttpServlet {
 		
 		int currentPage = Integer.parseInt(pageNum);
 		
-		count = ldao.getAllProductCount(category);
+		count = ldao.getAllProductCount(Integer.parseInt(category));
 		
 		int startRow = (currentPage - 1) * pageSize + 1;
 		int endRow = currentPage * pageSize;
 		
-		ArrayList<ProductDTO> plist = ldao.getAllProduct(category, startRow, pageSize);
+		ArrayList<ProductDTO> plist = new ArrayList<>();
+		
+		if(Integer.parseInt(order) == 1) {
+			plist = ldao.getAllProduct(Integer.parseInt(category), startRow, pageSize);
+		}else if(Integer.parseInt(order) == 2) {
+			plist = ldao.getAllProductAscPrice(Integer.parseInt(category), startRow, pageSize);
+		}else {
+			plist = ldao.getAllProductDescPrice(Integer.parseInt(category), startRow, pageSize);
+		}
+		
 		number = count - (currentPage - 1) * pageSize;
 		
 		int pageCount = 0;
@@ -74,11 +88,8 @@ public class LivProductListProc extends HttpServlet {
 			}
 		}
 		
-		ArrayList<ProductDTO> highlist = ldao.highPrice(category);
-		ArrayList<ProductDTO> lowlist = ldao.lowPrice(category);
-		
 		// 페이징 종료
-		
+		request.setAttribute("count", count);
 		request.setAttribute("pageNum", pageNum);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("pageCount", pageCount);
@@ -86,11 +97,8 @@ public class LivProductListProc extends HttpServlet {
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 
-		request.setAttribute("cateCount", count);
 		request.setAttribute("category", category);
-		
-		request.setAttribute("highlist", highlist);
-		request.setAttribute("lowlist", lowlist);
+		request.setAttribute("order", order);
 		request.setAttribute("plist", plist);
 		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=ProductList.jsp");
 		rd.forward(request, response);

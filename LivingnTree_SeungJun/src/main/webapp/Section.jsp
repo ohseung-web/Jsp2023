@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -176,6 +177,12 @@
 .sectionContainer .main_product_list .product_list .product .prdList li .prdList_item .thumbnail .icon_box .cart:hover{
     border-top: 1px solid #fff;
 }
+.sectionContainer .main_product_list .product_list .product .prdList li .prdList_item .thumbnail .icon_box .cart a{
+	font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+}
+
 .sectionContainer .main_product_list .product_list .product .prdList li .prdList_item .description{
     margin-top: 30px;
 }
@@ -297,7 +304,8 @@
     width: 50%;
     margin-bottom: 40px;
 }
-.sectionContainer .main_product_category .main_product_inner .main_product_tab li button{
+.sectionContainer .main_product_category .main_product_inner .main_product_tab li button
+{
     overflow: visible;
     border: 0;
     outline: none;
@@ -306,12 +314,15 @@
     color: #000;
     background: none;
     cursor: pointer;
+    text-decoration: none;
 }
-.sectionContainer .main_product_category .main_product_inner .main_product_tab li button.on{
+.sectionContainer .main_product_category .main_product_inner .main_product_tab li button.on
+{
     font-weight: 500;
     color: #d0ac88;
 }
-.sectionContainer .main_product_category .main_product_inner .main_product_tab li button::after{
+.sectionContainer .main_product_category .main_product_inner .main_product_tab li button::after
+{
     content: "";
     position: relative;
     display: block;
@@ -324,7 +335,8 @@
     transition: transform 0.3s;
     transition-timing-function: cubic-bezier(.45,.46,.05,.96);
 }
-.sectionContainer .main_product_category .main_product_inner .main_product_tab li button.on::after{
+.sectionContainer .main_product_category .main_product_inner .main_product_tab li button.on::after
+{
     transform: scaleX(1);
     transform-origin: 0 0;
     transition: transform 0.5s;
@@ -400,6 +412,11 @@
 }
 .sectionContainer .main_product_category .content_list .tabcontent .prdList li .prdList_item .thumbnail .icon_box .cart:hover{
     border-top: 1px solid #fff;
+}
+.sectionContainer .main_product_category .content_list .tabcontent .prdList li .prdList_item .thumbnail .icon_box .cart a{
+	font-size: 14px;
+    font-weight: 500;
+    color: #fff;
 }
 .sectionContainer .main_product_category .content_list .tabcontent .prdList li .prdList_item .description{
     margin-top: 30px;
@@ -494,95 +511,36 @@
         	<div class="product_list">
             	<div class="product">
                 	<ul class="prdList">
+                	  <c:forEach var="pblist" items="${pblist}">
                     	<li>
                         	<div class="prdList_item">
                             	<div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/basket_01.jpg" alt="test01">
+                                	<a href="ProductInfo.do?p_code=${pblist.p_code}">
+                                    	<img src="img/productimg/${pblist.p_mainimg}" alt="test01">
                                 	</a>
                                 	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
+                                    	<span class="cart"><a href="CartProc.do?code=${pblist.p_code}&cnt=${1}&price=${pblist.p_price}">ADD</a></span>
                                 	</div>
                             	</div>
                             	
-                            	<%-- <c:forEach var="pdto" items="${plist}"> --%>
                             	<div class="description">
-                                	<div class="name"><a href="#">Test01</a></div>
-                                	<%-- <div class="name"><a href="#">${pdto.p_name}</a></div> --%>
+                                	<div class="name"><a href="#">${pblist.p_name}</a></div>
                                 	<div class="spec">
-                                    	<div class="price"><span>10,000원</span></div>
-                                    	<%-- <div class="price"><span>${pdto.p_price}원</span></div> --%>
+                                    	<div class="price"><span><fmt:formatNumber value="${pblist.p_price}" pattern="#,##0"/>원</span></div>
                                     	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">100원 (1%)</span></div>
                                 	</div>
                             	</div>
-                              <%-- </c:forEach>	 --%>
-                        	</div>
-        
-                    	</li>
-                    	<li>
-                        	<div class="prdList_item">
-                            	<div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/basket_02.jpg" alt="test02">
-                                	</a>
-                                	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
-                                	</div>
-                            	</div>
-                            	<div class="description">
-                                	<div class="name"><a href="#">Test02</a></div>
-                                	<div class="spec">
-                                    	<div class="price"><span>20,000원</span></div>
-                                    	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">200원 (1%)</span></div>
-                                	</div>
-                            	</div>
                         	</div>
                     	</li>
-                    	<li>
-                        	<div class="prdList_item">
-                            	<div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/basket_03.jpg" alt="test03">
-                                	</a>
-                                	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
-                                	</div>
-                            	</div>
-                            	<div class="description">
-                                	<div class="name"><a href="#">Test03</a></div>
-                                	<div class="spec">
-                                    	<div class="price"><span>30,000원</span></div>
-                                    	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">300원 (1%)</span></div>
-                                	</div>
-                            	</div>
-                        	</div>
-                    	</li>
-                    	<li>
-                        	<div class="prdList_item">
-                            	<div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/basket_04.jpg" alt="test04">
-                                	</a>
-                                	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
-                                	</div>
-                            	</div>
-                            	<div class="description">
-                                	<div class="name"><a href="#">Test04</a></div>
-                                	<div class="spec">
-                                    	<div class="price"><span>40,000원</span></div>
-                                    	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">400원 (1%)</span></div>
-                                	</div>
-                            	</div>
-                        	</div>
-                    	</li>
-                	</ul>
-            	</div>
+                   </c:forEach>
+                   </ul>
+                 </div>  	
             	<div class="more">
                 	<a href="#" class="btnMore">More +</a>
             	</div>
         	</div>
 		</div>
+		
         <div class="main_image_gallery">
             <div class="main_title">
             	<div class="title">Lifestyle</div>
@@ -590,7 +548,7 @@
         	</div>
             <ul class="main_image_list">
                 <li>
-                    <a href="#">
+                    <a href="LivProductListProc.do?p_category=3">
                         <img src="img/lifestyle/ez-image-contents-01.jpg" alt="">
                         <div class="main_3dan_banner_txt">
                             <div class="txt">캠핑갈 때 어때요?</div>
@@ -599,7 +557,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="LivProductListProc.do?p_category=2">
                         <img src="img/lifestyle/ez-image-contents-02.jpg" alt="">
                         <div class="main_3dan_banner_txt">
                             <div class="txt">깔끔한 정리의 시작</div>
@@ -608,7 +566,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="LivProductListProc.do?p_category=1">
                         <img src="img/lifestyle/ez-image-contents-03.jpg" alt="">
                         <div class="main_3dan_banner_txt">
                             <div class="txt">펜트리 정리, 대용량 수납</div>
@@ -626,260 +584,92 @@
                 </div>
                 <ul class="main_product_tab">
                     <!-- tabcontent01 -->
-                    <li><button type="button" class="on">서랍장</button></li>
+                    <li><button type="button" class="on" onclick="location.href='MainList.do?category=4'">서랍장</button></li>
                     <!-- tabcontent02 -->
-                    <li><button type="button">리빙박스</button></li>
+                    <li><button type="button" onclick="location.href='MainList.do?category=3'">리빙박스</button></li>
                     <!-- tabcontent03 -->
-                    <li><button type="button">휴지통</button></li>
+                    <li><button type="button" onclick="location.href='MainList.do?category=5'">휴지통</button></li>
                 </ul>
             </div>
             <div class="content_list">
                 <!-- tabcontent01 -->
                 <div class="tabcontent on">
                     <ul class="prdList">
+                      <c:forEach var="plist" items="${plist}"> 
                         <li>
                             <div class="prdList_item">
                                 <div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/drawer_01.jpg" alt="test_a1">
+                                	<a href="ProductInfo.do?p_code=${plist.p_code}">
+                                    	<img src="img/productimg/${plist.p_mainimg}" alt="test_a1">
                                 	</a>
                                 	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
+                                    	<span class="cart"><a href="CartProc.do?code=${plist.p_code}&cnt=${1}&price=${plist.p_price}">ADD</a></span>
                                 	</div>
                             	</div>
                             	<div class="description">
-                                	<div class="name"><a href="#">Test_a1</a></div>
+                                	<div class="name"><a href="#">${plist.p_name}</a></div>
                                 	<div class="spec">
-                                    	<div class="price"><span>10,000원</span></div>
+                                    	<div class="price"><span><fmt:formatNumber value="${plist.p_price}" pattern="#,##0"/>원</span></div>
                                     	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">100원 (1%)</span></div>
                                 	</div>
                             	</div>
                             </div>
                         </li>
-                        <li>
-                            <div class="prdList_item">
-                                <div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/drawer_02.jpg" alt="test_a2">
-                                	</a>
-                                	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
-                                	</div>
-                            	</div>
-                            	<div class="description">
-                                	<div class="name"><a href="#">Test_a2</a></div>
-                                	<div class="spec">
-                                    	<div class="price"><span>20,000원</span></div>
-                                    	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">200원 (1%)</span></div>
-                                	</div>
-                            	</div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="prdList_item">
-                                <div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/drawer_03.jpg" alt="test_a3">
-                                	</a>
-                                	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
-                                	</div>
-                            	</div>
-                            	<div class="description">
-                                	<div class="name"><a href="#">Test_a3</a></div>
-                                	<div class="spec">
-                                    	<div class="price"><span>30,000원</span></div>
-                                    	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">300원 (1%)</span></div>
-                                	</div>
-                            	</div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="prdList_item">
-                                <div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/basket_04.jpg" alt="test_a4">
-                                	</a>
-                                	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
-                                	</div>
-                            	</div>
-                            	<div class="description">
-                                	<div class="name"><a href="#">Test_a4</a></div>
-                                	<div class="spec">
-                                    	<div class="price"><span>40,000원</span></div>
-                                    	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">400원 (1%)</span></div>
-                                	</div>
-                            	</div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <!--  -->
+                  </c:forEach>    
+                      </ul>
+                   </div>     
                 <!-- tabcontent02 -->
                 <div class="tabcontent">
                     <ul class="prdList">
+                        <c:forEach var="plist" items="${plist}"> 
                         <li>
                             <div class="prdList_item">
                                 <div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/livingbox_01.jpg" alt="test_b1">
+                                	<a href="ProductInfo.do?p_code=${plist.p_code}">
+                                    	<img src="img/productimg/${plist.p_mainimg}" alt="test_a1">
                                 	</a>
                                 	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
+                                    	<span class="cart"><a href="CartProc.do?code=${plist.p_code}&cnt=${1}&price=${plist.p_price}">ADD</a></span>
                                 	</div>
                             	</div>
                             	<div class="description">
-                                	<div class="name"><a href="#">Test_b1</a></div>
+                                	<div class="name"><a href="#">${plist.p_name}</a></div>
                                 	<div class="spec">
-                                    	<div class="price"><span>10,000원</span></div>
+                                    	<div class="price"><span><fmt:formatNumber value="${plist.p_price}" pattern="#,##0"/>원</span></div>
                                     	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">100원 (1%)</span></div>
                                 	</div>
                             	</div>
                             </div>
                         </li>
-                        <li>
-                            <div class="prdList_item">
-                                <div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/livingbox_02.jpg" alt="test_b2">
-                                	</a>
-                                	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
-                                	</div>
-                            	</div>
-                            	<div class="description">
-                                	<div class="name"><a href="#">Test_b2</a></div>
-                                	<div class="spec">
-                                    	<div class="price"><span>20,000원</span></div>
-                                    	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">200원 (1%)</span></div>
-                                	</div>
-                            	</div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="prdList_item">
-                                <div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/livingbox_03.jpg" alt="test_b3">
-                                	</a>
-                                	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
-                                	</div>
-                            	</div>
-                            	<div class="description">
-                                	<div class="name"><a href="#">Test_b3</a></div>
-                                	<div class="spec">
-                                    	<div class="price"><span>30,000원</span></div>
-                                    	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">300원 (1%)</span></div>
-                                	</div>
-                            	</div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="prdList_item">
-                                <div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/livingbox_04.jpg" alt="test_b4">
-                                	</a>
-                                	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
-                                	</div>
-                            	</div>
-                            	<div class="description">
-                                	<div class="name"><a href="#">Test_b4</a></div>
-                                	<div class="spec">
-                                    	<div class="price"><span>40,000원</span></div>
-                                    	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">400원 (1%)</span></div>
-                                	</div>
-                            	</div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <!--  -->
+                  </c:forEach>    
+                 </ul>
+               </div>     
                 <!-- tabcontent03 -->
                 <div class="tabcontent">
                     <ul class="prdList">
+                        <c:forEach var="plist" items="${plist}"> 
                         <li>
                             <div class="prdList_item">
                                 <div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/bin_01.jpg" alt="test_c1">
+                                	<a href="ProductInfo.do?p_code=${plist.p_code}">
+                                    	<img src="img/productimg/${plist.p_mainimg}" alt="test_a1">
                                 	</a>
                                 	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
+                                    	<span class="cart"><a href="CartProc.do?code=${plist.p_code}&cnt=${1}&price=${plist.p_price}">ADD</a></span>
                                 	</div>
                             	</div>
                             	<div class="description">
-                                	<div class="name"><a href="#">Test_c1</a></div>
+                                	<div class="name"><a href="#">${plist.p_name}</a></div>
                                 	<div class="spec">
-                                    	<div class="price"><span>10,000원</span></div>
+                                    	<div class="price"><span><fmt:formatNumber value="${plist.p_price}" pattern="#,##0"/>원</span></div>
                                     	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">100원 (1%)</span></div>
                                 	</div>
                             	</div>
                             </div>
                         </li>
-                        <li>
-                            <div class="prdList_item">
-                                <div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/bin_02.jpg" alt="test_c2">
-                                	</a>
-                                	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
-                                	</div>
-                            	</div>
-                            	<div class="description">
-                                	<div class="name"><a href="#">Test_c2</a></div>
-                                	<div class="spec">
-                                    	<div class="price"><span>20,000원</span></div>
-                                    	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">200원 (1%)</span></div>
-                                	</div>
-                            	</div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="prdList_item">
-                                <div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/bin_03.jpg" alt="test_c3">
-                                	</a>
-                                	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
-                                	</div>
-                            	</div>
-                            	<div class="description">
-                                	<div class="name"><a href="#">Test_c3</a></div>
-                                	<div class="spec">
-                                    	<div class="price"><span>30,000원</span></div>
-                                    	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">300원 (1%)</span></div>
-                                	</div>
-                            	</div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="prdList_item">
-                                <div class="thumbnail">
-                                	<a href="#">
-                                    	<img src="img/productimg/bin_04.jpg" alt="test_c4">
-                                	</a>
-                                	<div class="icon_box">
-                                    	<span class="cart">ADD</span>
-                                	</div>
-                            	</div>
-                            	<div class="description">
-                                	<div class="name"><a href="#">Test_c4</a></div>
-                                	<div class="spec">
-                                    	<div class="price"><span>40,000원</span></div>
-                                    	<div class="mileage"><span><img src="img/icon/ico_point.gif" alt="">400원 (1%)</span></div>
-                                	</div>
-                            	</div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <!--  -->
+                  </c:forEach>    
+                </ul>
+              </div>     
             </div>
         </div>
         <div class="main_text">

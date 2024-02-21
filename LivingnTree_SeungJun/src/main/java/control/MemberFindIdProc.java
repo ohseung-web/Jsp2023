@@ -65,7 +65,7 @@ public class MemberFindIdProc extends HttpServlet {
 				request.setAttribute("idList", idList);
 				request.setAttribute("name", name);
 				request.setAttribute("phone", phone);
-				RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MemberFindIdResult.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("MainList.do?section=MemberFindIdResult.jsp");
 				rd.forward(request, response);
 				
 			}

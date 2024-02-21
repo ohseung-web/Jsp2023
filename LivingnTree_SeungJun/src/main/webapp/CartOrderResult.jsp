@@ -115,7 +115,7 @@
 	<div class="cartOrderResultContainer">
         <div class="contents">
             <div class="title">
-                <h2>아이디 찾기</h2>
+                <h2>구매 정보</h2>
             </div>
             <div class="memberArea">
                 <div class="complete">

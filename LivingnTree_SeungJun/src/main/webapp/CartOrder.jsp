@@ -599,30 +599,29 @@ input[type="radio"] + label{
 					<h2>주문상품</h2>
 					<i class="fa-solid fa-angle-down" aria-hidden="false"></i>
 				</div>
-				<div class="contents">
-					<c:forEach var="chk" items="${chkList}">
-						<input type="hidden" name="code" value="${chk.p_code}">
-						<input type="hidden" name="img" value="${chk.p_mainimg}">
-						<input type="hidden" name="price" value="${chk.p_price}">
-						<input type="hidden" name="name" value="${chk.p_name}">
-						<input type="hidden" name="cnt" value="${chk.c_qty}">
-						<input type="hidden" name="delivfee" value="${chk.p_delivfee}">
+				<c:choose>
+				  <c:when test="${pdto ne isEmpty}">
+				        <input type="hidden" name="code" value="${pdto.p_code}">
+						<input type="hidden" name="img" value="${pdto.p_mainimg}">
+						<input type="hidden" name="price" value="${pdto.p_price}">
+						<input type="hidden" name="name" value="${pdto.p_name}">
+						<input type="hidden" name="cnt" value="${cnt}">
+						<input type="hidden" name="delivfee" value="${pdto.p_delivfee}">
 						<input type="hidden" name="id" value="${loginId}">
-						<input type="hidden" name="c_code" value="${chk.c_code}">
-						<div class="orderList">
-							<div class="prdBox">
+				     <div class="orderList">
+							<div class="prdBox"> 
 								<div class="thumbnail">
-									<a href="ProductInfo.do?p_code=${chk.p_code}">
-										<img src="img/productimg/${chk.p_mainimg}">
+									<a href="ProductInfo.do?p_code=${pdto.p_code}">
+										<img src="img/productimg/${pdto.p_mainimg}">
 									</a>
 								</div>
-								<div class="description">
+								<div class="description"> 
 									<strong class="prdName">
-										<a href="ProductInfo.do?p_code=${chk.p_code}">${chk.p_name}</a>  
+										<a href="ProductInfo.do?p_code=${pdto.p_code}">${pdto.p_name}</a>  
 									</strong>
-									<div class="info">수량: ${chk.c_qty}개</div>
+									<div class="info">수량: ${cnt}개</div>
 									<div class="prdPrice">
-										<fmt:formatNumber value="${chk.c_total}" pattern="#,##0"/>원
+										<fmt:formatNumber value="${cnt * pdto.p_price}" pattern="#,##0"/>원
 									</div>
 								</div>
 							</div>
@@ -631,48 +630,119 @@ input[type="radio"] + label{
 							<h3>배송비</h3>
 							<span class="deliveryFee">
 								<c:choose>
-									<c:when test="${chk.p_delivfee eq 0}">
+									<c:when test="${pdto.p_delivfee eq 0}">
 										0 (무료)원
 									</c:when>
 									<c:otherwise>
-										<fmt:formatNumber value="${chk.p_delivfee}" pattern="#,##0"/>원
+										<fmt:formatNumber value="${pdto.p_delivfee}" pattern="#,##0"/>원
 									</c:otherwise>
 								</c:choose>
 							</span>
 						</div>
-					</c:forEach>
-				</div>
-			</div>
-			<div class="payment fold selected">
-				<div class="title">
-					<h2>결제정보</h2>
-					<i class="fa-solid fa-angle-down" aria-hidden="false"></i>
-				</div>
-				<div class="contents">
-					<div class="segment">
-						<table border="0">
-							<tr>
-								<th class="row">주문상품</th>
-								<td class="right">
-									<c:set var="itemTotal" value="0" />
-									<c:forEach var="chk" items="${chkList}">
-										<c:set var="itemTotal" value="${itemTotal + chk.c_total}" />
-									</c:forEach>
-									<fmt:formatNumber value="${itemTotal}" pattern="#,##0"/>원
-								</td>
-							</tr>
-							<tr>
-								<th class="row">배송비</th>
-								<td class="right">
-									<c:set var="shippingTotal" value="0" />
-									<c:forEach var="chk" items="${chkList}">
-										<c:set var="shippingTotal" value="${shippingTotal + chk.p_delivfee}" />
-									</c:forEach>
-									<fmt:formatNumber value="${shippingTotal}" pattern="#,##0"/>원
-								</td>
-							</tr>
-						</table>
-					</div>
+						<div class="payment fold selected">
+						<div class="title">
+							<h2>결제정보</h2>
+							<i class="fa-solid fa-angle-down" aria-hidden="false"></i>
+						</div>
+						<div class="contents">
+							<div class="segment">
+								<table border="0">
+									<tr>
+										<th class="row">주문상품</th>
+										<td class="right">
+											<c:set var="itemTotal" value="${cnt * pdto.p_price}" />
+											<fmt:formatNumber value="${cnt * pdto.p_price}" pattern="#,##0"/>원
+										</td>
+									</tr>
+									<tr>
+										<th class="row">배송비</th>
+										<td class="right">
+											<c:set var="shippingTotal" value="${pdto.p_delivfee}" />
+											<fmt:formatNumber value="${pdto.p_delivfee}" pattern="#,##0"/>원
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>			
+				  </c:when>
+				  <c:otherwise>
+						<div class="contents">
+							<c:forEach var="chk" items="${chkList}">
+								<input type="hidden" name="code" value="${chk.p_code}">
+								<input type="hidden" name="img" value="${chk.p_mainimg}">
+								<input type="hidden" name="price" value="${chk.p_price}">
+								<input type="hidden" name="name" value="${chk.p_name}">
+								<input type="hidden" name="cnt" value="${chk.c_qty}">
+								<input type="hidden" name="delivfee" value="${chk.p_delivfee}">
+								<input type="hidden" name="id" value="${loginId}">
+								<input type="hidden" name="c_code" value="${chk.c_code}">
+								<div class="orderList">
+									<div class="prdBox"> 
+										<div class="thumbnail">
+											<a href="ProductInfo.do?p_code=${chk.p_code}">
+												<img src="img/productimg/${chk.p_mainimg}">
+											</a>
+										</div>
+										<div class="description"> 
+											<strong class="prdName">
+												<a href="ProductInfo.do?p_code=${chk.p_code}">${chk.p_name}</a>  
+											</strong>
+											<div class="info">수량: ${chk.c_qty}개</div>
+											<div class="prdPrice">
+												<fmt:formatNumber value="${chk.c_total}" pattern="#,##0"/>원
+											</div>
+										</div>
+									</div>
+								</div>	
+								<div class="delivery">
+									<h3>배송비</h3>
+									<span class="deliveryFee">
+										<c:choose>
+											<c:when test="${chk.p_delivfee eq 0}">
+												0 (무료)원
+											</c:when>
+											<c:otherwise>
+												<fmt:formatNumber value="${chk.p_delivfee}" pattern="#,##0"/>원
+											</c:otherwise>
+										</c:choose>
+									</span>
+								</div>
+							</c:forEach>
+						</div>
+					</div>			
+					<div class="payment fold selected">
+						<div class="title">
+							<h2>결제정보</h2>
+							<i class="fa-solid fa-angle-down" aria-hidden="false"></i>
+						</div>
+						<div class="contents">
+							<div class="segment">
+								<table border="0">
+									<tr>
+										<th class="row">주문상품</th>
+										<td class="right">
+											<c:set var="itemTotal" value="0" />
+											<c:forEach var="chk" items="${chkList}">
+												<c:set var="itemTotal" value="${itemTotal + chk.c_total}" />
+											</c:forEach>
+											<fmt:formatNumber value="${itemTotal}" pattern="#,##0"/>원
+										</td>
+									</tr>
+									<tr>
+										<th class="row">배송비</th>
+										<td class="right">
+											<c:set var="shippingTotal" value="0" />
+											<c:forEach var="chk" items="${chkList}">
+												<c:set var="shippingTotal" value="${shippingTotal + chk.p_delivfee}" />
+											</c:forEach>
+											<fmt:formatNumber value="${shippingTotal}" pattern="#,##0"/>원
+										</td>
+									</tr>
+								</table>
+							</div>
+					</c:otherwise>
+				</c:choose>			
 					<div class="totalPrice">
 						<h3 class="heading">최종 결제 금액</h3>
 						<strong class="txtStrong">
@@ -680,7 +750,7 @@ input[type="radio"] + label{
 						</strong>
 					</div>
 				</div>
-			</div>
+			</div>		
 			<button type="button" onclick="purchase()" class="btnSubmit" id="btn_payment">
 				<fmt:formatNumber value="${itemTotal+shippingTotal}" pattern="#,##0"/>원 결제하기
 			</button>

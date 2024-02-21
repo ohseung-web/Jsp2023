@@ -20,95 +20,47 @@
     font-size: 32px;
     color: #1f1f1f;
 }
-/* paging CSS 시작  */
-.pageing{
-  width:80%;
-  margin: 0 auto;
-}
-.pageing .pageingWrap{
- /*  widdth:80%; */
-  margin : 50px 0 150px 0;
-  display:flex;
-  justify-content: center;
-  align-items: cente;
-}
-.pageing  .pageingWrap img{
-   width:40px;
-   height: 40px;
-   line-height: 40px;
-}
-.pageing .pageingWrap .pagenum{
-  /*  display: inline-block; */
-   width:40px;
-}
-.pageing .pageingWrap .pagenum .pagenumbering{
-   height: 40px;
-   color: #6d6d6d;
-   border: 1px solid #e5e5e5;
-   text-align: center;
-   line-height: 40px;
-   font-size: 15px;
-}
-.pageing .pageingWrap .pagenum .pagenumbering.on{
-  border: 1px solid #000;
-}
-/* paging CSS 종료  */
-
-/* 오티 상품개수 출력 CSS 수정부분 */
-.productCollocate{
-    width: 80%;
-	margin: 0 auto;
-}
-.productinfo{
-  margin-top: 100px;
-  display:flex;
-  justify-content: space-around;
-  gap: 78%;
-  align-items: center;
-}
-.productCollocate .productinfo .catecount{
-   max-width: 100%;
-   padding:0 10px;
-   height: 40px;
-   font-size: 13px;
-   line-height: 40px;
-   color:gray;
-}
-.productCollocate .productinfo .catecount span{
-   font-weight: bold;
-   font-size: 13px;
-   color:black;
-}
 .orders{
-	/* width: 80%; */
-	/* margin: 0 auto; */
-	text-align: right; 
+	width: 76%;
+	margin: 0 auto;
+	text-align: right;
 }
-/* 상품부분 CSS 끝  */
- .orders select{
+.orders .prdCount{
+	float: left;
+	font-size: 13px;
+	color: #7d7d7d;
+}
+.orders .prdCount strong{
+	margin-left: 8px;
+	font-size: 13px;
+	font-weight: bold;
+	color: #000;
+}
+.orders #orderby{
     max-width: 100%;
     height: 40px;
     padding: 0 30px 0 15px;
     font-size: 13px;
     border: 1px solid #e0e0e0;
     background-color: #fff;
-    background : url("/img/icon/ico_select.png"); /* url이미지 입력시 "/img/~" 이렇게 지정할 것*/
+    background-image: url("img/icon/ico_select.png");
     background-repeat: no-repeat;
     background-position: right 10px center; 
     /* background: #fff url(img/icon/ico_select.png) no-repeat right 10px center; */
-    background-size: 14px 8px; 
-}   
+    background-size: 14px 8px;
+    appearance: none;
+}
 .productWrap{
 	width: 80%;
-	margin: 0 auto;
-/*     border: 1px solid red; */
+	margin: 30px auto;
+	/* border: 1px solid red; */
 }
 .productContainer{
 	display: flex;
 	justify-content: flex-start;
     width: 100%;
     flex-flow: row wrap;
-    margin-left: 20px;
+    margin-left: 15px;
 }
 .productContainer .prdList_item{
 	width: 23%;
@@ -144,9 +96,6 @@
 .productContainer .prdList_item .thumbnail .icon_box .cart{
     display: block;
     position: relative;
-    font-size: 14px;
-    font-weight: 500;
-    color: #fff;
     background-color: transparent;
     border-top: 1px solid transparent;
     border-bottom: 1px solid #fff;
@@ -160,6 +109,11 @@
 }
 .productContainer .prdList_item .thumbnail .icon_box .cart:hover{
     border-top: 1px solid #fff;
+}
+.productContainer .prdList_item .thumbnail .icon_box .cart a{
+	font-size: 14px;
+    font-weight: 500;
+    color: #fff;
 }
 .productContainer .prdList_item .description{
     margin-top: 30px;
@@ -193,11 +147,44 @@
     margin-bottom: 2px;
 }
 .pageing{
-	width: 200px;
-	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	margin-top: 60px;
+	margin-bottom: 50px;
+	text-align: center;
+}
+.pageing div{
+    width: 40px;
+    height: 40px;
+}
+.pageing .prevBtn{
+	font-size: 0;
+	/* background-image: url(img/icon/btn_page_next.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+    background-size: 40px; */
+}
+.pageing .nextBtn{
+	font-size: 0;
+	/* background-image: url(img/icon/btn_page_next.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+    background-size: 40px; */
 }
 .pageing a{
-	font-size: 20px;
+	display: inline-block;
+	width: 100%;
+    height: 100%;
+    font-size: 14px;
+    line-height: 40px;
+    text-align: center;
+    background: #fff;
+}
+.pageing a img{
+	width: 40px;
+	height: 40px;
 }
 </style>
 </head>
@@ -232,37 +219,61 @@
 		<c:set var="catename" value="${catename='부속제품'}" />
 	</c:when>
 </c:choose>
+<!--  -->
+
 <div class="title">
 	<h2>${catename}</h2>
 </div>
-<div class="productCollocate">
- <div class="productinfo">
-    <div class="catecount">
-       총&nbsp;&nbsp;<span>${cateCount}</span>개의 상품
-    </div>
-    <div class="orders">
-	<select id="orderby" name="orderby">
-		<option value="1">- 정렬방식 -</option>
-    	<option value="2">높은가격</option>
-    	<option value="3">낮은가격</option>
-	</select>
-   </div>
- </div>
-</div>   
+
+<!-- 정렬방식 -->
+<c:choose>
+	<c:when test="${order eq 1}">
+		<div class="orders">
+			<p class="prdCount">총<strong>${count}</strong>개의 상품</p>
+			<select id="orderby">
+				<option value="1" selected>- 정렬방식 -</option>
+    			<option value="2">높은가격</option>
+    			<option value="3">낮은가격</option>
+			</select>
+		</div>
+	</c:when>
+	<c:when test="${order eq 2}">
+		<div class="orders">
+			<p class="prdCount">총<strong>${count}</strong>개의 상품</p>
+			<select id="orderby">
+				<option value="1">- 정렬방식 -</option>
+    			<option value="2" selected>높은가격</option>
+    			<option value="3">낮은가격</option>
+			</select>
+		</div>
+	</c:when>
+	<c:when test="${order eq 3}">
+		<div class="orders">
+			<p class="prdCount">총<strong>${count}</strong>개의 상품</p>
+			<select id="orderby">
+				<option value="1" selected>- 정렬방식 -</option>
+    			<option value="2">높은가격</option>
+    			<option value="3" selected>낮은가격</option>
+			</select>
+		</div>
+	</c:when>
+</c:choose>
+<!--  -->
+
 <div class="productWrap">
 	<div class="productContainer">
 		<c:forEach var="pdto" items="${plist}">
 			<div class="prdList_item">
     			<div class="thumbnail">
-      			<a href="#">
+      			<a href="ProductInfo.do?p_code=${pdto.p_code}">
         			<img src="img/productimg/${pdto.p_mainimg}" alt="">
       			</a>
       			<div class="icon_box">
-        			<span class="cart">ADD</span>
+        			<span class="cart"><a href="JangProc.do">ADD</a></span>
       			</div>
     			</div>
     			<div class="description">
-      			<div class="name"><a href="#">${pdto.p_name}</a></div>
+      			<div class="name"><a href="ProductInfo.do?p_code=${pdto.p_code}">${pdto.p_name}</a></div>
       			<div class="spec">
         			<div class="price"><span><fmt:formatNumber value="${pdto.p_price}" pattern="#,##0"/>원</span></div>
       			</div>
@@ -273,30 +284,38 @@
 </div>
 
 <!-- 페이징 -->
-      <div class="pageing"> 
-        <div class="pageingWrap">
-         <c:if test="${startPage > pageBlock }">
-			<a href="LivProductListProc.do?pageNum=${startPage - pageBlock}&p_category=${category}"><img src="img/icon/btn_page_prev.png"></a>
-		 </c:if>
-		
-         <c:forEach var="i" begin="${startPage}" end="${endPage}">
-        	<a href="LivProductListProc.do?pageNum=${i}&p_category=${category}" class="pagenum"><div class="pagenumbering"> ${i} </div></a>
-         </c:forEach>
+<div class="pageing"> 
+	
+	<div class="prevBtn">
+		<c:if test="${startPage > pageBlock }">
+			<a href="LivProductListProc.do?pageNum=${startPage - pageBlock}&p_category=${category}&order=${order}"><img src="img/icon/btn_page_prev.png"></a>
+		</c:if>
+	</div>
+	
+	<div class="pageNum">
+		<c:forEach var="i" begin="${startPage}" end="${endPage}">
+    		<a href="LivProductListProc.do?pageNum=${i}&p_category=${category}&order=${order}"> ${i} </a>
+    	</c:forEach>
+	</div>	
+	
+	<div class="nextBtn">
+		<c:if test="${endPage < pageCount}">
+    		<a href="LivProductListProc.do?pageNum=${startPage + pageBlock}&p_category=${category}&order=${order}"><img src="img/icon/btn_page_next.png"></a>
+    	</c:if>
+	</div>
+	
+</div>
 
-         <c:if test="${endPage < pageCount}">
-        	<a href="LivProductListProc.do?pageNum=${startPage + pageBlock}&p_category=${category}"><img src="img/icon/btn_page_next.png"></a>
-         </c:if>
-        </div>
-     </div>
-<script type="text/javascript">
+<script>
+    let order = document.querySelector(".orders #orderby");
+    let orderValue;
+    let category = "<c:out value='${category}'/>";
     
-    $(function(){
-    	$('.pageing .pageingWrap .pagenum .pagenumbering').click(function(){
-    		$(this).addClass('on');
-    		$(this).siblings().removeClass('on');
-    	})
+    
+    order.addEventListener("change", () =>{
+    	orderValue = order.options[order.selectedIndex].value;
+    	location.href = "LivProductListProc.do?p_category="+category+"&order="+orderValue;
     })
-    
 </script>
 </body>
 </html>

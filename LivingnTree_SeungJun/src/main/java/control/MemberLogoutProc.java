@@ -26,7 +26,7 @@ public class MemberLogoutProc extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.invalidate(); 
 		
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("MainList.do");
 		rd.forward(request, response);
 	}	
 }
