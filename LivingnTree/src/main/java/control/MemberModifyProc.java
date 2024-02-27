@@ -1,7 +1,6 @@
 package control;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,12 +8,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.LivingDAO;
 import model.MemberDTO;
 
-@WebServlet("/MemberJoinProc.do")
-public class MemberJoinProc extends HttpServlet {
+@WebServlet("/MemberModifyProc.do")
+public class MemberModifyProc extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		reqPro(request, response);
 	}
@@ -22,9 +22,10 @@ public class MemberJoinProc extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		reqPro(request, response);
 	}
-
+	
 	protected void reqPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
+		String loginId = request.getParameter("loginId");
 		
 		LivingDAO ldao = new LivingDAO();
 		MemberDTO mdto = new MemberDTO();
@@ -32,11 +33,11 @@ public class MemberJoinProc extends HttpServlet {
 		// id 중복체크
 		String id = request.getParameter("id");
 		String checkId = ldao.getOneId(id);
-		
+					
 		// pw 확인
 		String pw = request.getParameter("pw");
 		String checkPw = request.getParameter("pwchk");
-		
+					
 		String pwq = request.getParameter("pwq");
 		String pwa = request.getParameter("pwa");
 		String name = request.getParameter("name");
@@ -48,7 +49,7 @@ public class MemberJoinProc extends HttpServlet {
 		String phone3 = request.getParameter("phone3");
 		String phone = phone1+"-"+phone2+"-"+phone3;
 		String email = request.getParameter("email");
-		
+					
 		mdto.setM_id(id);
 		mdto.setM_pw(pw);
 		mdto.setM_pwq(pwq);
@@ -58,38 +59,26 @@ public class MemberJoinProc extends HttpServlet {
 		mdto.setM_defaultaddr(defaultaddr);
 		mdto.setM_detailaddr(detailaddr);
 		mdto.setM_phone(phone);
-		mdto.setM_email(email);
+		mdto.setM_email(email);		
 		
-		// 아이디/비밀번호/휴대전화/이메일 형식에 관한 정규식 설정
 		/*
-		 * final String REG_ID = "^[a-z]+[a-z0-9]{3,15}$"; // 영문자로 시작하는 영문자 또는 숫자 4~16자,
-		 * 숫자로 시작 x final String REG_PW =
-		 * "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[~`!@#$%^()*_-{}[]|;:<>,.?/]){8,16}$"; // 영문
-		 * 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자
-		 */		// 입력 가능 특수문자: ~ ` ! @ # $ % ^ () * _ - {} [] | ; : <> , . ? /
-		/*
-		 * final String REG_PHONE = "^\\d{3}-\\d{3,4}-\\d{4}$"; // ex) 010-0000-0000,
-		 * 010-111-1111 final String REG_EMAIL =
-		 * "^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9\\-.]+$"; // ex)
-		 * jsp2024@gmail.com
-		 */		
-		// 예외처리 1) 회원정보가 입력되지 않은 상태면 alert 띄우기
-		// 2) 아이디/비밀번호/이메일 형식이 맞지 않으면 alert 띄우기
-		// 3) 아이디가 중복이면 alert 띄우기
-		// 4) 패스워드가 일치하지 않으면 alert 띄우기
-		// 5) 위의 조건을 모두 만족하면 insert 한다.
-		if(id.equals(checkId)) {
-			request.setAttribute("msgError", "이미 존재하는 아이디입니다.");
-			RequestDispatcher rd = request.getRequestDispatcher("MemberJoinError.jsp");
+		if(id.equals(checkId)) { // 아이디 중복
+			request.setAttribute("msg", "0");
+			RequestDispatcher rd = request.getRequestDispatcher("MemberModify.do");
 			rd.forward(request, response);
 		}
-		else {
-			ldao.insertMember(mdto);
-			request.setAttribute("id", id);
-			request.setAttribute("name", name);
-			request.setAttribute("email", email);
-			RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MemberJoinDone.jsp");
+		else { // 회원가입 성공
+			request.setAttribute("msg", "1");
+			ldao.updateMember(mdto);
+			RequestDispatcher rd = request.getRequestDispatcher("MemberModify.do");
 			rd.forward(request, response);
 		}
+		*/
+		
+		request.setAttribute("msg", "1");
+		ldao.updateMember(mdto);
+		RequestDispatcher rd = request.getRequestDispatcher("MemberModify.do");
+		rd.forward(request, response);
 	}
+
 }

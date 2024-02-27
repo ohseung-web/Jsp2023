@@ -504,7 +504,7 @@ input[type="radio"] + label{
 	<header id="header">
 		<div class="header">
 			<h1 class="logo">
-				<a href="Main.jsp">리빙앤트리</a>
+				<a href="MainList.do">리빙앤트리</a>
 			</h1>
 			<div class="headerMenu gLeft">
 				<a href="#" class="btnBack" onclick="history.go(-1); return false;"></a>

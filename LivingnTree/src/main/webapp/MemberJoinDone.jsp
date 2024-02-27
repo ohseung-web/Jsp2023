@@ -143,7 +143,7 @@
                     </div>
                 </div>
                 <div class="btnBox">
-                    <a href="Main.jsp">메인으로 이동</a>
+                    <a href="MainList.do">메인으로 이동</a>
                 </div>
             </div>
         </div>

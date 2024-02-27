@@ -70,7 +70,7 @@
     max-width: calc(100% - 280px) !important;
     padding-left: 280px !important;
     margin: 0 auto !important;
-    min-height: 630px;
+    min-height: 450px;
 }
 .myShopContainer .contents .myShopArea .myShopMain{
     position: absolute;
@@ -112,6 +112,12 @@
     max-width: 1200px;
     width: 1000px;
 } */
+.myShopArea .orderHistory.show{
+   display : block;
+} 
+myShopArea .orderHistory{
+  display: none;
+}
 .myShopArea .orderHistory .listItem{
 	border-top: 2px solid #1a1a1a;
 }
@@ -165,6 +171,47 @@
 .sizeS{
     font-size: 12px;
 }
+/* 오티 수정 CSS  */
+/* 오티수정 CSS */
+.myShopContainer .contents .pageing{
+    margin: 50px auto;
+    text-align: center;
+}
+.myShopContainer .contents .pageing > a:first-child{
+    background: url(img/icon/btn_page_prev.png) no-repeat center center;
+}
+.myShopContainer  .contents .pageing > a{
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 0;
+    text-align: center;
+    vertical-align: top;
+    background: url(img/icon/btn_page_next.png) no-repeat center center;
+    background-size: 40px;
+}
+.myShopContainer .contents .pageing ol{
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+    vertical-align: middle;
+}
+.myShopContainer .contents .pageing li{
+    display: inline-block;
+    margin: 0 0 0 -1px;
+    vertical-align: top;
+}
+.myShopContainer .contents .pageing li a{
+    display: block;
+    width: 40px;
+    padding: 12px 0;
+    font-size: 14px;
+    color: #6d6d6d;
+    border: 1px solid #e5e5e5;
+    line-height: 14px;
+    background: #fff;
+}
 </style>
 </head>
 <body>
@@ -185,40 +232,54 @@
                         <li><a href="MyShopOrder.do">주문내역 조회</a></li>
                         <li><a href="#">적립금 내역</a></li>
                         <li><a href="#">쿠폰 내역</a></li>
-                        <li><a href="#">배송 주소록 관리</a></li>
+                        <li><a href="MyShopdelivaddress.do">배송 주소록 관리</a></li>
                     </ul>
                     <div class="subTitle"><h3>활동 정보</h3></div>
                     <ul class="menu">
                         <li><a href="#">최근 본 상품</a></li>
                         <li><a href="#">나의 위시리스트</a></li>
-                        <li><a href="#">나의 게시글</a></li>
+                        <li><a href="MyShopBoard.do">나의 게시글</a></li>
                     </ul>
                     <div class="subTitle"><h3>나의 정보</h3></div>
                     <ul class="menu">
-                        <li><a href="#">회원정보 수정</a></li>
-                        <li><a href="#">로그아웃</a></li>
+                        <li><a href="MemberModify.do">회원정보 수정</a></li>
+                        <li><a href="MemberLogoutProc.do">로그아웃</a></li>
                     </ul>
                 </div>
                 <div class="orderHistory">
                     <div class="titleArea">
-                        <h3>주문내역 조회</h3>
+                        <h3>${mdto.m_name}님 각종 정보</h3>
                     </div>
                     <div class="listItem">
                     	<c:choose>
-                    		<c:when test="${oharr.size() > 0}">
+                    		<c:when test="${count != 0 or countboard != 0 or countdeliva != 0}">
                     			<div class="orderList">
                         			<table border="1">
                                         <tr>
-                                            <th>주문일자</th>
-                                            <th>주문번호</th>
-                                            <th>상품정보</th>
-                                            <th>수령인</th>
+                                            <th>주문개수</th>
+                                            <th>배송 주소록 개수</th>
+                                            <th>개시글 개수</th>
+                                            <!-- <th>수령인</th>
                                             <th>수량</th>
                                             <th>총금액</th>
                                             <th>배송상태</th>
-                                            <th>취소</th>
+                                            <th>취소</th> -->
                                         </tr>
-                                        <c:forEach var="o" items="${oharr}">
+                                        <tr>
+                                            <td>${count}</td>
+                                            <td>${countdeliva}</td>
+                                            <td>${countboard}</td>
+                                        </tr>
+                                     </table>
+                                  </c:when>      
+                                  <c:otherwise>
+                    			<div class="prdEmpty">
+                            		<svg xmlns="http://www.w3.org/2000/svg" width="65" height="64" fill="none" viewBox="0 0 65 64" class="icon" role="img"><path d="M63.3 32C63.3 49.0104 49.5104 62.8 32.5 62.8C15.4896 62.8 1.7 49.0104 1.7 32C1.7 14.9896 15.4896 1.2 32.5 1.2C49.5104 1.2 63.3 14.9896 63.3 32Z" stroke="#D9D9D9" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M32.5 18.6665V34.6665" stroke="#D9D9D9" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M32.5 40V44" stroke="#D9D9D9" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            		정보가 없습니다.
+                        		</div>
+                    		</c:otherwise>
+                    	</c:choose>       
+                                        <%-- <c:forEach var="o" items="${oharr}">
                                             <form action="OrderDelete.do" name="formname" method="post">
                                                 <tr>
                                                     <td>${o.o_date}</td>
@@ -257,6 +318,26 @@
                     </div>
                 </div>
             </div>
+            <!-- 페이징 코드 [1] [2] [3] ... -->
+                <c:if test="${oharr.size() ne 0}">
+                    <div class="pageing">
+                        <c:if test="${startPage>pageBlock }">
+                            <a href="MyShopOrder.do?pageNum=${startPage-pageBlock}">이전</a>
+                        </c:if>
+            
+                        <ol>
+                            <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                                <li>
+                                    <a href="MyShopOrder.do?pageNum=${i}">${i}</a>
+                                </li>
+                            </c:forEach>
+                        </ol>
+            
+                        <c:if test="${endPage<pageCount}">
+                            <a href="MyShopOrder.do?pageNum=${startPage+pageBlock}">다음</a>
+                        </c:if>
+                    </div>
+                </c:if> --%>
         </div>
     </div>
     <script>
@@ -270,6 +351,7 @@
 				/* !!!!! 취소 버튼을 눌러도 해당 주문이 취소됨 !!!!! */
 			}
         }
+   
     </script>
 </body>
 </html>

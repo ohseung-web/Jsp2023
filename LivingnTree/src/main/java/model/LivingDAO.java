@@ -404,6 +404,55 @@ public class LivingDAO {
 		return mdto;
 	}
 	
+	public void updateMember(MemberDTO mdto) {
+			getConnect();
+			try {
+				String sql = "update member set m_pw=?,m_pwq=?,m_pwa=?,m_name=?,m_postcode=?,m_defaultaddr=?,m_detailaddr=?,m_phone=?,m_email=? where m_id=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, mdto.getM_pw());
+				pstmt.setString(2, mdto.getM_pwq());
+				pstmt.setString(3, mdto.getM_pwa());
+				pstmt.setString(4, mdto.getM_name());
+				pstmt.setInt(5, mdto.getM_postcode());
+				pstmt.setString(6, mdto.getM_defaultaddr());
+				pstmt.setString(7, mdto.getM_detailaddr());
+				pstmt.setString(8, mdto.getM_phone());
+				pstmt.setString(9, mdto.getM_email());
+				pstmt.setString(10, mdto.getM_id());
+				pstmt.executeUpdate();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					if(con!=null) con.close();
+					if(pstmt!=null) pstmt.close();
+					if(rs!=null) rs.close();
+				}catch(SQLException se){
+					se.printStackTrace();
+				}
+			}
+		}
+	
+	public void deleteMember(String id) {
+		getConnect();
+		try {
+			String sql = "delete from member where m_id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(con != null) con.close();
+				if(pstmt != null) pstmt.close();
+				if(rs != null) rs.close();
+			}catch(SQLException se){
+				se.printStackTrace();
+			}
+		}
+	}
+	
 	public ProductDTO getOneProduct(int code) {
 		getConnect();
 		ProductDTO pdto = new ProductDTO();
@@ -1020,7 +1069,7 @@ public class LivingDAO {
   				
   	//----------------------------------------------------------------	
   		// 로그인 되어있는 아이디로 OrdersDTO 가져오기 (member, delivaddress 테이블과 join 하기)
-  		public ArrayList<OrderHistDTO> getOrdersByLoginId(String id) {
+  		public ArrayList<OrderHistDTO> getOrdersByLoginId(String id,int start, int pageSize) {
   			getConnect();
   			ArrayList<OrderHistDTO> a = new ArrayList<>();
   			try {
@@ -1028,11 +1077,13 @@ public class LivingDAO {
   						+ "D.d_delivname,D.d_postcode,D.d_defaultaddr,D.d_detailaddr,D.d_phone,O.m_id \r\n"
   						+ "from orders O inner join delivaddress D on O.o_date=D.o_date \r\n"
   						+ "and O.o_code=D.o_code inner join product P on O.p_code=P.p_code \r\n"
-  						+ "where O.m_id=?";
+  						+ "where O.m_id=? limit ?,?";
   				// select * from orders O inner join delivaddress D on O.o_date=D.o_date and O.o_code=D.o_code inner join product P on O.p_code=P.p_code where O.m_id=?;
   				// O.o_date,O.o_code,O.p_code,P.p_mainimg,O.o_qty,O.o_total,D.d_delivname,D.d_postcode,D.d_defaultaddr,D.d_detailaddr,D.d_phone,O.m_id
   				pstmt = con.prepareStatement(sql);
   				pstmt.setString(1, id);
+  				pstmt.setInt(2, start-1);
+  				pstmt.setInt(3, pageSize);
   				rs = pstmt.executeQuery();
   				while(rs.next()) {
   					OrderHistDTO odto = new OrderHistDTO();
@@ -1063,6 +1114,99 @@ public class LivingDAO {
   			}
   			return a;
   		}
+  		
+  		// member, delivaddress 테이블과 join한 전체 개수 -- 2024년 2월 26일 오티 수정
+  		public int getOrdersByCount(String id) {
+  			getConnect();
+  			int count = 0;
+  			try {
+  				String sql = "select count(*) from orders O inner join delivaddress D on O.o_date=D.o_date \r\n"
+  						+ "and O.o_code=D.o_code inner join product P on O.p_code=P.p_code where O.m_id=?";
+  				pstmt = con.prepareStatement(sql);
+  				pstmt.setString(1, id);
+  				rs = pstmt.executeQuery();
+  				if(rs.next()) {
+  					count = rs.getInt(1);
+  				}
+  			}catch(Exception e) {
+  				e.printStackTrace();
+  			}finally {
+  				try {
+  					if(con != null) con.close();
+  					if(pstmt != null) pstmt.close();
+  					if(rs != null) rs.close();
+  				}catch(SQLException se){
+  					se.printStackTrace();
+  				}
+  			}
+  			return count;
+  		}
+  		
+  	// 회원별 delivaddress의 개수(단, 이름과 주소가 중복된 데이터 제거) 리턴하는 메서드
+  		public int getOneDelivaddressCount(String m_id) {
+  			getConnect();
+  			int count = 0;
+  			try {
+  				String sql = "select count(distinct (d_delivname), (d_defaultaddr)) from delivaddress where m_id=?";
+  				pstmt = con.prepareStatement(sql);
+  				pstmt.setString(1, m_id);
+  				rs = pstmt.executeQuery();
+  				if(rs.next()) {
+  					count = rs.getInt(1);
+  				}
+  			}catch(Exception e) {
+  				e.printStackTrace();
+  			}finally {
+  				try {
+  					if(con!=null) con.close();
+  					if(pstmt!=null) pstmt.close();
+  					if(rs!=null) rs.close();
+  				}catch(SQLException se){
+  					se.printStackTrace();
+  				}
+  			}
+  			return count;
+  		}
+  		
+  	// 회원별로 delivaddress의 정보를(단, 이름과 주소가 중복된 데이터 제거) 리턴하는 메서드
+  		public ArrayList<DelivDTO> getOneDelivaddress(int startRow, int pageSize, String m_id){
+  			getConnect();
+  			ArrayList<DelivDTO> a = new ArrayList<>();
+  			try {
+  				String sql = "select  distinct (d_delivname), (d_defaultaddr), d_postcode, d_detailaddr, d_phone, d_email, m_id from delivaddress where m_id=?  limit ?,?";
+  				pstmt = con.prepareStatement(sql);
+  				pstmt.setString(1, m_id);
+  				pstmt.setInt(2, startRow-1);
+  				pstmt.setInt(3, pageSize);
+  				rs = pstmt.executeQuery();
+  				while(rs.next()) {
+  					DelivDTO ddto = new DelivDTO();
+  					//ddto.setO_date(rs.getString(1));
+  					//ddto.setO_code(rs.getInt(2));
+  					ddto.setD_delivname(rs.getString(1));
+  					ddto.setD_defaultaddr(rs.getString(2));
+  					ddto.setD_postcode(rs.getInt(3));
+  					ddto.setD_detailaddr(rs.getString(4));
+  					ddto.setD_phone(rs.getString(5));
+  					ddto.setD_email(rs.getString(6));
+  					ddto.setM_id(rs.getString(7));
+  					a.add(ddto);
+  				}
+  			}catch(Exception e) {
+  				e.printStackTrace();
+  			}finally {
+  				try {
+  					if(con!=null) con.close();
+  					if(pstmt!=null) pstmt.close();
+  					if(rs!=null) rs.close();
+  				}catch(SQLException se){
+  					se.printStackTrace();
+  				}
+  			}
+  			return a;
+  		}
+  		
+  		// -----------------------------------------------
   		
   		public void deleteOrders(String date, int code) {
   			getConnect();
@@ -1209,6 +1353,74 @@ public class LivingDAO {
   						+ "where R.p_code=? order by r_code desc limit ?,?";
   				pstmt = con.prepareStatement(sql);
   				pstmt.setInt(1, p_code);
+  				pstmt.setInt(2, startRow-1);
+  				pstmt.setInt(3, pageSize);
+  				rs = pstmt.executeQuery();
+  				while(rs.next()) {
+  					ReviewDTO rdto = new ReviewDTO();
+  					rdto.setR_code(rs.getInt(1));
+  					rdto.setR_pw(rs.getString(2));
+  					rdto.setP_code(rs.getInt(3));
+  					rdto.setP_name(rs.getString(4));
+  					rdto.setP_mainimg(rs.getString(5));
+  					rdto.setR_title(rs.getString(6));
+  					rdto.setR_content(rs.getString(7));
+  					rdto.setM_name(rs.getString(8));
+  					rdto.setR_date(rs.getString(9).toString());
+  					rdto.setR_readcount(rs.getInt(10));
+  					rdto.setM_id(rs.getString(11));
+  					a.add(rdto);
+  				}
+  			}catch(Exception e) {
+  				e.printStackTrace();
+  			}finally {
+  				try {
+  					if(con!=null) con.close();
+  					if(pstmt!=null) pstmt.close();
+  					if(rs!=null) rs.close();
+  				}catch(SQLException se){
+  					se.printStackTrace();
+  				}
+  			}
+  			return a;
+  		}
+  		
+  		// 회원별 리뷰글의 개수 리턴하는 메서드
+  		public int getOneMemberReviewCount(String m_id) {
+  			getConnect();
+  			int count = 0;
+  			try {
+  				String sql = "select count(*) from review where m_id=?";
+  				pstmt = con.prepareStatement(sql);
+  				pstmt.setString(1, m_id);
+  				rs = pstmt.executeQuery();
+  				if(rs.next()) {
+  					count = rs.getInt(1);
+  				}
+  			}catch(Exception e) {
+  				e.printStackTrace();
+  			}finally {
+  				try {
+  					if(con!=null) con.close();
+  					if(pstmt!=null) pstmt.close();
+  					if(rs!=null) rs.close();
+  				}catch(SQLException se){
+  					se.printStackTrace();
+  				}
+  			}
+  			return count;
+  		}
+  		
+  		// 한명의 회원별로 리뷰를 리턴하는 메서드
+  		public ArrayList<ReviewDTO> getOneMemberReviewBoard(int startRow, int pageSize, String m_id){
+  			getConnect();
+  			ArrayList<ReviewDTO> a = new ArrayList<>();
+  			try {
+  				String sql = "select R.r_code, R.r_pw, R.p_code, P.p_name, P.p_mainimg, R.r_title, R.r_content, R.m_name, \r\n"
+  						+ "R.r_date, R.r_readcount, R.m_id from review R inner join product P on R.p_code = P.p_code \r\n"
+  						+ "where R.m_id=? order by r_code desc limit ?,?";
+  				pstmt = con.prepareStatement(sql);
+  				pstmt.setString(1, m_id);
   				pstmt.setInt(2, startRow-1);
   				pstmt.setInt(3, pageSize);
   				rs = pstmt.executeQuery();
@@ -1445,7 +1657,7 @@ public class LivingDAO {
   			try {
   				String sql = "select I.i_code, I.i_pw, I.p_code, P.p_name, P.p_mainimg, I.i_title, I.i_content, I.m_name, \r\n"
   						+ "I.i_date, I.i_readcount, I.ref, I.re_step, I.m_id from Inquiry I inner join product P \r\n"
-  						+ "on I.p_code = P.p_code order by i_code desc limit ?,?";
+  						+ "on I.p_code = P.p_code order by ref desc, re_step asc limit ?,?";
   				pstmt = con.prepareStatement(sql);
   				pstmt.setInt(1, startRow-1);
   				pstmt.setInt(2, pageSize);
@@ -1514,9 +1726,79 @@ public class LivingDAO {
   			try {
   				String sql = "select I.i_code, I.i_pw, I.p_code, P.p_name, P.p_mainimg, I.i_title, I.i_content, I.m_name, \r\n"
   						+ "I.i_date, I.i_readcount, I.ref, I.re_step, I.m_id from Inquiry I inner join product P on I.p_code = P.p_code \r\n"
-  						+ "where I.p_code=? order by i_code desc limit ?,?";
+  						+ "where I.p_code=? order by ref desc, re_step asc limit ?,?";
   				pstmt = con.prepareStatement(sql);
   				pstmt.setInt(1, p_code);
+  				pstmt.setInt(2, startRow-1);
+  				pstmt.setInt(3, pageSize);
+  				rs = pstmt.executeQuery();
+  				while(rs.next()) {
+  					InquiryDTO idto = new InquiryDTO();
+  					idto.setI_code(rs.getInt(1));
+  					idto.setI_pw(rs.getString(2));
+  					idto.setP_code(rs.getInt(3));
+  					idto.setP_name(rs.getString(4));
+  					idto.setP_mainimg(rs.getString(5));
+  					idto.setI_title(rs.getString(6));
+  					idto.setI_content(rs.getString(7));
+  					idto.setM_name(rs.getString(8));
+  					idto.setI_date(rs.getString(9).toString());
+  					idto.setI_readcount(rs.getInt(10));
+  					idto.setRef(rs.getInt(11));
+  					idto.setRe_step(rs.getInt(12));
+  					idto.setM_id(rs.getString(13));
+  					a.add(idto);
+  				}
+  			}catch(Exception e) {
+  				e.printStackTrace();
+  			}finally {
+  				try {
+  					if(con!=null) con.close();
+  					if(pstmt!=null) pstmt.close();
+  					if(rs!=null) rs.close();
+  				}catch(SQLException se){
+  					se.printStackTrace();
+  				}
+  			}
+  			return a;
+  		}
+  		
+  		// 회원별 문의글 개수 리턴하는 메서드
+  		public int getOneMemberInquiryCount(String m_id) {
+  			getConnect();
+  			int count = 0;
+  			try {
+  				String sql = "select count(*) from inquiry where m_id=?";
+  				pstmt = con.prepareStatement(sql);
+  				pstmt.setString(1, m_id);
+  				rs = pstmt.executeQuery();
+  				if(rs.next()) {
+  					count = rs.getInt(1);
+  				}
+  			}catch(Exception e) {
+  				e.printStackTrace();
+  			}finally {
+  				try {
+  					if(con!=null) con.close();
+  					if(pstmt!=null) pstmt.close();
+  					if(rs!=null) rs.close();
+  				}catch(SQLException se){
+  					se.printStackTrace();
+  				}
+  			}
+  			return count;
+  		}
+  		
+  		// 한개의 회원별로 문의글을 리턴하는 메서드
+  		public ArrayList<InquiryDTO> getOneMemberInquiryBoard(int startRow, int pageSize, String m_id){
+  			getConnect();
+  			ArrayList<InquiryDTO> a = new ArrayList<>();
+  			try {
+  				String sql = "select I.i_code, I.i_pw, I.p_code, P.p_name, P.p_mainimg, I.i_title, I.i_content, I.m_name, \r\n"
+  						+ "I.i_date, I.i_readcount, I.ref, I.re_step, I.m_id from Inquiry I inner join product P on I.p_code = P.p_code \r\n"
+  						+ "where I.m_id=? order by i_code desc limit ?,?";
+  				pstmt = con.prepareStatement(sql);
+  				pstmt.setString(1, m_id);
   				pstmt.setInt(2, startRow-1);
   				pstmt.setInt(3, pageSize);
   				rs = pstmt.executeQuery();
@@ -1572,6 +1854,44 @@ public class LivingDAO {
   				pstmt.setString(5, idto.getM_name());
   				pstmt.setInt(6, ref);
   				pstmt.setInt(7, re_step);
+  				pstmt.setString(8, idto.getM_id());
+  				pstmt.executeUpdate();
+  			}catch(Exception e) {
+  				e.printStackTrace();
+  			}finally {
+  				try {
+  					if(con!=null) con.close();
+  					if(pstmt!=null) pstmt.close();
+  					if(rs!=null) rs.close();
+  				}catch(SQLException se){
+  					se.printStackTrace();
+  				}
+  			}
+  		}
+  		
+  		public void rewriteInsertInquiryBoard(InquiryDTO idto) {
+  			getConnect();
+  			
+  			int ref = idto.getRef();
+  			int re_step = idto.getRe_step();
+  			try {
+  				// 답변글을 쓰면 부모 게시글의 re_step에 4를 더해준다.
+  				/*
+  				String restepSql = "update inquiry set re_step = re_step + 4 where ref=? and re_step=1";
+  				pstmt = con.prepareStatement(restepSql);
+  				pstmt.setInt(1, ref);
+  				pstmt.executeUpdate();
+  				*/
+  				
+  				String sql = "insert into inquiry values(null,?,?,?,?,?,current_Date(),0,?,?,?)";
+  				pstmt = con.prepareStatement(sql);
+  				pstmt.setString(1, idto.getI_pw());
+  				pstmt.setInt(2, idto.getP_code());
+  				pstmt.setString(3, idto.getI_title());
+  				pstmt.setString(4, idto.getI_content());
+  				pstmt.setString(5, idto.getM_name());
+  				pstmt.setInt(6, ref);
+  				pstmt.setInt(7, re_step + 1);
   				pstmt.setString(8, idto.getM_id());
   				pstmt.executeUpdate();
   			}catch(Exception e) {

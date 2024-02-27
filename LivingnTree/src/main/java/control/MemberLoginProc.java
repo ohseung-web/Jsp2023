@@ -43,12 +43,21 @@ public class MemberLoginProc extends HttpServlet {
 		// 비회원이 장바구니의 상품을 구매하기 위해 선택한 상품
 		String chk = request.getParameter("chk");
 		
+		// 로그인되지 않은 상태일 때 [BUY IT NOW]로 바로 구매하기 위한 코드
+		int chkbool = chk.indexOf(" "); // 선택한 상품번호 옆에 공백이 존재하는지 여부를 체크
+		String cnt = request.getParameter("cnt");
+		int quantity = 0;
+		
+		if(!cnt.equals("null")) {
+			quantity = Integer.parseInt(cnt);
+		}
+		
 		if(userId != null && !userId.isEmpty() && userPw != null && !userPw.isEmpty()) {
 			// LivingDAO ldao = new LivingDAO();
 			String dbPw = ldao.getMemberPw(userId);
 			
 			// MemberLogin.jsp에서 get방식으로 넘겨준 chk의 값이 null이라는 건 비어있다는 것이 아니라 문자 "null"을 넘겼다는 뜻이다.
-			if(userPw.equals(dbPw) && userPw != null && !userPw.isEmpty()) {
+			if(userPw.equals(dbPw) && userPw != null && !userPw.isEmpty() && chk.equals("null")) {
 				
 				session.setAttribute("loginId", userId);
 				session.setAttribute("loginPw", userPw);
@@ -60,27 +69,35 @@ public class MemberLoginProc extends HttpServlet {
 				
 				// session.setMaxInactiveInterval(-1); // 무한정으로 세션이 종료되지 않는다.
 				
-				RequestDispatcher rd = request.getRequestDispatcher("Main.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("MainList.do");
 				rd.forward(request, response);
-			}else if(userPw.equals(dbPw) && userPw != null) {
+			}else if(userPw.equals(dbPw) && !chk.equals("null")) { // 장바구니에서 상품선택하고 로그인할 때 바로구매로 넘기는 부분
 				
-				System.out.println("여기로 왔어요~~");
-				String chkArr[] = chk.split(" ");
+				if(chkbool == -1) {
+					int chkno = Integer.parseInt(chk);
+					// 장바구니가 아니라 상품테이블에서 상품을 select하여야 한다.
+					pdto = ldao.getOneProduct(chkno);
+					request.setAttribute("cnt", quantity);
+					request.setAttribute("pdto", pdto);
+				}else {
+					String chkArr[] = chk.split(" ");
+					
+					for(int i=0;i<chkArr.length;i++) {
+						int check = Integer.parseInt(chkArr[i]);
+						cdto = ldao.getCartSelect(check);
+						chkList.add(cdto);
+					}
+					// 선택한 상품중 손님(guest)인 상품을 장바구니에서 삭제
+					for(int j=0; j<chkList.size(); j++) {
+						ldao.deleteOrderCart(chkList.get(j).getP_code(), "guest");
+					}
+					request.setAttribute("chkList", chkList);
+				}
 				
-				for(int i=0;i<chkArr.length;i++) {
-					int check = Integer.parseInt(chkArr[i]);
-					cdto = ldao.getCartSelect(check);
-					chkList.add(cdto);
-				}
-				// 선택한 상품중 손님(guest)인 상품을 장바구니에서 삭제
-				for(int j=0; j<chkList.size(); j++) {
-					ldao.deleteOrderCart(chkList.get(j).getP_code(), "guest");
-				}
 				// 로그인된 id의 개인 한 사람의 정보를 출력 select하여 저장(주문/결제 기본정보 출력 위해)
 				mdto = ldao.getOneMember(userId);
 				
-				request.setAttribute("chkList", chkList);
-				request.setAttribute("loginId", userId);
+				session.setAttribute("loginId", userId);
 				request.setAttribute("mdto", mdto);
 				RequestDispatcher rd = request.getRequestDispatcher("CartOrder.jsp");
 				rd.forward(request, response);

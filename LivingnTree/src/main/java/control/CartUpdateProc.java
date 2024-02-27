@@ -1,6 +1,7 @@
 package control;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,10 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.CartDTO;
 import model.LivingDAO;
 
-@WebServlet("/InquiryBoardDeleteProc.do")
-public class InquiryBoardDeleteProc extends HttpServlet {
+@WebServlet("/CartUpdateProc.do")
+public class CartUpdateProc extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		reqPro(request, response);
 	}
@@ -23,27 +25,30 @@ public class InquiryBoardDeleteProc extends HttpServlet {
 	}
 
 	protected void reqPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		LivingDAO ldao = new LivingDAO();
+		CartDTO cdto = new CartDTO();
 		
 		HttpSession session = request.getSession();
 		String loginId = (String)session.getAttribute("loginId");
+		if(loginId == null) {
+			loginId = "guest";
+		}
 		
+		//String btn = request.getParameter("btn");
+		int cnt = Integer.parseInt(request.getParameter("cnt"));
 		int code = Integer.parseInt(request.getParameter("code"));
-		String userPw = request.getParameter("userPw");
-		String dbPw = request.getParameter("dbPw");
 		
-		if(userPw.equals(dbPw) || loginId.equals("admin")) {
-			LivingDAO ldao = new LivingDAO();
-			ldao.deleteInquiryBoard(code);
-			
-			request.setAttribute("msg", "1");
-			RequestDispatcher rd = request.getRequestDispatcher("InquiryBoardList.do");
-			rd.forward(request, response);
-		}
-		else {
-			request.setAttribute("msg", "0");
-			RequestDispatcher rd = request.getRequestDispatcher("InquiryBoardList.do");
-			rd.forward(request, response);
-		}
+		ldao.updateCart2(cnt,code);
+		
+		int itemTotal = ldao.getItemTotal(loginId);
+		int shippingTotal = ldao.getShippingTotal(loginId);
+		request.setAttribute("itemTotal", itemTotal);
+		request.setAttribute("shippingTotal", shippingTotal);
+		
+		ArrayList<CartDTO> cList = ldao.getAllCart(loginId);
+		request.setAttribute("cList", cList);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=CartList.jsp");
+		rd.forward(request, response);
 	}
 }

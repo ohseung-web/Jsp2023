@@ -256,13 +256,18 @@ input[type="text"]:hover, input[type="text"]:focus{
                                 <td width="85"><img src="img/productimg/${idto.p_mainimg}"></td>
                                 <!-- 답글 들여쓰기 -->
                                 <td width="700" class="subject">
-                                    <c:if test="${idto.re_step > 1}">
-                                    	<c:forEach var="j" begin="1" end="${(idto.re_step-1)*3 }">
-                                    		&nbsp;
-                                    	</c:forEach>
+                                    <c:if test="${idto.re_step eq 1}">
+                                    	${idto.p_name}<br>
                                     </c:if>
-                                    ${idto.p_name}<br>
-                                    <a href="InquiryBoardInfo.do?code=${idto.i_code}">${idto.i_title}</a>
+                                    <a href="InquiryBoardInfo.do?code=${idto.i_code}">
+                                    	<c:if test="${idto.re_step > 1}">
+                                    		<c:forEach var="j" begin="1" end="${(idto.re_step-1)*3 }">
+                                    			&nbsp;
+                                    		</c:forEach>
+                                    		[RE]&nbsp;
+                                    	</c:if>
+                                    	${idto.i_title}
+                                    </a>
                                 </td>
                                 <td width="85">${idto.m_name}</td>
                                 <td width="120">${idto.i_date}</td>

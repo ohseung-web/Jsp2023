@@ -115,7 +115,7 @@
 	<div class="cartOrderResultContainer">
         <div class="contents">
             <div class="title">
-                <h2>아이디 찾기</h2>
+                <h2>구매 정보</h2>
             </div>
             <div class="memberArea">
                 <div class="complete">
@@ -139,7 +139,7 @@
                 </div>
 	            <div class="btnBox">
                     <input type="button" class="normalBtn" onclick="location.href='MyShopOrder.do'" value="주문내역 조회">
-                    <input type="button" class="submitBtn" onclick="location.href='Main.jsp'" value="홈으로 이동">
+                    <input type="button" class="submitBtn" onclick="location.href='MainList.do'" value="홈으로 이동">
                 </div>
             </div>
         </div>

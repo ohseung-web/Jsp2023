@@ -274,6 +274,9 @@ table{
     background-color: #9a9a9a;
     border-radius: 15px;
 }
+.tabProduct ul li button span a{
+	color: #fff;
+}
 .additional .tabProductBox .prdDetail{
 	margin-bottom: 100px;
 }

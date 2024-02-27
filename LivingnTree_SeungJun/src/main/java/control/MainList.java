@@ -31,7 +31,7 @@ public class MainList extends HttpServlet {
     	LivingDAO ldao = new LivingDAO();
     	String category = request.getParameter("category");
     	if(category == null) {
-    		category = "1";
+    		category = "4";
     	}
         
     	ArrayList<ProductDTO> plist = ldao.getAllMainProduct(Integer.parseInt(category));

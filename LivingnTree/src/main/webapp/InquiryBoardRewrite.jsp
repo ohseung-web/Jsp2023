@@ -7,18 +7,18 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="css/reset.css">
 <style>
-.reviewContainer{
+.inquiryContainer{
     position: relative;
     display: flex;
     justify-content: center;
     width: 100%;
 }
-.reviewContainer .contents{
+.inquiryContainer .contents{
     max-width: 1480px;
     width: 92%;
     margin: 50px 0;
 }
-.reviewContainer .contents .titleArea{
+.inquiryContainer .contents .titleArea{
     margin: 55px 0 40px;
     text-align: center;
 }
@@ -31,7 +31,7 @@
     font-size: 32px;
     color: #555;
 }
-.reviewContainer .contents .typeWrite{
+.inquiryContainer .contents .typeWrite{
     border-top: 2px solid #1a1a1a;
 }
 table{
@@ -164,14 +164,14 @@ ul.info li + li{
 </style>
 </head>
 <body>
-<!-- ProductInfo.jsp에서 ReviewBoardWrite.jsp로 넘겨주어야 하기 때문에 스크립트릿으로 request로 받는다. -->
-<% String p_code = request.getParameter("p_code");%>
-    <div class="reviewContainer">
+<!-- ProductInfo.jsp에서 InquiryBoardReWrite.jsp로 넘겨주어야 하기 때문에 스크립트릿으로 request로 받는다. -->
+<%-- <% String p_code = request.getParameter("p_code");%> --%>
+    <div class="inquiryContainer">
         <div class="contents">
             <div class="titleArea">
-                <h2>상품 리뷰</h2>
+                <h2>상품 문의</h2>
             </div>
-            <form id="boardWriteForm" action="ReviewBoardWriteProc.do" method="post">
+            <form id="boardReWriteForm" action="InquiryBoardRewriteProc.do" method="post">
                 <div class="typeWrite">
                     <table>
                         <tr>
@@ -184,13 +184,7 @@ ul.info li + li{
                             <th class="rw top">본문</th>
                             <td>
                                 <textarea name="content" id="content" maxlength="500"></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="rw">비밀번호</th>
-                            <td>
-                                <input type="password" name="password" id="password" maxlength="20">
-                                <input type="hidden" name="p_code" value="<%=p_code %>">
+                                <input type="hidden" name="p_code" value="${idto.p_code}">
                             </td>
                         </tr>
                     </table>
@@ -201,11 +195,13 @@ ul.info li + li{
                 </ul>
                 <div class="btnBox">
                     <span class="left">
-                        <a href="ReviewBoardList.do" class="btnNormalFix sizeM">목록</a>
+                        <a href="InquiryBoardList.do" class="btnNormalFix sizeM">목록</a>
                     </span>
                     <span class="right">
                         <a href="#" class="btnNormalFix sizeM" onclick="history.go(-1)">취소</a>
                         <a href="#" class="btnSubmitFix sizeM" onclick="form_submit();">등록</a>
+                        <input type="hidden" name="ref" value="${idto.ref}">
+						<input type="hidden" name="re_step" value="${idto.re_step}">
                     </span>
                 </div>
             </form>
@@ -225,13 +221,7 @@ ul.info li + li{
 			    return;
 		    }
         	
-        	let password = document.getElementById('password');
-            if(password.value === ""){
-			    alert('비밀번호를 입력해주세요.');
-			    return;
-		    }
-        	
-            document.getElementById('boardWriteForm').submit();
+            document.getElementById('boardReWriteForm').submit();
         }
     </script>
 </body>

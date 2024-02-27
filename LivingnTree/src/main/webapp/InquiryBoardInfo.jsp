@@ -175,12 +175,19 @@
                 </div>
                 <div class="btnBox">
                     <span class="left">
-                        <c:if test="${loginId eq idto.m_id}">
-                            <a href="InquiryBoardDelete.do?code=${idto.i_code}" class="btnNormalFix sizeM">삭제</a>
-                            <a href="InquiryBoardUpdate.do?code=${idto.i_code}" class="btnNormalFix sizeM">수정</a>
-                        </c:if>
+                    	<c:choose>
+                    		<c:when test="${loginId eq idto.m_id && loginId ne 'admin'}">
+                            	<a href="InquiryBoardDelete.do?code=${idto.i_code}" class="btnNormalFix sizeM">삭제</a>
+                            	<a href="InquiryBoardUpdate.do?code=${idto.i_code}" class="btnNormalFix sizeM">수정</a>
+                        	</c:when>
+                        	<c:when test="${loginId eq 'admin'}">
+                        		<a href="InquiryBoardDelete.do?code=${idto.i_code}" class="btnNormalFix sizeM">삭제</a>
+                            	<a href="InquiryBoardRewrite.do?code=${idto.i_code}" class="btnNormalFix sizeM">답변</a>
+                        	</c:when>
+                    	</c:choose>
                     </span>
                     <span class="right">
+                        <a href="#" class="btnNormalFix sizeM" onclick="history.go(-1); return false;">이전</a>
                         <a href="InquiryBoardList.do" class="btnNormalFix sizeM">목록</a>
                     </span>
                 </div>

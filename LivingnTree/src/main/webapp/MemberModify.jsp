@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,13 +9,13 @@
 <link rel="stylesheet" href="css/reset.css">
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
-.joinContainer{
+.modifyContainer{
     position: relative;
     display: flex;
     justify-content: center;
     width: 100%;
 }
-.joinContainer .contents{
+.modifyContainer .contents{
     max-width: 1480px;
     width: 92%;
     margin: 50px 0;
@@ -213,12 +214,25 @@ input[type="text"][readonly]{
 </style>
 </head>
 <body>
-    <div class="joinContainer">
+	<c:choose>
+		<%-- <c:when test="${msg != null and msg eq '0'}">
+			<script type="text/javascript">
+				alert("이미 존재하는 아이디입니다.");
+			</script>
+		</c:when> --%>
+		<c:when test="${msg != null and msg eq '1'}">
+			<script type="text/javascript">
+				alert("회원정보 수정이 완료되었습니다.");
+			</script>
+		</c:when>
+	</c:choose>
+
+    <div class="modifyContainer">
         <div class="contents">
             <div class="title">
-                <h2>회원 가입</h2>
+                <h2>회원 정보 수정</h2>
             </div>
-            <form action="MemberJoinProc.do" name="formname" class="memberArea">
+            <form action="MemberModifyProc.do" name="formname" class="memberArea">
                 <div class="titleArea">
                     <h3>기본정보</h3>
                     <p class="required">
@@ -231,15 +245,13 @@ input[type="text"][readonly]{
                         <tr>
                             <th><img src="img/icon/ico_required.svg" alt="필수">아이디</th>   
                             <td>
-                                <input type="text" id="id" name="id">
-                                <div class="txtInfo">(영문소문자/숫자, 4~16자, 숫자로 시작하는 아이디 사용 불가)</div>
-                                <p id="idMsg" class="txtInfo txtSuccess"></p>
+                                <input type="text" id="id" name="id" value="${mdto.m_id}" readonly>
                             </td>
                         </tr>
                         <tr>
                             <th><img src="img/icon/ico_required.svg" alt="필수">비밀번호</th>   
                             <td>
-                                <input type="password" id="pw" name="pw">
+                                <input type="password" id="pw" name="pw" value="${mdto.m_pw}">
                                 <div class="txtInfo">
                                 	(영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자)<br>
                                 	입력 가능 특수문자: ~ ` ! @ # $ % ^ ( ) * _ - { } [ ] | ; : < > , . ? /
@@ -268,27 +280,27 @@ input[type="text"][readonly]{
                         <tr>
                             <th><img src="img/icon/ico_required.svg" alt="필수">비밀번호 확인 답변</th>   
                             <td>
-                                <input type="text" id="pwa" name="pwa">
+                                <input type="text" id="pwa" name="pwa" value="${mdto.m_pwa}">
                             </td>
                         </tr>
                         <tr>
                             <th><img src="img/icon/ico_required.svg" alt="필수">이름</th>   
                             <td>
-                                <input type="text" id="name" name="name">
+                                <input type="text" id="name" name="name" value="${mdto.m_name}">
                             </td>
                         </tr>
                         <tr>
                             <th><img src="img/icon/ico_required.svg" alt="필수">주소</th>   
                             <td class="formMultiple">
                                 <div class="postcode_wrap">
-                                    <input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly>
+                                    <input type="text" id="postcode" name="postcode" value="${mdto.m_postcode}" readonly>
                                     <input type="button" class="btnBasic" onclick="DaumPostcode()" value="주소검색" style="cursor: pointer;"></button>
                                 </div>
                                 <div class="defaultaddr_wrap">
-                                    <input type="text" id="defaultaddr" name="defaultaddr" placeholder="기본주소" readonly>
+                                    <input type="text" id="defaultaddr" name="defaultaddr" value="${mdto.m_defaultaddr}" readonly>
                                 </div>
                                 <div class="detailaddr_wrap">
-                                    <input type="text" id="detailaddr" name="detailaddr" placeholder="나머지 주소">
+                                    <input type="text" id="detailaddr" name="detailaddr" value="${mdto.m_detailaddr}">
                                 </div>
                             </td>
                         </tr>
@@ -303,15 +315,15 @@ input[type="text"][readonly]{
                                     <option value="019">019</option>
                                 </select>
                                 -
-                                <input type="text" id="phone2" name="phone2" maxlength="4">
+                                <input type="text" id="phone2" name="phone2" value="${phone2}" maxlength="4">
                                 -
-                                <input type="text" id="phone3" name="phone3" maxlength="4">
+                                <input type="text" id="phone3" name="phone3" value="${phone3}" maxlength="4">
                             </td>
                         </tr>
                         <tr>
                             <th><img src="img/icon/ico_required.svg" alt="필수">이메일</th>   
                             <td>
-                                <input type="text" id="email" name="email">
+                                <input type="text" id="email" name="email" value="${mdto.m_email}">
                                 <p id="emailMsg" class="txtInfo"></p>
                             </td>
                         </tr>
@@ -319,7 +331,7 @@ input[type="text"][readonly]{
                 </div>
                 <div class="btnBox">
                     <input type="button" class="normalBtn" onclick="history.go(-1)" value="취소">
-                    <input type="button" class="submitBtn" onclick="checkMember()" value="가입하기">
+                    <input type="button" class="submitBtn" onclick="checkMember()" value="회원정보수정">
                 </div>
             </form>
         </div>
@@ -337,7 +349,7 @@ input[type="text"][readonly]{
     let phone3 = document.getElementById('phone3');
     let email = document.getElementById('email');
     
-    let idMsg = document.getElementById("idMsg");
+    /* let idMsg = document.getElementById("idMsg"); */
     let pwchkMsg = document.getElementById("pwchkMsg");
     let emailMsg = document.getElementById("emailMsg");
 
@@ -352,22 +364,22 @@ input[type="text"][readonly]{
     const regEmail = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]+$/;
     
     // 유효하지 않은 아이디/이메일일 경우 화면에 표시, 비밀번호 불일치 시 화면에 표시
-    id.addEventListener("focusout", () =>{
+    /* id.addEventListener("focusout", () =>{
         if(id.value !== "" && id.value !== ""){
-				if(regId.test(id.value)){
-					idMsg.innerHTML = "사용 가능한 아이디입니다.";
-                    idMsg.classList.remove('error');
-				}
-				else{
-					idMsg.innerHTML = "유효하지 않은 아이디입니다.";
-                    idMsg.classList.add('error');
-				}
+			if(regId.test(id.value)){
+				idMsg.innerHTML = "사용 가능한 아이디입니다.";
+                idMsg.classList.remove('error');
 			}
+			else{
+				idMsg.innerHTML = "유효하지 않은 아이디입니다.";
+                idMsg.classList.add('error');
+			}
+		}
 		else{
 			idMsg.innerHTML = "아이디를 입력해주세요.";
             idMsg.classList.add('error');
 		}
-    })
+    }) */
 
     pwchk.addEventListener("focusout", () =>{
 		if(pw.value === pwchk.value || pw.value === ""){
@@ -421,7 +433,18 @@ input[type="text"][readonly]{
     function checkMember(){
     	let formname = document.formname;
     	let phone = phone1.value+"-"+phone2.value+"-"+phone3.value;
-    	
+    	/* console.log(id.value);
+    	console.log(pw.value);
+    	console.log(pwchk.value);
+    	console.log(pwq.value);
+    	console.log(pwa.value);
+    	console.log(defaultaddr.value);
+    	console.log(phone1.value);
+    	console.log(phone2.value);
+    	console.log(phone3.value);
+    	console.log(phone);
+    	console.log(email.value); */
+    	// 1)
     	if(id.value === ""){
 			alert('아이디를 입력해주세요.');
 			return;

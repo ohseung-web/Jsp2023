@@ -454,7 +454,7 @@
 													<strong class="prdName">
 														<a href="ProductInfo.do?p_code=${c.p_code}">${c.p_name}</a>
 													</strong>
-													<input type="text" class="price" value="${c.p_price}"><br/>
+													<input type="text" class="price" value="${c.p_price}">원<br/>
 														<%-- <fmt:formatNumber value="${c.p_price}" pattern="#,##0"/>원 --%>
 												<%-- 	<input type="text" class="delivfee" value="${c.p_delivfee}"> --%>
 														배송&nbsp;:&nbsp;
@@ -671,39 +671,31 @@
 						itemtotal.innerText = parseInt(itemsum).toLocaleString("ko-KR");
 						shippinttotal.innerText = parseInt(delisum).toLocaleString("ko-KR");
 						total.innerText = (parseInt(itemsum) + parseInt(delisum)).toLocaleString("ko-KR");
-                        console.log("선택한 인덱스번호 및 금액 :"+  i + itemsum);
+                       
 					}
 					   
 				      else if(!this.checked){ //체크박스 상품을 해제한 경우
-						itemsum2 = itemsum2 - (price[i].value * cnt[i].value);
+						itemsum = itemsum - (price[i].value * cnt[i].value);
 						if( delivfee[i].value == "[무료]"){ //배송비 = 무료인 경우 배송비=0
 							delivfee[i].value = 0;
-							delisum2 = delisum2 - parseInt(delivfee[i].value);
+							delisum = delisum - parseInt(delivfee[i].value);
 						}else {
-							delisum2 = delisum2 - parseInt(delivfee[i].value);
+							delisum = delisum - parseInt(delivfee[i].value);
 						}
 					
-						itemtotal.innerText = parseInt(itemsum2).toLocaleString("ko-KR");
-						shippinttotal.innerText = parseInt(delisum2).toLocaleString("ko-KR");
-						total.innerText = (parseInt(itemsum2) + parseInt(delisum2)).toLocaleString("ko-KR"); 
-						console.log("선택해제한 인덱스번호 및 금액 :"+  i + itemsum2);
-						
-	                } 
-				    
-					if(chk_list[i].checked == false){
-				    	itemtotal.innerText = (parseInt(itTotal)-parseInt(itemsum)).toLocaleString("ko-KR");
-						shippinttotal.innerText = (parseInt(deTotal)-parseInt(delisum)).toLocaleString("ko-KR");
-						total.innerText = (parseInt(totalMomey)-(parseInt(itemsum) + parseInt(delisum))).toLocaleString("ko-KR");
-				    }
-				   
-			
+						itemtotal.innerText = parseInt(itemsum).toLocaleString("ko-KR");
+						shippinttotal.innerText = parseInt(delisum).toLocaleString("ko-KR");
+						total.innerText = (parseInt(itemsum) + parseInt(delisum)).toLocaleString("ko-KR"); 
+					
+	                }
+
 					/* 체크박스 전체선택이 해제되는 코드 찾아서 작성하기 */
 	                /* if(chk_list[i].checked == false){
 						   itemtotal.innerText = parseInt(itTotal).toLocaleString("ko-KR");
 						   shippinttotal.innerText = parseInt(deTotal).toLocaleString("ko-KR");
 						   total.innerText = parseInt(totalMomey).toLocaleString("ko-KR");
 					} */
-				}) 
+				})
 	   	}
 
 	/* 오티 작성 완료 ------------------------------------------------------*/

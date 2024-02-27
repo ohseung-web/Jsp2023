@@ -175,12 +175,18 @@
                 </div>
                 <div class="btnBox">
                     <span class="left">
-                        <c:if test="${loginId eq rdto.m_id}">
-                            <a href="ReviewBoardDelete.do?code=${rdto.r_code}" class="btnNormalFix sizeM">삭제</a>
-                            <a href="ReviewBoardUpdate.do?code=${rdto.r_code}" class="btnNormalFix sizeM">수정</a>
-                        </c:if>
+                    	<c:choose>
+                    		<c:when test="${loginId eq rdto.m_id && loginId ne 'admin'}">
+                            	<a href="ReviewBoardDelete.do?code=${rdto.r_code}" class="btnNormalFix sizeM">삭제</a>
+                            	<a href="ReviewBoardUpdate.do?code=${rdto.r_code}" class="btnNormalFix sizeM">수정</a>
+                        	</c:when>
+                        	<c:when test="${loginId eq 'admin'}">
+                        		<a href="ReviewBoardDelete.do?code=${rdto.r_code}" class="btnNormalFix sizeM">삭제</a>
+                        	</c:when>
+                    	</c:choose>
                     </span>
                     <span class="right">
+                        <a href="#" class="btnNormalFix sizeM" onclick="history.go(-1); return false;">이전</a>
                         <a href="ReviewBoardList.do" class="btnNormalFix sizeM">목록</a>
                     </span>
                 </div>

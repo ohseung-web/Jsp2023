@@ -42,7 +42,6 @@ public class MyShop extends HttpServlet {
 		
 		LivingDAO ldao = new LivingDAO();
 		MemberDTO mdto = ldao.getMemberByLoginId(loginId);
-		ArrayList<OrderHistDTO> oharr = ldao.getOrdersByLoginId(loginId);
 		
 		// 구매일자와 오늘일자를 비교하여 오늘일자가 구매일자보다 크면 '배송완료' 아니면 '배송준비중' 출력
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -51,6 +50,30 @@ public class MyShop extends HttpServlet {
 		
 		today = sdf.parse(sdf.format(today));
 		
+		// 페이징 코드
+        int pageSize = 5;
+		
+		String pageNum = request.getParameter("pageNum");
+		if(pageNum==null) {
+			pageNum = "1";
+		}
+		
+		int count = 0;
+		int number = 0;
+		
+		int currentPage = Integer.parseInt(pageNum);
+		
+        count = ldao.getOrdersByCount(loginId); // 주문조회 개수
+        // 게시글 개수
+       int  countboard = ldao.getOneMemberReviewCount(loginId) + ldao.getOneMemberInquiryCount(loginId);
+		// 배송주소록 개수
+       int countdeliva = ldao.getOneDelivaddressCount(loginId);
+        
+		int startRow = (currentPage - 1) * pageSize + 1;
+		int endRow = currentPage * pageSize;
+		
+		ArrayList<OrderHistDTO> oharr = ldao.getOrdersByLoginId(loginId,startRow,pageSize);
+
 		// OrderHistDTO의 오늘날짜와 구매일자를 비교하여 배송여부를 delivchk에 저장한다.
 		for(int i=0;i<oharr.size();i++) {
 			orderday = sdf.parse(oharr.get(i).getO_date());
@@ -61,8 +84,44 @@ public class MyShop extends HttpServlet {
 			}
 		}
 		
+		number = count - (currentPage - 1) * pageSize;
+		
+		int pageCount = 0;
+		int pageBlock = 3;
+		int startPage = 1;
+		int endPage = 0;
+		
+		if(count>0) {
+			pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+			
+			if(currentPage % pageBlock != 0) {
+				startPage = (currentPage / pageBlock) * pageBlock + 1;
+			}else {
+				startPage = ((currentPage / pageBlock)-1) * pageBlock + 1;
+			}
+			
+			endPage = startPage + pageBlock - 1;
+			
+			if(endPage > pageCount) {
+				endPage = pageCount;
+			}
+		}
+		// 페이징 코드 완료
+		
 		request.setAttribute("mdto", mdto);
+		request.setAttribute("countboard", countboard);
+		request.setAttribute("countdeliva", countdeliva);
+		
 		request.setAttribute("oharr", oharr);
+		request.setAttribute("number", number);
+		request.setAttribute("pageSize", pageSize);
+		request.setAttribute("count", count);
+		request.setAttribute("currentPage", currentPage);
+		
+		request.setAttribute("pageCount", pageCount);
+		request.setAttribute("pageBlock", pageBlock);
+		request.setAttribute("startPage", startPage);
+		request.setAttribute("endPage", endPage);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MyShop.jsp");
 		rd.forward(request, response);

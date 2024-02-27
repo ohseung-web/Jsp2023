@@ -125,11 +125,19 @@
 	font-size: 13px;
     color: #000;
     line-height: 20px;
+    border:none;
+    width:45px;
+}
+.orderList .prdBox .description  .won{
+   font-size: 13px;
+    color: #000;
 }
 .orderList .prdBox .description .delivfee{
 	margin-top: 5px;
-	font-size: 12px;
+	font-size: 13px;
     color: #7d7d7d;
+    border:none;
+    width:35px;
 }
 .orderList .prdBox .quantity{
 	display: flex;
@@ -407,10 +415,21 @@
 													<strong class="prdName">
 														<a href="ProductInfo.do?p_code=${c.p_code}">${c.p_name}</a>
 													</strong>
-													<p class="price">
-														<fmt:formatNumber value="${c.p_price}" pattern="#,##0"/>원
-													</p>
-													<p class="delivfee">
+													<%-- <p class="price">${c.p_price}
+														<fmt:formatNumber value="${c.p_price}" pattern="#,##0"/>원 
+													</p> --%>
+													<input type="text" class="price" value="${c.p_price}"><span class="won">원</span><br/>
+													배송&nbsp;:&nbsp;
+													<c:choose>
+															<c:when test="${c.p_delivfee eq 0}">
+															  <!--  [무료] -->
+															  <input type="text" class="delivfee" value="[무료]">
+															</c:when>
+															<c:otherwise>
+																<input type="text" class="delivfee" value="${c.p_delivfee}"><span class="won">원</span>
+															</c:otherwise>
+														</c:choose>
+													<%-- <p class="delivfee">
 														배송&nbsp;:&nbsp;
 														<c:choose>
 															<c:when test="${c.p_delivfee eq 0}">
@@ -420,7 +439,7 @@
 																<fmt:formatNumber value="${c.p_delivfee}" pattern="#,##0"/>원
 															</c:otherwise>
 														</c:choose>
-													</p>
+													</p> --%>
 												</div>
 												<div class="quantity">
 													<span class="label">수량</span>
@@ -453,21 +472,21 @@
 								<div class="totalItem">
 									<h4 class="title">총 상품금액</h4>
 									<div class="data">
-										<strong><fmt:formatNumber value="${itemTotal}" pattern="#,##0"/></strong>
+										<strong id="itemtotal"><fmt:formatNumber value="${itemTotal}" pattern="#,##0"/></strong>
 										원
 									</div>
 								</div>
 								<div class="totalShipping">
 									<h4 class="title">총 배송비</h4>
 									<div class="data">
-										<strong><fmt:formatNumber value="${shippingTotal}" pattern="#,##0"/></strong>
+										<strong id="shippinttotal"><fmt:formatNumber value="${shippingTotal}" pattern="#,##0"/></strong>
 										원
 									</div>
 								</div>
 								<div class="total">
 									<h3 class="title">결제예정금액</h3>
 									<div class="data">
-										<strong><fmt:formatNumber value="${itemTotal+shippingTotal}" pattern="#,##0"/></strong>
+										<strong id="total"><fmt:formatNumber value="${itemTotal+shippingTotal}" pattern="#,##0"/></strong>
 										원
 									</div>
 								</div>
@@ -520,7 +539,45 @@
 		let cnt = document.querySelectorAll(".spancnt");
 		let chk_list = document.querySelectorAll(".cartChk"); // checkbox에 담겨진 code 값을 배열로 처리한 것
 		let param = ""; // checkbox에 담겨진 code 값을 담을 변수
-
+		
+		let delivfee = document.querySelectorAll(".delivfee");
+		let price = document.querySelectorAll(".price");
+		let itemtotal = document.getElementById("itemtotal");
+		let shippinttotal = document.getElementById("shippinttotal");
+		let total = document.getElementById("total");
+		let itemsum = 0; // 선택한 상품 총계
+		let delisum = 0; // 선택한 상품의 배송비 총계
+		
+		/* 체크박스에서 선택한 상품의 상품금액, 배송비, 총 결제예정금액   */
+		   for(let i=0; i<chk_list.length; i++){
+			
+				chk_list[i].addEventListener('change', function() { // 체크박스로 선택한 상품의 금액정보 
+					
+					if(this.checked){ // 체크박스 상품을 선택한 경우
+						itemsum = itemsum + (price[i].value * cnt[i].value);
+						if( delivfee[i].value == "[무료]"){ //배송비 = 무료인 경우 배송비=0
+							//delivfee[i].value = 0;
+							delisum = delisum + 0 ;
+						}else {
+							delisum = delisum + parseInt(delivfee[i].value);
+						}
+					} else if(!this.checked){ //체크박스 상품을 해제한 경우
+						itemsum = itemsum - (price[i].value * cnt[i].value);
+						if( delivfee[i].value == "[무료]"){ //배송비 = 무료인 경우 배송비=0
+							//delivfee[i].value = 0;
+							delisum = delisum - 0 ;
+						}else {
+							delisum = delisum - parseInt(delivfee[i].value);
+						}
+	                }
+					
+					itemtotal.innerText = parseInt(itemsum).toLocaleString("ko-KR");
+					shippinttotal.innerText = parseInt(delisum).toLocaleString("ko-KR");
+					total.innerText = (parseInt(itemsum) + parseInt(delisum)).toLocaleString("ko-KR"); 
+				})
+	   	}
+		
+		// -----------------------------------------------------------
 		let loginId = "<c:out value='${loginId}' />";
 		function fn_allDelete() {
 			param = "";
@@ -530,7 +587,7 @@
 
 			let deleteAllInput = confirm('상품 전체를 삭제하시겠습니까?');
 			if(deleteAllInput){
-				location.href = 'CartDelete.do?chk=' + param;
+				location.href = 'CartDeleteProc.do?chk=' + param;
 			}
 		}
 
@@ -547,7 +604,7 @@
 			}else{
 				let deleteInput = confirm('선택하신 상품을 삭제하시겠습니까?');
 				if(deleteInput){
-					location.href = 'CartDelete.do?chk=' + param;
+					location.href = 'CartDeleteProc.do?chk=' + param;
 				}
 			}
 		}
@@ -571,7 +628,7 @@
 
 			// +,-버튼을 눌렀을 때 cnt가 update되는 servlet으로 보내야 함
 			// <form action="CartUpdate.do" method="">
-			f.action = "CartUpdate.do";
+			f.action = "CartUpdateProc.do";
 			f.submit();
 		}
 

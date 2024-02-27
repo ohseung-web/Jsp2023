@@ -130,6 +130,12 @@ input[type=text], input[type=password] {
     </div>
     <script>
         function form_submit(){
+        	let password = document.getElementById('password');
+            if(password.value === ""){
+			    alert('비밀번호를 입력해주세요.');
+			    return;
+		    }
+        	
             document.getElementById('boardSecretForm').submit();
         }
     </script>

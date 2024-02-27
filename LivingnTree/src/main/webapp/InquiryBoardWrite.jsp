@@ -213,6 +213,24 @@ ul.info li + li{
     </div>
     <script>
         function form_submit(){
+        	let subject = document.getElementById('subject');
+            if(subject.value === ""){
+			    alert('제목을 입력해주세요.');
+			    return;
+		    }
+        	
+        	let content = document.getElementById('content');
+            if(content.value === ""){
+			    alert('내용을 입력해주세요.');
+			    return;
+		    }
+        	
+        	let password = document.getElementById('password');
+            if(password.value === ""){
+			    alert('비밀번호를 입력해주세요.');
+			    return;
+		    }
+        	
             document.getElementById('boardWriteForm').submit();
         }
     </script>

@@ -9,12 +9,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import model.DelivDTO;
 import model.InquiryDTO;
 import model.LivingDAO;
+import model.ReviewDTO;
 
-@WebServlet("/InquiryBoardList.do")
-public class InquiryBoardList extends HttpServlet {
+
+@WebServlet("/MyShopdelivaddress.do")
+public class MyShopdelivaddress extends HttpServlet {
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		reqPro(request, response);
 	}
@@ -22,8 +27,12 @@ public class InquiryBoardList extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		reqPro(request, response);
 	}
-	
-	protected void reqPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    protected void reqPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	HttpSession session = request.getSession();
+		String loginId = (String)session.getAttribute("loginId");
+		LivingDAO ldao = new LivingDAO();
+		
 		int pageSize = 5;
 		
 		String pageNum = request.getParameter("pageNum");
@@ -36,13 +45,14 @@ public class InquiryBoardList extends HttpServlet {
 		
 		int currentPage = Integer.parseInt(pageNum);
 		
-		LivingDAO ldao = new LivingDAO();
-		count = ldao.getAllInquiryCount();
+		// 회원별 Delivaddress 개수
+		count = ldao.getOneDelivaddressCount(loginId);
 		
 		int startRow = (currentPage - 1) * pageSize + 1;
 		int endRow = currentPage * pageSize;
 		
-		ArrayList<InquiryDTO> aList = ldao.getAllInquiryBoard(startRow, pageSize);
+		// 회원별 Delivaddress
+		ArrayList<DelivDTO> aList = ldao.getOneDelivaddress(startRow, pageSize, loginId);
 		
 		number = count - (currentPage - 1) * pageSize;
 		
@@ -67,9 +77,6 @@ public class InquiryBoardList extends HttpServlet {
 			}
 		}
 		
-		String msg = (String)request.getAttribute("msg");
-		request.setAttribute("msg", msg);
-		
 		request.setAttribute("aList", aList);
 		request.setAttribute("number", number);
 		request.setAttribute("pageSize", pageSize);
@@ -81,7 +88,7 @@ public class InquiryBoardList extends HttpServlet {
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=InquiryBoardList.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MyShopdelivaddress.jsp");
 		rd.forward(request, response);
 	}
 }
