@@ -87,7 +87,7 @@ public class MyShopBoard extends HttpServlet {
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MyShopBoard.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=MyShopBoard.jsp");
 		rd.forward(request, response);
 	}
 }

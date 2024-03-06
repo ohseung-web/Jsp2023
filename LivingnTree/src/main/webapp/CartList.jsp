@@ -643,7 +643,7 @@
 			if(param === ""){
 				alert('선택된 상품이 없습니다.');
 			}else if (loginId == "") {
-				location.href = "Main.jsp?section=MemberLogin.jsp?chk=" + param;
+				location.href = "index.jsp?section=MemberLogin.jsp?chk=" + param;
 			} else {
 				location.href = 'CartOrder.do?chk=' + param + '&loginId=' + loginId;
 			}

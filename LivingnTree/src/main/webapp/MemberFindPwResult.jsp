@@ -156,7 +156,7 @@
                 </div>
                 <div class="btnBox">
                     <input type="button" class="normalBtn" onclick="location.href='MainList.do'" value="메인으로 이동">
-                    <input type="button" class="submitBtn" onclick="location.href='Main.jsp?section=MemberLogin.jsp'" value="로그인">
+                    <input type="button" class="submitBtn" onclick="location.href='index.jsp?section=MemberLogin.jsp'" value="로그인">
                 </div>
             </div>
         </div>

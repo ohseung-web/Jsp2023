@@ -17,7 +17,6 @@ import model.CartDTO;
 import model.DelivDTO;
 import model.LivingDAO;
 import model.OrdersDTO;
-import model.ProductDTO;
 
 @WebServlet("/CartOrderProc.do")
 public class CartOrderProc extends HttpServlet {
@@ -94,7 +93,7 @@ public class CartOrderProc extends HttpServlet {
 		request.setAttribute("date", ddto.getO_date());
 		request.setAttribute("code", ddto.getO_code());
 		
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=CartOrderResult.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=CartOrderResult.jsp");
 		rd.forward(request, response);
 	}
 }

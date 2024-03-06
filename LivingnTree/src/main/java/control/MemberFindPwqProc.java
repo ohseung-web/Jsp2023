@@ -60,7 +60,7 @@ public class MemberFindPwqProc extends HttpServlet {
 			rd.forward(request, response);
 		}else {
 			request.setAttribute("mdto", mdto);
-			RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MemberFindPwResult.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=MemberFindPwResult.jsp");
 			rd.forward(request, response);
 		}
 	}

@@ -1,8 +1,6 @@
 package control;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,7 +39,7 @@ public class MemberFindPwProc extends HttpServlet {
 				rd.forward(request, response);
 			}else {
 				request.setAttribute("mdto", mdto);
-				RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MemberFindPwq.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=MemberFindPwq.jsp");
 				rd.forward(request, response);
 			}
 		}else {
@@ -56,7 +54,7 @@ public class MemberFindPwProc extends HttpServlet {
 				rd.forward(request, response);
 			}else {
 				request.setAttribute("mdto", mdto);
-				RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MemberFindPwq.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=MemberFindPwq.jsp");
 				rd.forward(request, response);
 			}
 		}

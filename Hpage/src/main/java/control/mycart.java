@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_EXCLUSIONPeer;
-
 import model.MyCartDAO;
 import model.MycartDTO;
 
@@ -35,8 +33,8 @@ public class mycart extends HttpServlet {
 		String headerr = request.getParameter("headerr");
 		request.setAttribute("headerr", headerr);
 		
-		if(session.getAttribute("log") == null || session.getAttribute("log").toString().equals("¼Õ´Ô")) {
-			session.setAttribute("msg", "·Î±×ÀÎ ÈÄ ÀÌ¿ë °¡´ÉÇÕ´Ï´Ù.");
+		if(session.getAttribute("log") == null || session.getAttribute("log").toString().equals("ï¿½Õ´ï¿½")) {
+			session.setAttribute("msg", "ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
         	RequestDispatcher dis = request.getRequestDispatcher("FailMSG.jsp");
         	dis.forward(request, response);
 		}else {

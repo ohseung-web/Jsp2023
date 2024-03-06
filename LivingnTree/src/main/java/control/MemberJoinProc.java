@@ -1,8 +1,6 @@
 package control;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -127,7 +125,7 @@ public class MemberJoinProc extends HttpServlet {
 			request.setAttribute("id", id);
 			request.setAttribute("name", name);
 			request.setAttribute("email", email);
-			RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MemberJoinDone.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=MemberJoinDone.jsp");
 			rd.forward(request, response);
 		}
 	}

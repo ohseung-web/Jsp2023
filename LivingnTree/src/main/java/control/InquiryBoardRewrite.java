@@ -29,7 +29,7 @@ public class InquiryBoardRewrite extends HttpServlet {
 		InquiryDTO idto = ldao.getOneUpdateInquiryBoard(code);
 		
 		request.setAttribute("idto", idto);
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=InquiryBoardRewrite.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=InquiryBoardRewrite.jsp");
 		rd.forward(request, response);
 	}
 }

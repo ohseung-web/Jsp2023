@@ -100,7 +100,7 @@ public class LivProductListProc extends HttpServlet {
 		request.setAttribute("category", category);
 		request.setAttribute("order", order);
 		request.setAttribute("plist", plist);
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=ProductList.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=ProductList.jsp");
 		rd.forward(request, response);
 	}
 }

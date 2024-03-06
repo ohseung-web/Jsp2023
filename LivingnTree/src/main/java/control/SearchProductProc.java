@@ -102,7 +102,7 @@ public class SearchProductProc extends HttpServlet {
     			request.setAttribute("order", order);
     			request.setAttribute("keyword", keyword);
     			request.setAttribute("Slist", Slist);
-    			RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=SearchProductList.jsp");
+    			RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=SearchProductList.jsp");
     			rd.forward(request, response);
 	}
 }

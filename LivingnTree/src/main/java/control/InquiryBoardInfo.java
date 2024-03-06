@@ -31,7 +31,7 @@ public class InquiryBoardInfo extends HttpServlet {
 		
 		request.setAttribute("idto", idto);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=InquiryBoardInfo.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=InquiryBoardInfo.jsp");
 		rd.forward(request, response);
 	}
 }

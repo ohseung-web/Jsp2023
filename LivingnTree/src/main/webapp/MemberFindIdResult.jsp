@@ -172,8 +172,8 @@ input[type="radio"]:checked{
                     </div>
                 </div>
                 <div class="btnBox">
-                    <input type="button" class="normalBtn" onclick="location.href='Main.jsp?section=MemberLogin.jsp'" value="로그인">
-                    <input type="button" class="submitBtn" onclick="location.href='Main.jsp?section=MemberFindPw.jsp'" value="비밀번호 찾기">
+                    <input type="button" class="normalBtn" onclick="location.href='index.jsp?section=MemberLogin.jsp'" value="로그인">
+                    <input type="button" class="submitBtn" onclick="location.href='index.jsp?section=MemberFindPw.jsp'" value="비밀번호 찾기">
                 </div>
             </div>
         </div>

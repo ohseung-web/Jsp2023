@@ -146,7 +146,7 @@ public class ProductInfo extends HttpServlet {
 		
 		request.setAttribute("pdto", pdto);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=ProductInfo.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=ProductInfo.jsp");
 		rd.forward(request, response);
 	}
 }

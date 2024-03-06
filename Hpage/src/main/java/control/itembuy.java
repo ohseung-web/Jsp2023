@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_ADDPeer;
-
 import model.DAO;
 import model.DTO;
 import model.MyCartDAO;
@@ -38,7 +36,7 @@ public class itembuy extends HttpServlet {
 		
 		String [] itemcode =   request.getParameterValues("itemcode");
 		if(itemcode == null) {
-				session.setAttribute("msg", "¼±ÅÃµÈ ¹°°ÇÀÌ ¾ø½À´Ï´Ù.");
+				session.setAttribute("msg", "ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 	        	RequestDispatcher dis = request.getRequestDispatcher("FailMSG.jsp");
 	        	dis.forward(request, response);
 		}else {
@@ -50,7 +48,7 @@ public class itembuy extends HttpServlet {
 			
 			for(int i = 0;i<itemcode.length;i++) {
 				mcdto = mcdao.getItemList(Integer.parseInt(itemcode[i]));
-				System.out.println("itemcode´Â" + Integer.parseInt(itemcode[i]));
+				System.out.println("itemcodeï¿½ï¿½" + Integer.parseInt(itemcode[i]));
 				a.add(mcdto);
 			}
 			

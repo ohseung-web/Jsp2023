@@ -696,7 +696,7 @@ table tr{
     		
     		if(loginId == ""){
     			alert("회원만 상품을 구매할 수 있습니다.");
-    			location.href = "Main.jsp?section=MemberLogin.jsp?chk="+chk+'&cnt='+cnt.value;
+    			location.href = "index.jsp?section=MemberLogin.jsp?chk="+chk+'&cnt='+cnt.value;
     		}else{
     			location.href = "CartOrder.do?chk="+chk+'&loginId='+loginId+'&cnt='+cnt.value;
     		}
@@ -734,9 +734,9 @@ table tr{
         	let p_code = "<c:out value='${pdto.p_code}' />";
         	
         	if(loginId == ""){
-        		location.href = "Main.jsp?section=MemberLogin.jsp";
+        		location.href = "index.jsp?section=MemberLogin.jsp";
         	}else{
-        		location.href = "Main.jsp?section=ReviewBoardWrite.jsp?p_code=" + p_code
+        		location.href = "index.jsp?section=ReviewBoardWrite.jsp?p_code=" + p_code
         	}
         }
         
@@ -746,9 +746,9 @@ table tr{
         	let p_code = "<c:out value='${pdto.p_code}' />";
         	
         	if(loginId == ""){
-        		location.href = "Main.jsp?section=MemberLogin.jsp";
+        		location.href = "index.jsp?section=MemberLogin.jsp";
         	}else{
-        		location.href = "Main.jsp?section=InquiryBoardWrite.jsp?p_code=" + p_code
+        		location.href = "index.jsp?section=InquiryBoardWrite.jsp?p_code=" + p_code
         	}
         }
     </script>

@@ -10,7 +10,7 @@
 <body>
 	<script type="text/javascript">
 		alert("${msgError}");
-		location.href = "Main.jsp?section=MemberLogin.jsp";
+		location.href = "index.jsp?section=MemberLogin.jsp";
 	</script>
 </body>
 </html>

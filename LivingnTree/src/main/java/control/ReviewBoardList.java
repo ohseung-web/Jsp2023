@@ -81,7 +81,7 @@ public class ReviewBoardList extends HttpServlet {
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=ReviewBoardList.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=ReviewBoardList.jsp");
 		rd.forward(request, response);
 	}
 }

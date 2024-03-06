@@ -60,7 +60,7 @@ public class orderDetailInfo extends HttpServlet {
 		request.setAttribute("odto", odto);
 		request.setAttribute("mdto", mdto);
 		request.setAttribute("orderDate", orderDate); 
-		RequestDispatcher rdis = request.getRequestDispatcher("Main.jsp?section=OrderDetailInfo.jsp");
+		RequestDispatcher rdis = request.getRequestDispatcher("index.jsp?section=OrderDetailInfo.jsp");
 		rdis.forward(request, response);
 		
 		

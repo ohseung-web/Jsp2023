@@ -16,7 +16,7 @@ input[type="submit"] {
 	<c:if test="${msg != null}">
 		<script type="text/javascript">
 			alert("${msg}");
-			location.href = "Main.jsp?section=MemberFindPw.jsp";
+			location.href = "index.jsp?section=MemberFindPw.jsp";
 		</script>
 	</c:if>
 	<c:if test="${msgPwq != null}">

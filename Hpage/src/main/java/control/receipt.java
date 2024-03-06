@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
 
 import model.DAO;
 import model.DTO;
@@ -52,7 +51,7 @@ public class receipt extends HttpServlet {
 		if(addckbox.equals("two")) {
 			if(myname2 ==""  || postcode2 == ""   || 	roadAddress2 == ""   ||	
 		    		 detailAddress2 == ""  ||  email2 ==""  || phone2 =="" ) {
-		   				session.setAttribute("msg", "È¸¿ø Á¤º¸¸¦ ¸ðµÎ ÀÔ·ÂÇØ ÁÖ¼¼¿ä");
+		   				session.setAttribute("msg", "È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½");
 		   	        	RequestDispatcher dis = request.getRequestDispatcher("FailMSG.jsp");
 		   	        	dis.forward(request, response);
 		    			
@@ -91,7 +90,7 @@ public class receipt extends HttpServlet {
 			if(myname==""   || postcode == ""   || roadAddress == ""      ||	
 		    		detailAddress == ""  || email ==""  || 
 		    		phone == ""   ) {
-		   				session.setAttribute("msg", "È¸¿ø Á¤º¸¸¦ ¸ðµÎ ÀÔ·ÂÇØ ÁÖ¼¼¿ä");
+		   				session.setAttribute("msg", "È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½");
 		   	        	RequestDispatcher dis = request.getRequestDispatcher("FailMSG.jsp");
 		   	        	dis.forward(request, response);
 		    			

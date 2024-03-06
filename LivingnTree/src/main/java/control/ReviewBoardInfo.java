@@ -31,7 +31,7 @@ public class ReviewBoardInfo extends HttpServlet {
 		
 		request.setAttribute("rdto", rdto);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=ReviewBoardInfo.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=ReviewBoardInfo.jsp");
 		rd.forward(request, response);
 	}
 }

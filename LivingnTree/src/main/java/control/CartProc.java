@@ -72,7 +72,7 @@ public class CartProc extends HttpServlet {
 		ArrayList<CartDTO> cList = ldao.getAllCart(loginId);
 		request.setAttribute("cList", cList);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=CartList.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=CartList.jsp");
 		rd.forward(request, response);
 	}
 }

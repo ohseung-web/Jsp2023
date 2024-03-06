@@ -49,7 +49,7 @@ public class MemberFindPwqTemp extends HttpServlet {
 		mdto.setM_email(email);
 		
 		request.setAttribute("mdto", mdto);
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MemberFindPwq.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=MemberFindPwq.jsp");
 		rd.forward(request, response);
 	}
 }

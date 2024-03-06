@@ -81,7 +81,7 @@ public class InquiryBoardList extends HttpServlet {
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=InquiryBoardList.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=InquiryBoardList.jsp");
 		rd.forward(request, response);
 	}
 }

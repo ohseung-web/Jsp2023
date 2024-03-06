@@ -358,9 +358,9 @@
                 		<li class="login"><a href="MemberLogoutProc.do">로그아웃</a></li>
             		</c:when>
             		<c:otherwise>
-            			<li class="join"><a href="Main.jsp?section=MemberJoin.jsp" style="font-weight: bold;
+            			<li class="join"><a href="index.jsp?section=MemberJoin.jsp" style="font-weight: bold;
                     	color: rgb(194, 107, 107);">회원가입</a></li>
-                		<li class="login"><a href="Main.jsp?section=MemberLogin.jsp">로그인</a></li>
+                		<li class="login"><a href="index.jsp?section=MemberLogin.jsp">로그인</a></li>
             		</c:otherwise>
             	</c:choose>
             	<li class="order"><button id="ordersearchbtn">주문조회</button></li>
@@ -400,7 +400,7 @@
             <ul class="top_mypage">
               <%-- <c:if test="${loginId == null}"> --%>
                 <li>
-                    <a href="Main.jsp?section=MemberLogin.jsp">
+                    <a href="index.jsp?section=MemberLogin.jsp">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" class="icon" role="img">
                             <circle cx="11.5" cy="6.5" r="3.75" stroke="#000" stroke-width="1.5"></circle>
                             <path stroke="#000" stroke-width="1.5" d="M1.78 21.25c.382-4.758 4.364-8.5 9.22-8.5h1c4.856 0 8.838 3.742 9.22 8.5H1.78z"></path>
@@ -493,7 +493,7 @@
         $('.headerContainer .headerContainerWrap .top_area .top_util .order #ordersearchbtn').click(function(){
         	let loginId ="<c:out value='${loginId}'/>"; // 이미 CartList.jsp인 section에 loginId가 존재하기 때문에 함수안에 정의한다.
         	if (loginId == "") {
-				location.href = "Main.jsp?section=MemberLogin.jsp";
+				location.href = "index.jsp?section=MemberLogin.jsp";
 			} else {
 				location.href = 'MyShopOrder.do';
 			}

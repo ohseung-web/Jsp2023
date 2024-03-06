@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.LivingDAO;
-import model.MemberDTO;
 
 @WebServlet("/MemberFindIdProc.do")
 public class MemberFindIdProc extends HttpServlet {
@@ -58,7 +57,7 @@ public class MemberFindIdProc extends HttpServlet {
 				request.setAttribute("idList", idList);
 				request.setAttribute("name", name);
 				request.setAttribute("phone", phone);
-				RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MemberFindIdResult.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=MemberFindIdResult.jsp");
 				rd.forward(request, response);
 			}
 		}

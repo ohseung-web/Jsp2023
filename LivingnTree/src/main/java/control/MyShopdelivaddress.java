@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.DelivDTO;
-import model.InquiryDTO;
 import model.LivingDAO;
-import model.ReviewDTO;
 
 
 @WebServlet("/MyShopdelivaddress.do")
@@ -88,7 +86,7 @@ public class MyShopdelivaddress extends HttpServlet {
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MyShopdelivaddress.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=MyShopdelivaddress.jsp");
 		rd.forward(request, response);
 	}
 }

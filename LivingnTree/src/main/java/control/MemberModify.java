@@ -39,7 +39,7 @@ public class MemberModify extends HttpServlet {
 		request.setAttribute("phone2", phone2);
 		request.setAttribute("phone3", phone3);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MemberModify.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=MemberModify.jsp");
 		rd.forward(request, response);
 	}
 

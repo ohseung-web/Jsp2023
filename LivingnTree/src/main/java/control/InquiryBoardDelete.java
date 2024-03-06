@@ -29,7 +29,7 @@ public class InquiryBoardDelete extends HttpServlet {
 		InquiryDTO idto = ldao.getOneUpdateInquiryBoard(code);
 		
 		request.setAttribute("idto", idto);
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=InquiryBoardDelete.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=InquiryBoardDelete.jsp");
 		rd.forward(request, response);
 	}
 }

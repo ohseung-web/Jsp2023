@@ -168,13 +168,13 @@
                 </div>
             </form>
             <div class="login_find">
-                <div><a href="Main.jsp?section=MemberFindId.jsp">아이디 찾기</a></div>
-                <div><a href="Main.jsp?section=MemberFindPw.jsp">비밀번호 찾기</a></div>
+                <div><a href="index.jsp?section=MemberFindId.jsp">아이디 찾기</a></div>
+                <div><a href="index.jsp?section=MemberFindPw.jsp">비밀번호 찾기</a></div>
             </div>
             <div class="login_util">
                 <div>아직 회원이 아니신가요?</div>
                 <div>지금 회원가입을 하시면<br>다양하고 특별한 혜택이 준비되어 있습니다.</div>
-                <div><a href="Main.jsp?section=MemberJoin.jsp">회원가입</a></div>
+                <div><a href="index.jsp?section=MemberJoin.jsp">회원가입</a></div>
             </div>
         </div>
     </div>

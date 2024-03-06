@@ -14,9 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.InquiryDTO;
 import model.LivingDAO;
-import model.MemberDTO;
 import model.OrderHistDTO;
 
 @WebServlet("/MyShopOrder.do")
@@ -116,7 +114,7 @@ public class MyShopOrder extends HttpServlet {
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MyShopOrder.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=MyShopOrder.jsp");
 		rd.forward(request, response);
 	}
 }

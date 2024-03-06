@@ -123,7 +123,7 @@ public class MyShop extends HttpServlet {
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=MyShop.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=MyShop.jsp");
 		rd.forward(request, response);
 	}
 }

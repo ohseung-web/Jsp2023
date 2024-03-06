@@ -29,7 +29,7 @@ public class ReviewBoardUpdate extends HttpServlet {
 		ReviewDTO rdto = ldao.getOneUpdateReviewBoard(code);
 		
 		request.setAttribute("rdto", rdto);
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp?section=ReviewBoardUpdate.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp?section=ReviewBoardUpdate.jsp");
 		rd.forward(request, response);
 	}
 }

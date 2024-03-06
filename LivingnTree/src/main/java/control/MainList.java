@@ -41,7 +41,7 @@ public class MainList extends HttpServlet {
 		request.setAttribute("pdto4", pdto4);
 		request.setAttribute("pdto3", pdto3);
 		request.setAttribute("pdto5", pdto5);
-		RequestDispatcher rd = request.getRequestDispatcher("Main.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 		rd.forward(request, response);
 	}
 }
