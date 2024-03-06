@@ -36,17 +36,6 @@
     height: auto;
 	margin-bottom: 16px;
 }
-.myShopContainer .contents .myName{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 500px;
-    margin: 0 auto;
-    padding: 50px 30px;
-    border: 1px solid #e3e3e3;
-    text-align: center;
-}
 .myShopContainer .contents .myShopArea{
     position: relative;
     width: calc(100% - 280px);
@@ -97,8 +86,7 @@
 } */
 /*  .myShopArea .orderHistory .listItem{
 	border-top: 2px solid #1a1a1a;
-} */
-/*
+} */ 
 .myShopArea .orderHistory .listItem .orderList table{
     width: 100%;
     margin-top: 20px;
@@ -148,59 +136,16 @@
 }
 .sizeS{
     font-size: 12px;
-} */
-table{
-    width: 100%;
-    border: 0;
-    border-spacing: 0;
-    border-collapse: collapse;
 }
-table tr{
-    display: table-row;
-    vertical-align: middle;
-}
-.typeList table th, .typeList table td{
-    height: 29px;
-    padding: 15px 10px 16px;
-    font-size: 13px;
-    line-height: 22px;
-    vertical-align: middle;
-    border: 0;
-}
-.typeList table th{
-    border-bottom: 0;
-    font-weight: 400;
-    text-align: center;
-    color: #000;
-    background-color: #f6f6f6;
-}
-.typeList table td{
-    border-bottom: 1px solid #e5e5e5;
-    text-align: center;
-    color: #555;
-}
-.typeList table td.code{
-    color: #6d6d6d;
-}
-.typeList table td.subject{
-    padding-left: 20px;
-    padding-right: 20px;
-    text-align: left;
-    word-break: break-all;
-    word-wrap: break-word;
-}
-.typeList table td.subject a{
-    margin-right: 5px;
-    vertical-align: middle;
-}
-.typeList .pageing{
+/* 오티수정 CSS */
+.myShopContainer .contents .pageing{
     margin: 50px auto;
     text-align: center;
 }
-.typeList .pageing > a:first-child{
+.myShopContainer .contents .pageing > a:first-child{
     background: url(img/icon/btn_page_prev.png) no-repeat center center;
 }
-.typeList .pageing > a{
+.myShopContainer  .contents .pageing > a{
     display: inline-block;
     width: 40px;
     height: 40px;
@@ -211,18 +156,18 @@ table tr{
     background: url(img/icon/btn_page_next.png) no-repeat center center;
     background-size: 40px;
 }
-.typeList .pageing ol{
+.myShopContainer .contents .pageing ol{
     display: inline-block;
     font-size: 0;
     line-height: 0;
     vertical-align: middle;
 }
-.typeList .pageing li{
+.myShopContainer .contents .pageing li{
     display: inline-block;
     margin: 0 0 0 -1px;
     vertical-align: top;
 }
-.typeList .pageing li a{
+.myShopContainer .contents .pageing li a{
     display: block;
     width: 40px;
     padding: 12px 0;
@@ -231,11 +176,6 @@ table tr{
     border: 1px solid #e5e5e5;
     line-height: 14px;
     background: #fff;
-}
-.nodata{
-	padding: 56px 0;
-    color: #6d6d6d;
-    text-align: center;
 }
 </style>
 </head>
@@ -246,7 +186,7 @@ table tr{
                 <div class="myShopMain">
                     <div class="subTitle"><h3>나의 쇼핑 정보</h3></div>
                     <ul class="menu">
-                        <li><a href="MyShopOrder.do">주문내역 조회</a></li>
+                        <li><a href="MyShopOrdermyPage.do">주문내역 조회</a></li>
                         <li><a href="#">적립금 내역</a></li>
                         <li><a href="#">쿠폰 내역</a></li>
                         <li><a href="MyShopdelivaddress.do">배송 주소록 관리</a></li>
@@ -263,88 +203,10 @@ table tr{
                         <li><a href="MemberLogoutProc.do">로그아웃</a></li>
                     </ul>
                 </div>
-                <div class="board">
-                	<div class="titleArea">
-                        <h3>게시물 관리</h3>
-                	</div>
-                	<div class="board_contents">
-                        <c:choose>
-                            <c:when test="${not empty aList || not empty aList2}">
-                                <div class="typeList">
-                                    <table>
-                                        <tr>
-                                            <th width="70">번호</th>
-                                            <th width="700">제목</th>
-                                            <th width="135">분류</th>
-                                            <th width="85">작성자</th>
-                                            <th width="100">작성일</th>
-                                            <th width="55">조회</th>
-                                        </tr>
-                                        <c:set var="number" value="${number}" />
-                                        <c:forEach var="idto" items="${aList}">
-                                            <tr>
-                                                <td width="80" class="code">${number}</td>
-                                                <!-- 답글 들여쓰기 -->
-                                                <td width="700" class="subject">
-                                                    <a href="InquiryBoardInfo.do?code=${idto.i_code}">${idto.i_title}</a>
-                                                </td>
-                                                <td width="135"><a href="InquiryBoardList.do">상품 문의</a></td>
-                                                <td width="85">${idto.m_name}</td>
-                                                <td width="120">${idto.i_date}</td>
-                                                <td width="55">${idto.i_readcount}</td>
-                                            </tr>
-                                            <c:set var="number" value="${number=number-1}" />
-                                        </c:forEach>
-                                        <c:forEach var="rdto" items="${aList2}">
-                                            <tr>
-                                                <td width="80" class="code">${number}</td>
-                                                <td width="700" class="subject">
-                                                    <a href="ReviewBoardInfo.do?code=${rdto.r_code}">${rdto.r_title}</a>
-                                                </td>
-                                                <td width="135"><a href="ReviewBoardList.do">상품 리뷰</a></td>
-                                                <td width="85">${rdto.m_name}</td>
-                                                <td width="120">${rdto.r_date}</td>
-                                                <td width="55">${rdto.r_readcount}</td>
-                                            </tr>
-                                            <c:set var="number" value="${number=number-1}" />
-                                        </c:forEach>
-                                    </table>
-                                    <!-- 페이징 코드 [1] [2] [3] ... -->
-                                    <c:if test="${aList.size() ne 0 or aList2.size() ne 0}">
-                                        <div class="pageing">
-                                            <c:if test="${startPage>pageBlock}">
-                                                <a href="MyShopBoard.do?pageNum=${startPage-pageBlock}">이전</a>
-                                            </c:if>
-                
-                                            <ol>
-                                                <c:forEach var="i" begin="${startPage}" end="${endPage}">
-                                                    <li>
-                                                        <a href="MyShopBoard.do?pageNum=${i}">${i}</a>
-                                                    </li>
-                                                </c:forEach>
-                                            </ol>
-                
-                                            <c:if test="${endPage<pageCount}">
-                                                <a href="MyShopBoard.do?pageNum=${startPage+pageBlock}">다음</a>
-                                            </c:if>
-                                        </div>
-                                    </c:if>
-                                </div>
-                            </c:when>
-                            <c:otherwise>
-                              <div class="prdEmpty">
-                                <p class="nodata">게시물이 없습니다.</p>
-                              </div>   
-                            </c:otherwise>
-                        </c:choose>
-                	</div>
-                </div>
-                <%-- <div class="orderHistory">
+                <div class="orderHistory">
                     <div class="titleArea">
-                        <h3>게시물 관리</h3>
+                        <h3>주문내역 조회</h3>
                     </div>
-                    
-                    
                     <div class="listItem">
                     	<c:choose>
                     		<c:when test="${oharr.size() > 0}">
@@ -358,7 +220,8 @@ table tr{
                                             <th>수량</th>
                                             <th>총금액</th>
                                             <th>배송상태</th>
-                                            <th>취소</th>
+                                            <th>주문취소</th>
+                                            <th>주문상세</th>
                                         </tr>
                                         <c:forEach var="o" items="${oharr}">
                                             <form action="OrderDelete.do" name="formname" method="post">
@@ -383,11 +246,32 @@ table tr{
                                                 			<input type="hidden" name="code" value="${o.o_code}">
                                                         </c:if>
                                                     </td>
+                                                    <td><a  href="orderDetailInfo.do?o_date=${o.o_date}&o_code=${o.o_code}&p_code=${o.p_code}"  class="btnNormal sizeS" >조회</a></td>
                                                 </tr>
                                             </form>
                                         </c:forEach>
                                     </table>
                         		</div>
+                        		<!-- 페이징 코드 [1] [2] [3] ... -->
+					                <c:if test="${oharr.size() ne 0}">
+					                    <div class="pageing">
+					                        <c:if test="${startPage>pageBlock }">
+					                            <a href="MyShopOrdermyPage.do?pageNum=${startPage-pageBlock}">이전</a>
+					                        </c:if>
+					            
+					                        <ol>
+					                            <c:forEach var="i" begin="${startPage}" end="${endPage}">
+					                                <li>
+					                                    <a href="MyShopOrdermyPage.do?pageNum=${i}">${i}</a>
+					                                </li>
+					                            </c:forEach>
+					                        </ol>
+					            
+					                        <c:if test="${endPage<pageCount}">
+					                            <a href="MyShopOrdermyPage.do?pageNum=${startPage+pageBlock}">다음</a>
+					                        </c:if>
+					                    </div>
+					                </c:if>
                     		</c:when>
                     		<c:otherwise>
                     			<div class="prdEmpty">
@@ -397,12 +281,22 @@ table tr{
                     		</c:otherwise>
                     	</c:choose>
                     </div>
-                </div> --%>
+                </div>
             </div>
         </div>
     </div>
+       
     <script>
-        
+    	function oh_delete(){
+        	let formname = document.formname;
+        	let deleteOrder = confirm('해당 주문을 취소하시겠습니까?');
+			if(deleteOrder){
+				formname.submit();
+			}else{
+				location.href = "MyShopOrdermyPage.do";
+				/* !!!!! 취소 버튼을 눌러도 해당 주문이 취소됨 !!!!! */
+			}
+    	}
     </script>
 </body>
 </html>

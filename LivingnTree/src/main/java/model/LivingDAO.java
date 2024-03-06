@@ -2031,4 +2031,50 @@ public class LivingDAO {
   				}
   			}
   		}
+  		
+  		// 한 사람의 주문내역 리턴하는 메소드 ----> 오티 추가 코드
+  		public OrderHistDTO getOneOrdersByLoginId(String id, String date, int o_code, int p_code) {
+  			getConnect();
+  			OrderHistDTO odto = new OrderHistDTO();
+  			try {
+  				String sql = "select O.o_date,O.o_code,O.p_code,P.p_mainimg,O.o_qty,O.o_total, \r\n"
+  						+ "D.d_delivname,D.d_postcode,D.d_defaultaddr,D.d_detailaddr,D.d_phone,O.m_id, P.p_name \r\n"
+  						+ "from orders O inner join delivaddress D on O.o_date=D.o_date \r\n"
+  						+ "and O.o_code=D.o_code inner join product P on O.p_code=P.p_code \r\n"
+  						+ "where O.m_id=? and O.o_date=? and O.o_code=? and O.p_code=?";
+  				pstmt = con.prepareStatement(sql);
+  				pstmt.setString(1, id);
+  				pstmt.setString(2, date);
+  				pstmt.setInt(3, o_code);
+  				pstmt.setInt(4, p_code);
+  				rs = pstmt.executeQuery();
+  				if(rs.next()) {
+  					odto.setO_date(rs.getString(1).toString());
+  					odto.setO_code(rs.getInt(2));
+  					odto.setP_code(rs.getInt(3));
+  					odto.setP_mainimg(rs.getString(4));
+  					odto.setO_qty(rs.getInt(5));
+  					odto.setO_total(rs.getInt(6));
+  					odto.setD_delivname(rs.getString(7));
+  					odto.setD_postcode(rs.getInt(8));
+  					odto.setD_defaultaddr(rs.getString(9));
+  					odto.setD_detailaddr(rs.getString(10));
+  					odto.setD_phone(rs.getString(11));
+  					odto.setM_id(rs.getString(12));
+  					odto.setP_name(rs.getString(13));
+  				}
+  			}catch(Exception e) {
+  				e.printStackTrace();
+  			}finally {
+  				try {
+  					if(con != null) con.close();
+  					if(pstmt != null) pstmt.close();
+  					if(rs != null) rs.close();
+  				}catch(SQLException se){
+  					se.printStackTrace();
+  				}
+  			}
+  			return odto;
+  		}
+  		
 }

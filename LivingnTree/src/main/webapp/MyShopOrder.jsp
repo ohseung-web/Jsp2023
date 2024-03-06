@@ -42,7 +42,7 @@
     max-width: calc(100% - 280px) !important;
     padding-left: 280px !important;
     margin: 0 auto !important;
-    min-height: 450px;
+    min-height: 500px;
 }
 .myShopContainer .contents .myShopArea .myShopMain{
     position: absolute;
@@ -139,7 +139,7 @@
 }
 /* 오티수정 CSS */
 .myShopContainer .contents .pageing{
-    margin: 50px auto;
+    margin: 0 auto;
     text-align: center;
 }
 .myShopContainer .contents .pageing > a:first-child{
@@ -202,7 +202,7 @@
                         <li><a href="MemberModify.do">회원정보 수정</a></li>
                         <li><a href="MemberLogoutProc.do">로그아웃</a></li>
                     </ul>
-                </div>
+                </div> 
                 <div class="orderHistory">
                     <div class="titleArea">
                         <h3>주문내역 조회</h3>
@@ -220,7 +220,8 @@
                                             <th>수량</th>
                                             <th>총금액</th>
                                             <th>배송상태</th>
-                                            <th>취소</th>
+                                            <th>주문취소</th>
+                                            <th>주문상세</th>
                                         </tr>
                                         <c:forEach var="o" items="${oharr}">
                                             <form action="OrderDelete.do" name="formname" method="post">
@@ -245,9 +246,11 @@
                                                 			<input type="hidden" name="code" value="${o.o_code}">
                                                         </c:if>
                                                     </td>
+                                                    <td><a  href="orderDetailInfo.do?o_date=${o.o_date}&o_code=${o.o_code}&p_code=${o.p_code}"  class="btnNormal sizeS" >조회</a></td>
                                                 </tr>
                                             </form>
                                         </c:forEach>
+                                         
                                     </table>
                         		</div>
                     		</c:when>

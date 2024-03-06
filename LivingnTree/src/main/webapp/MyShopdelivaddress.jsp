@@ -95,9 +95,10 @@
     max-width: 1200px;
     width: 1000px;
 } */
-/* .myShopArea .orderHistory .listItem{
+/* .myShopArea .board .board_contents {
 	border-top: 2px solid #1a1a1a;
-}
+} */
+/* 
 .myShopArea .orderHistory .listItem .orderList table{
     width: 100%;
     margin-top: 20px;
@@ -318,7 +319,9 @@ table tr{
                                 </div>
                             </c:when>
                             <c:otherwise>
+                               <div class="prdEmpty">
                                 <p class="nodata">배송 주소가 없습니다</p>
+                               </div> 
                             </c:otherwise>
                         </c:choose>
                 	</div>

@@ -137,12 +137,12 @@ public class ProductInfo extends HttpServlet {
 		request.setAttribute("number2", number2);
 		/* request.setAttribute("pageSize2", pageSize2); */
 		request.setAttribute("count2", count2);
-		request.setAttribute("currentPage2", currentPage);
+		request.setAttribute("currentPage2", currentPage2);
 		
-		request.setAttribute("pageCount2", pageCount);
-		request.setAttribute("pageBlock2", pageBlock);
-		request.setAttribute("startPage2", startPage);
-		request.setAttribute("endPage2", endPage);
+		request.setAttribute("pageCount2", pageCount2);
+		request.setAttribute("pageBlock2", pageBlock2);
+		request.setAttribute("startPage2", startPage2);
+		request.setAttribute("endPage2", endPage2);
 		
 		request.setAttribute("pdto", pdto);
 		

@@ -14,6 +14,7 @@ public class OrderHistDTO {
 	private String d_phone;
 	private String m_id;
 	private String delivchk;
+	private String p_name;
 	
 	public String getO_date() {
 		return o_date;
@@ -93,4 +94,12 @@ public class OrderHistDTO {
 	public void setDelivchk(String delivchk) {
 		this.delivchk = delivchk;
 	}
+	public String getP_name() {
+		return p_name;
+	}
+	public void setP_name(String p_name) {
+		this.p_name = p_name;
+	}
+	
+	
 }

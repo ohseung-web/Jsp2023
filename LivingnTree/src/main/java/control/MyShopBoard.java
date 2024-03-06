@@ -43,7 +43,7 @@ public class MyShopBoard extends HttpServlet {
 		int currentPage = Integer.parseInt(pageNum);
 		
 		// 상품코드별 리뷰 개수
-		count = ldao.getOneMemberReviewCount(loginId) + ldao.getOneMemberInquiryCount(loginId);
+		count = (ldao.getOneMemberReviewCount(loginId) + ldao.getOneMemberInquiryCount(loginId));
 		
 		int startRow = (currentPage - 1) * pageSize + 1;
 		int endRow = currentPage * pageSize;

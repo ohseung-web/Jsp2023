@@ -337,6 +337,14 @@
     overflow: hidden;
    }
   /* modal CSS 종료  */
+  #ordersearchbtn{
+     background: transparent;
+     border : none;
+     cursor: pointer;
+     margin: 0 0 0 15px;
+     font-size: 13px;
+     color: #666;
+  }
 </style>
 </head>
 <body>
@@ -355,7 +363,8 @@
                 		<li class="login"><a href="Main.jsp?section=MemberLogin.jsp">로그인</a></li>
             		</c:otherwise>
             	</c:choose>
-                <li class="order"><a href="MyShopOrder.do">주문조회</a></li>
+            	<li class="order"><button id="ordersearchbtn">주문조회</button></li>
+                <!-- <li class="order"><a href="MyShopOrder.do">주문조회</a></li> -->
                 <c:if test="${loginId != null}">
                 	<li class="mypage"><a href="MyShop.do">마이페이지</a></li>
                 </c:if>
@@ -389,6 +398,7 @@
                 </ul>
             </div>
             <ul class="top_mypage">
+              <%-- <c:if test="${loginId == null}"> --%>
                 <li>
                     <a href="Main.jsp?section=MemberLogin.jsp">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" class="icon" role="img">
@@ -397,6 +407,7 @@
                         </svg>
                     </a>
                 </li>
+              <%-- </c:if>  --%> 
                 <li>
                     <a href="CartProc.do">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" class="icon" role="img">
@@ -477,6 +488,17 @@
         $('.searchcontainer .search_Wrap  .search_box .bottom_search_box .search #searchbtn').click(function(){
         	formname2.submit();
         })
+        
+        // 주문조회 버튼 클릭시 로그인이 안된 상태 이면 로그인 화면으로 이동 - 오티 수정 부분
+        $('.headerContainer .headerContainerWrap .top_area .top_util .order #ordersearchbtn').click(function(){
+        	let loginId ="<c:out value='${loginId}'/>"; // 이미 CartList.jsp인 section에 loginId가 존재하기 때문에 함수안에 정의한다.
+        	if (loginId == "") {
+				location.href = "Main.jsp?section=MemberLogin.jsp";
+			} else {
+				location.href = 'MyShopOrder.do';
+			}
+        })
+        
     })
 </script>
 </body>

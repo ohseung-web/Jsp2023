@@ -176,7 +176,7 @@
                 <div class="btnBox">
                     <span class="left">
                     	<c:choose>
-                    		<c:when test="${loginId eq rdto.m_id && loginId ne 'admin'}">
+                    		<c:when test="${loginId eq rdto.m_id and loginId ne 'admin'}">
                             	<a href="ReviewBoardDelete.do?code=${rdto.r_code}" class="btnNormalFix sizeM">삭제</a>
                             	<a href="ReviewBoardUpdate.do?code=${rdto.r_code}" class="btnNormalFix sizeM">수정</a>
                         	</c:when>

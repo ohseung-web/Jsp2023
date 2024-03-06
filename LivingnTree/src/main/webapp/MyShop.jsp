@@ -259,11 +259,6 @@ myShopArea .orderHistory{
                                             <th>주문개수</th>
                                             <th>배송 주소록 개수</th>
                                             <th>개시글 개수</th>
-                                            <!-- <th>수령인</th>
-                                            <th>수량</th>
-                                            <th>총금액</th>
-                                            <th>배송상태</th>
-                                            <th>취소</th> -->
                                         </tr>
                                         <tr>
                                             <td>${count}</td>
@@ -347,7 +342,7 @@ myShopArea .orderHistory{
 			if(deleteOrder){
 				formname.submit();
 			}else{
-				location.href = "MyShop.do";
+				location.href = "MyShopOrdermyPage.do";
 				/* !!!!! 취소 버튼을 눌러도 해당 주문이 취소됨 !!!!! */
 			}
         }

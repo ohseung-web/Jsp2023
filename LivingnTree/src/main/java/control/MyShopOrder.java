@@ -120,4 +120,3 @@ public class MyShopOrder extends HttpServlet {
 		rd.forward(request, response);
 	}
 }
-
