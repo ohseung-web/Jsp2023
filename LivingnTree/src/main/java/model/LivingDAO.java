@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,11 +20,32 @@ public class LivingDAO {
 	ResultSet rs = null;
 	
 	public void getConnect() {
+	
+	//	try {
+	//		Context initctx = new InitialContext();
+	//		Context envctx = (Context) initctx.lookup("java:comp/env");
+	//		DataSource ds = (DataSource) envctx.lookup("jdbc/pool");
+	//		con = ds.getConnection();
+	//	}catch(Exception e) {
+	//		e.printStackTrace();
+	//	}
+		
 		try {
-			Context initctx = new InitialContext();
-			Context envctx = (Context) initctx.lookup("java:comp/env");
-			DataSource ds = (DataSource) envctx.lookup("jdbc/pool");
-			con = ds.getConnection();
+			
+			String id = "ksj2001living"; // 설정된 id
+		    String Pass = "osh199017*"; // 설정된 password
+		    // String id = "root"; // 설정된 id
+		    // String Pass = "12345678"; // 설정된 password
+		    // String jdbcUrl = "jdbc:mysql://localhost:3306/livingntree?serverTimezone=UTC"; //접속URL    
+		    
+		    // 로컬에서 cafe24에 업로드한 DB연결하여 프로젝트 실행시에는 localhost를 실제서버아이피인 210.114.6.196으로 변경
+		    // 실제서버아이피는 cafe24 -> 나의서비스 관리 -> 서비스 사용현황에서 확인할 수 있다.
+		     String jdbcUrl = "jdbc:mysql://210.114.6.196:3306/ksj2001living"; //접속URL
+		     
+		    // cafe24 호스트에서 DB연결하여 프로젝트 실행시는 localhost로 변경한다.
+		    //   String jdbcUrl = "jdbc:mysql://localhost/ksj2001living"; //접속URL
+		       Class.forName("com.mysql.jdbc.Driver");
+		       con = DriverManager.getConnection(jdbcUrl, id, Pass);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -1077,7 +1099,7 @@ public class LivingDAO {
   						+ "D.d_delivname,D.d_postcode,D.d_defaultaddr,D.d_detailaddr,D.d_phone,O.m_id \r\n"
   						+ "from orders O inner join delivaddress D on O.o_date=D.o_date \r\n"
   						+ "and O.o_code=D.o_code inner join product P on O.p_code=P.p_code \r\n"
-  						+ "where O.m_id=? limit ?,?";
+  						+ "where O.m_id=? order by O.o_date desc limit ?,?";
   				// select * from orders O inner join delivaddress D on O.o_date=D.o_date and O.o_code=D.o_code inner join product P on O.p_code=P.p_code where O.m_id=?;
   				// O.o_date,O.o_code,O.p_code,P.p_mainimg,O.o_qty,O.o_total,D.d_delivname,D.d_postcode,D.d_defaultaddr,D.d_detailaddr,D.d_phone,O.m_id
   				pstmt = con.prepareStatement(sql);
@@ -1656,7 +1678,7 @@ public class LivingDAO {
   			ArrayList<InquiryDTO> a = new ArrayList<>();
   			try {
   				String sql = "select I.i_code, I.i_pw, I.p_code, P.p_name, P.p_mainimg, I.i_title, I.i_content, I.m_name, \r\n"
-  						+ "I.i_date, I.i_readcount, I.ref, I.re_step, I.m_id from Inquiry I inner join product P \r\n"
+  						+ "I.i_date, I.i_readcount, I.ref, I.re_step, I.m_id from inquiry I inner join product P \r\n"
   						+ "on I.p_code = P.p_code order by ref desc, re_step asc limit ?,?";
   				pstmt = con.prepareStatement(sql);
   				pstmt.setInt(1, startRow-1);
@@ -1725,7 +1747,7 @@ public class LivingDAO {
   			ArrayList<InquiryDTO> a = new ArrayList<>();
   			try {
   				String sql = "select I.i_code, I.i_pw, I.p_code, P.p_name, P.p_mainimg, I.i_title, I.i_content, I.m_name, \r\n"
-  						+ "I.i_date, I.i_readcount, I.ref, I.re_step, I.m_id from Inquiry I inner join product P on I.p_code = P.p_code \r\n"
+  						+ "I.i_date, I.i_readcount, I.ref, I.re_step, I.m_id from inquiry I inner join product P on I.p_code = P.p_code \r\n"
   						+ "where I.p_code=? order by ref desc, re_step asc limit ?,?";
   				pstmt = con.prepareStatement(sql);
   				pstmt.setInt(1, p_code);
@@ -1795,7 +1817,7 @@ public class LivingDAO {
   			ArrayList<InquiryDTO> a = new ArrayList<>();
   			try {
   				String sql = "select I.i_code, I.i_pw, I.p_code, P.p_name, P.p_mainimg, I.i_title, I.i_content, I.m_name, \r\n"
-  						+ "I.i_date, I.i_readcount, I.ref, I.re_step, I.m_id from Inquiry I inner join product P on I.p_code = P.p_code \r\n"
+  						+ "I.i_date, I.i_readcount, I.ref, I.re_step, I.m_id from inquiry I inner join product P on I.p_code = P.p_code \r\n"
   						+ "where I.m_id=? order by i_code desc limit ?,?";
   				pstmt = con.prepareStatement(sql);
   				pstmt.setString(1, m_id);

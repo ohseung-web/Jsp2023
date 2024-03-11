@@ -10,7 +10,7 @@
     <servlet-name>MemberJoinProc</servlet-name>
     <url-pattern>/MemberJoinProc</url-pattern>
   </servlet-mapping>
-  <display-name>/LivingnTree_SeungJun</display-name>
+  <display-name>/</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
@@ -258,5 +258,35 @@
   <servlet-mapping>
     <servlet-name>ReviewBoardDeleteProc</servlet-name>
     <url-pattern>/ReviewBoardDeleteProc</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MainList</display-name>
+    <servlet-name>MainList</servlet-name>
+    <servlet-class>control.MainList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MainList</servlet-name>
+    <url-pattern>/MainList</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MemberModify</display-name>
+    <servlet-name>MemberModify</servlet-name>
+    <servlet-class>control.MemberModify</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MemberModify</servlet-name>
+    <url-pattern>/MemberModify</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MyShopBoard</display-name>
+    <servlet-name>MyShopBoard</servlet-name>
+    <servlet-class>control.MyShopBoard</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MyShopBoard</servlet-name>
+    <url-pattern>/MyShopBoard</url-pattern>
   </servlet-mapping>
 </web-app>

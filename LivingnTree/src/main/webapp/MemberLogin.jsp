@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>LivingnTree</title>
 <link rel="stylesheet" href="css/reset.css">
 <script src="https://kit.fontawesome.com/82fd850f0d.js" crossorigin="anonymous"></script>
 <style>

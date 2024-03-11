@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>LivingnTree</title>
 <link rel="stylesheet" href="css/reset.css">
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"

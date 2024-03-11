@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>LivingnTree</title>
 <script src="https://kit.fontawesome.com/82fd850f0d.js" crossorigin="anonymous"></script>
 <script
   src="https://code.jquery.com/jquery-3.7.1.min.js"

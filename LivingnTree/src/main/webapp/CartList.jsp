@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>LivingnTree</title>
 <link rel="stylesheet" href="css/reset.css">
 <script src="https://kit.fontawesome.com/82fd850f0d.js" crossorigin="anonymous"></script>
 <style>
@@ -456,6 +456,8 @@
 													원
 												</div>
 											</div>
+											<!-- CartProc.do에서 넘겨받은 c_qty수량을 cnt에 담아준다. 장바구니에서 상품 선택후 주문하기 클릭시 가지고갈 수량임 -->
+											<c:set var="cnt2"  value="${c.c_qty}" />
 											<!-- <a href="#" class="btnDelete"></a> -->
 										</div>
 									</form>
@@ -579,6 +581,8 @@
 		
 		// -----------------------------------------------------------
 		let loginId = "<c:out value='${loginId}' />";
+		let cnt2 = "<c:out value='${cnt2}' />";
+		
 		function fn_allDelete() {
 			param = "";
 			for (let i = 0; i < chk_list.length; i++) {
@@ -643,7 +647,7 @@
 			if(param === ""){
 				alert('선택된 상품이 없습니다.');
 			}else if (loginId == "") {
-				location.href = "index.jsp?section=MemberLogin.jsp?chk=" + param;
+				location.href = "index.jsp?section=MemberLogin.jsp?chk=" + param + '&cnt=' + cnt2;
 			} else {
 				location.href = 'CartOrder.do?chk=' + param + '&loginId=' + loginId;
 			}

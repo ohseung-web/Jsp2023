@@ -32,6 +32,7 @@ public class MemberLoginProc extends HttpServlet {
 		
 		String userId = request.getParameter("id");
 		String userPw = request.getParameter("pw");
+		String loginId = (String)session.getAttribute("loginId");
 		
 		// 비회원으로 상품을 구매하기 위해 사용하는 코드
 		LivingDAO ldao = new LivingDAO();
@@ -62,7 +63,7 @@ public class MemberLoginProc extends HttpServlet {
 				session.setAttribute("loginId", userId);
 				session.setAttribute("loginPw", userPw);
 				// 장바구니의 레코드 전체 개수를 session에 담는다.
-				String loginId = (String)session.getAttribute("loginId");
+			//	String loginId = (String)session.getAttribute("loginId");
 				int cartCount = ldao.getAllCartCount(loginId);
 				session.setAttribute("cartCount", cartCount);
 				session.setMaxInactiveInterval(60*5); //5분동안 로그인 상태 유지됨
@@ -101,6 +102,7 @@ public class MemberLoginProc extends HttpServlet {
 				request.setAttribute("mdto", mdto);
 				RequestDispatcher rd = request.getRequestDispatcher("CartOrder.jsp");
 				rd.forward(request, response);
+				
 			}else {
 				request.setAttribute("msgError", "아이디 또는 비밀번호가 일치하지 않습니다.");
 				RequestDispatcher rd = request.getRequestDispatcher("MemberLoginError.jsp");
